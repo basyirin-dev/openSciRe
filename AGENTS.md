@@ -335,7 +335,7 @@ Update this table as each package is scaffolded.
 - `AGENTS.md`: Update when adding packages, changing directory structure, or discovering new conventions.
 
 ### After Task Completion
-Do not ask "what should I do next?" or "shall I continue?" after finishing a task. If the next step is specified in the plan or the repo state implies a clear next action, proceed to it without asking. Only pause for instructions if the next step is genuinely ambiguous, blocked, or would require destructive or irreversible changes.
+Do not ask "what should I do next?" or "shall I continue?" after finishing a task. Do not automatically proceed to the next task. Wait for the user to explicitly state they want to proceed.
 
 ### Ambiguity Handling (for Code)
 If a design detail, API contract, or dependency version is unspecified:
