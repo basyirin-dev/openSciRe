@@ -35,5 +35,10 @@
     "name": "Project Skepsis Contributors"
   },
   "relatedLink": "https://skepsis-research.dev",
-  "releaseNotes": "Pre-alpha. Active development."
+  "releaseNotes": "Pre-alpha. Active development.",
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "name": "Project Skepsis: Local-First, Epistemically Honest Research AI for Scientists",
+    "description": "Placeholder — manuscript in preparation"
+  }
 }
