@@ -88,8 +88,8 @@ See [`phases/00_cross_cutting.md`](phases/00_cross_cutting.md) for:
 
 | # | Phase | Priority | Timeline | Deps | Status |
 |---|-------|----------|----------|------|--------|
-| 0 | Repo & Agent Infrastructure | Critical | Jun 2026 | None | **Now** |
-| 0.5 | User Research | Critical (gate) | Jun 2026 | Phase 0 | Pending |
+| 0 | Repo & Agent Infrastructure | Critical | Jun 2026 | None | **Complete** |
+| 0.5 | User Research | Critical (gate) | Jun 2026 | Phase 0 | **Complete** |
 | 1 | Core Python Package | Critical | Jul 2026 | Phases 0, 0.5 | Pending |
 | 2 | Model Provider Interface | Critical | Jul 2026 | Phase 1 | Pending |
 | 3 | Epistemic Safety & Ethics | Critical | Aug 2026 | Phases 1, 2 | Pending |
