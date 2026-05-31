@@ -221,8 +221,12 @@ project-skepsis/
 │   ├── 01_overview.md ... 08_miscellaneous.md
 ├── docs/                            # Project documentation
 │   ├── business-brief.md
+│   ├── competitor-teardown.md       # Phase 0.5: 7-tool analysis
+│   ├── pain-point-heatmap.md        # Phase 0.5: 12 pain points from ~30 sources
 │   ├── phase-roadmap.md
+│   ├── published-surveys-review.md  # Phase 0.5: 9 surveys (n=14k+)
 │   ├── threat-model.md              # Initial threat model
+│   ├── user-research-synthesis.md   # Phase 0.5 exit artifact (go/no-go)
 │   └── phases/                      # Per-phase task breakdowns (19 files)
 ├── skepsis-core/                    # Python research engine
 │   └── src/skepsis/
@@ -323,7 +327,7 @@ Update this table as each package is scaffolded.
 - `ruff` line-length set to 100 in pyproject.toml; existing critique files may exceed this (they are exempt from linting)
 
 ### Previous Lessons
-(None yet — populate when an agent makes a mistake that should not repeat.)
+- Phase 0.5 restructured during execution: forum/community analysis merged into pain-point heatmap (none found via web search in a single session), interviews deferred to Phase 15–16 due to recruitment credibility gap. Update phase plans when evidence changes, don't force original scope.
 
 ### File Constraints
 - `critiques/*.md`: Read for context; edit only to fix factual errors or typos. These are the project's philosophical foundation — do not rewrite them.
