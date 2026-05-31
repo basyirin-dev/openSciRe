@@ -6,7 +6,7 @@ authors:
   - given-names: "Project Skepsis Contributors"
 identifiers:
   - type: doi
-    value: 10.xxxx/xxxxxxxxx  # placeholder — DOI to be registered
+    value: 10.0000/placeholder  # placeholder — DOI to be registered
 repository-code: "https://github.com/skepsis-research/skepsis"
 url: "https://skepsis-research.dev"
 preferred-citation:
@@ -16,6 +16,6 @@ preferred-citation:
     - given-names: "Project Skepsis Contributors"
   version: 0.1.0
   year: 2026
-  doi: 10.xxxx/xxxxxxxxx  # placeholder
+  doi: 10.0000/placeholder  # placeholder
 license: Apache-2.0
-date-released: 2026-06
+date-released: 2026-06-01
