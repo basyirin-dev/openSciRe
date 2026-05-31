@@ -1,0 +1,14 @@
+* text=auto
+
+*.py   diff=python
+*.md   diff=markdown
+*.rs   diff=rust
+*.toml diff=toml
+*.yaml diff=yaml
+*.json diff=json
+*.cff  diff=yaml
+
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.pdf  binary

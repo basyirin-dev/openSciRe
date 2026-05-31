@@ -1,0 +1,103 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["skepsis-core/src/skepsis"]
+
+[project]
+name = "skepsis-core"
+version = "0.1.0"
+description = "Local-first, open-source, epistemically honest research AI for scientists"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+authors = [
+    { name = "Project Skepsis Contributors" },
+]
+
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+dependencies = [
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.11.0",
+    "mypy>=1.15.0",
+    "pytest>=8.0",
+    "pytest-cov>=6.0",
+    "pre-commit>=4.0",
+]
+jupyter = [
+    "notebook>=7.0",
+    "jupyterlab>=4.0",
+    "ipywidgets>=8.0",
+]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocstrings[python]>=0.25",
+]
+all = [
+    "skepsis-core[dev,jupyter,docs]",
+]
+
+[project.urls]
+Homepage = "https://skepsis-research.dev"
+Repository = "https://github.com/skepsis-research/skepsis"
+Documentation = "https://docs.skepsis-research.dev"
+Issues = "https://github.com/skepsis-research/skepsis/issues"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "ARG", "RET", "PT", "ANN"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+warn_unused_configs = true
+disallow_any_unimported = false
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --cov=skepsis"
+markers = [
+    "slow: tests that take more than 5 seconds",
+    "integration: tests that hit external APIs",
+    "network: tests that require network access",
+    "gpu: tests that require a GPU",
+]
+
+[tool.coverage.run]
+source = ["skepsis-core/src/skepsis"]
+branch = true
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "def __repr__",
+    "def __str__",
+]

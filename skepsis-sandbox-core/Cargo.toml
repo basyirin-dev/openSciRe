@@ -1,0 +1,8 @@
+[package]
+name = "skepsis-sandbox-core"
+version = "0.1.0"
+edition = "2024"
+
+# PyO3 dependency — deferred to Phase 9 implementation
+# [dependencies]
+# pyo3 = { version = "0.23", features = ["extension-module"] }

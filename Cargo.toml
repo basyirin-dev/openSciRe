@@ -1,0 +1,3 @@
+[workspace]
+members = ["skepsis-sandbox-core"]
+resolver = "2"

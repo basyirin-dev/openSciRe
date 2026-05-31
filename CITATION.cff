@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: Skepsis
+message: "If you use Skepsis in your research, please cite it as below."
+type: software
+authors:
+  - given-names: "Project Skepsis Contributors"
+identifiers:
+  - type: doi
+    value: 10.xxxx/xxxxxxxxx  # placeholder — DOI to be registered
+repository-code: "https://github.com/skepsis-research/skepsis"
+url: "https://skepsis-research.dev"
+preferred-citation:
+  type: software
+  title: Skepsis
+  authors:
+    - given-names: "Project Skepsis Contributors"
+  version: 0.1.0
+  year: 2026
+  doi: 10.xxxx/xxxxxxxxx  # placeholder
+license: Apache-2.0
+date-released: 2026-06

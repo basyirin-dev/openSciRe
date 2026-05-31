@@ -1,0 +1,39 @@
+{
+  "@context": "https://w3id.org/codemeta/3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "Skepsis",
+  "description": "Local-first, open-source, epistemically honest research AI for scientists.",
+  "license": "Apache-2.0",
+  "codeRepository": "https://github.com/skepsis-research/skepsis",
+  "dateCreated": "2026-06",
+  "dateModified": "2026-06",
+  "datePublished": "2026-06",
+  "developmentStatus": "active",
+  "funder": {
+    "@type": "Organization",
+    "name": "Self-funded / Y Combinator S2027 target"
+  },
+  "isSourceCodeOf": "skepsis-core",
+  "keywords": [
+    "scientific AI",
+    "literature review",
+    "hypothesis generation",
+    "provenance",
+    "local-first",
+    "open-source"
+  ],
+  "programmingLanguage": ["Python", "Rust", "TypeScript"],
+  "operatingSystem": ["Linux", "macOS"],
+  "author": [
+    {
+      "@type": "Organization",
+      "name": "Project Skepsis Contributors"
+    }
+  ],
+  "maintainer": {
+    "@type": "Organization",
+    "name": "Project Skepsis Contributors"
+  },
+  "relatedLink": "https://skepsis-research.dev",
+  "releaseNotes": "Pre-alpha. Active development."
+}

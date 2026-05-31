@@ -1,0 +1,12 @@
+{
+  // Project Skepsis — OpenCode Configuration
+  // See https://opencode.ai for schema reference
+  "$schema": "https://opencode.ai/schema/opencode.json",
+  "agent": {
+    "instructions": "See AGENTS.md for complete agent identity, domain scope, guardrails, and operational rules.",
+    "mode": "auto"
+  },
+  "workspace": {
+    "directory": "/home/bigbasy/Documents/Skepsis"
+  }
+}
