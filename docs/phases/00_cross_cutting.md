@@ -53,4 +53,4 @@ All phases:
 - [ ] Docstrings for all public APIs (Google-style or NumPy-style)
 - [ ] README in each package directory explaining purpose and status
 - [ ] CHANGELOG entry for significant additions
-- [ ] Update `AGENTS.md` Part 3 if directory structure changes
+- [ ] Update local agent configuration if directory structure changes

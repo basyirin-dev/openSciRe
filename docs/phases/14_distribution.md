@@ -43,7 +43,7 @@
 
 - [ ] 14.6.1: Create Homebrew formula for `skepsis` CLI
 - [ ] 14.6.2: Test `brew install skepsis` on macOS and Linux
-- [ ] 14.6.3: Create `skepsis-opencode` tap repository
+- [ ] 14.6.3: Create `homebrew-skepsis` tap repository
 
 ### Task 14.7: GitHub Actions CI/CD
 
