@@ -1,4 +1,4 @@
-.PHONY: install lint format typecheck test clean build all
+.PHONY: install lint format typecheck test clean build all update-hooks
 
 install:
 	pip install -e ".[dev]"
@@ -22,5 +22,8 @@ clean:
 build:
 	pip install build
 	python -m build
+
+update-hooks:
+	pre-commit autoupdate
 
 all: lint format typecheck test build
