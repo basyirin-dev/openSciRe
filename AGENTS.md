@@ -334,6 +334,9 @@ Update this table as each package is scaffolded.
 - `docs/business-brief.md`: Read for strategic context; edit with care as it may be shared externally.
 - `AGENTS.md`: Update when adding packages, changing directory structure, or discovering new conventions.
 
+### After Task Completion
+Do not ask "what should I do next?" or "shall I continue?" after finishing a task. If the next step is specified in the plan or the repo state implies a clear next action, proceed to it without asking. Only pause for instructions if the next step is genuinely ambiguous, blocked, or would require destructive or irreversible changes.
+
 ### Ambiguity Handling (for Code)
 If a design detail, API contract, or dependency version is unspecified:
 1. Check existing files for precedent
