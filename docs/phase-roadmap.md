@@ -43,7 +43,7 @@ See [dependency graph](#dependency-graph) below for sequencing.
 Phase 0 (Repo)
     │
     ▼
-Phase 0.5 (User Research)
+Phase 0.5 (Desk Research)
     │
     ▼
 Phase 1 (Core + Provenance) ────────────────── Phase 9 (Sandbox Design)

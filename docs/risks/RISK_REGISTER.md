@@ -16,7 +16,7 @@ Each risk is assigned a unique ID (R-001, R-002, ...) and tracked through its li
 
 | ID | Risk | Likelihood | Impact | Category | Mitigation | Monitor | Status |
 |----|------|-----------|--------|----------|-----------|---------|--------|
-| R-001 | User research (Phase 0.5) shows no demand for local-first scientific AI | Medium | Critical | Market | Pivot before writing production code. Phase 0.5 is a hard go/no-go gate. | Interview results after first 5 conversations | Open |
+| R-001 | Desk research (Phase 0.5) shows no demand for local-first scientific AI | Medium | Critical | Market | Pivot before writing production code. Phase 0.5 is a hard go/no-go gate. | Desk research results after competitor/forum analysis | Open |
 | R-002 | LLM-dependent tests are flaky or non-deterministic | High | Medium | Technical | Build MockModelProvider in Phase 2 that replays recorded cassettes. Unit tests never call real APIs. | CI failure rate | Open |
 | R-003 | API providers (OpenAI, Anthropic, Google) change or deprecate endpoints | Medium | High | Technical | Adapter pattern + MCP + fallback cascade (Ollama → smaller local → BYOK remote). No hardcoded API shapes. | Provider changelogs, CI integration tests | Open |
 | R-004 | Pilot labs ghost or produce no usable data | Medium | High | Execution | Recruit 5 labs for 3 spots. Lightweight onboarding (<2h). Monthly check-ins. Pre-written case study template. | Pilot recruitment pipeline, weekly check-ins during Phase 13 | Open |

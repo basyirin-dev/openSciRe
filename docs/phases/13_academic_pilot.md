@@ -8,7 +8,7 @@
 
 ### Task 13.1: Lab Recruitment
 
-- [ ] 13.1.1: Identify target labs from Phase 0.5 interview pool
+- [ ] 13.1.1: Identify target labs from Phase 0.5 desk research segments and community engagement
 - [ ] 13.1.2: Develop pilot value proposition — free access to managed version, priority feature requests, co-authorship on validation paper
 - [ ] 13.1.3: Create pilot agreement — scope, timeline, data handling, publication rights, feedback expectations, NDA (if needed)
 - [ ] 13.1.4: Recruit 3–5 labs (diverse: molecular biology, ecology, clinical, computational chemistry)
