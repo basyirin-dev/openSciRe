@@ -310,6 +310,7 @@ Update this table as each package is scaffolded.
 - Cloud-only architecture: every feature must have a local-first path
 - Hallucinated citations or claims attributed to files that don't contain them
 - Committing `.env` files, API keys, or any credentials
+- Committing files or metadata identifying personal tooling choices (e.g., `.opencode/`, `opencode.jsonc`, agent config files, OpenCode usage references)
 - Deleting or renaming files without confirmation
 - Assuming internet connectivity is available
 - LLM output presented as empirical evidence without epistemic caveat
