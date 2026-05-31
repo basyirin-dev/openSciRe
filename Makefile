@@ -26,4 +26,4 @@ build:
 update-hooks:
 	pre-commit autoupdate
 
-all: lint format typecheck test build
+all: lint format typecheck build

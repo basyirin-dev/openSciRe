@@ -1,5 +1,9 @@
 # Project Skepsis
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](pyproject.toml)
+[![CI](https://img.shields.io/badge/CI-not_yet_configured-lightgrey.svg)](docs/phase-roadmap.md)
+
 > **Local-first, open-source, epistemically honest research AI for scientists.**
 
 Skepsis exists because existing "AI for science" tools — Google's Gemini for Science
