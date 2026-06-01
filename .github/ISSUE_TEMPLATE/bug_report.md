@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a reproducible bug in Skepsis
+about: Report a reproducible bug in openSciRe
 title: "[Bug] "
 labels: bug
 assignees: ""
@@ -10,7 +10,7 @@ assignees: ""
 
 - OS: [e.g., Linux 6.8, macOS 14.5]
 - Python version: [e.g., 3.12.3]
-- Skepsis version: [e.g., 0.1.0 or commit SHA]
+- openSciRe version: [e.g., 0.1.0 or commit SHA]
 - Model provider(s) in use: [e.g., Ollama, OpenAI, Anthropic]
 
 ## Description

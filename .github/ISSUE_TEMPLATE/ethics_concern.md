@@ -33,4 +33,4 @@ Do you have a proposed approach to address this concern?
 ## Disclosure Preference
 
 [ ] I consent to this concern being discussed publicly in issues
-[ ] Please handle this confidentially (use ethics@skepsis-research.dev instead)
+[ ] Please handle this confidentially (use ethics@openscire.dev instead)

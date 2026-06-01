@@ -1,4 +1,4 @@
-# Project Skepsis — Risk Register
+# openSciRe — Risk Register
 
 > **Status**: Phase 0 — initial
 > **Last reviewed**: May 2026

@@ -9,7 +9,7 @@
 ### Task 15.1: Repository Public Launch
 
 - [ ] 15.1.1: Make repository public (if private)
-- [ ] 15.1.2: Announcement blog post — "Why we built Skepsis" with link to critiques
+- [ ] 15.1.2: Announcement blog post — "Why we built openSciRe" with link to critiques
 - [ ] 15.1.3: Hacker News / Lobsters / academic mailing list posts
 - [ ] 15.1.4: Social media campaign (Twitter/X, LinkedIn, Mastodon)
 - [ ] 15.1.5: First public release `v0.1.0` with changelog

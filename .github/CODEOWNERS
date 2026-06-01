@@ -1,21 +1,21 @@
 # Code ownership — see https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Default reviewers for all files
-* @skepsis-research/maintainers
+* @OpenSciRe/maintainers
 
 # Critiques — philosophical foundation; requires core team review
-/critiques/ @skepsis-research/maintainers
+/critiques/ @OpenSciRe/maintainers
 
 # Documentation
-/docs/ @skepsis-research/maintainers
+/docs/ @OpenSciRe/maintainers
 
 # Core Python package
-/skepsis-core/ @skepsis-research/maintainers
+/openscire-core/ @OpenSciRe/maintainers
 
 # Rust sandbox
-/skepsis-sandbox-core/ @skepsis-research/maintainers
+/openscire-sandbox-core/ @OpenSciRe/maintainers
 
 # CI/CD and project configuration
-/.github/ @skepsis-research/maintainers
-/Makefile @skepsis-research/maintainers
-/pyproject.toml @skepsis-research/maintainers
+/.github/ @OpenSciRe/maintainers
+/Makefile @OpenSciRe/maintainers
+/pyproject.toml @OpenSciRe/maintainers

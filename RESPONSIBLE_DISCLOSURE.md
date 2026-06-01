@@ -2,13 +2,13 @@
 
 ## Dual-Use Research Policy
 
-Project Skepsis builds tools for scientific reasoning, hypothesis generation,
+openSciRe builds tools for scientific reasoning, hypothesis generation,
 and literature analysis. These tools can accelerate legitimate research — and
 can, in the wrong context, lower barriers to harmful applications.
 
 ### Prohibited Use Cases
 
-Use of Project Skepsis software (including all modules, APIs, and derivatives) is
+Use of openSciRe software (including all modules, APIs, and derivatives) is
 **strictly prohibited** for:
 
 1. **Weapons development**: Any application related to chemical, biological,
@@ -30,7 +30,7 @@ If you encounter:
 - A potential dual-use concern in the tool's design
 - An unintended capability that raises ethical questions
 
-Please report to: `ethics@skepsis-research.dev`
+Please report to: `ethics@openscire.dev`
 
 Reports are reviewed by the project maintainers within 7 days. Sensitive reports
 can be encrypted using the PGP key published in `SECURITY.md`.
@@ -47,7 +47,7 @@ misuse.** This policy reflects our commitment to try.
 
 ## Contributor Responsibility
 
-By contributing code to Project Skepsis, you affirm that your contribution does
+By contributing code to openSciRe, you affirm that your contribution does
 not weaken any of these safeguards, and that you have considered the dual-use
 implications of your work.
 

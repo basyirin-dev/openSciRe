@@ -1,12 +1,13 @@
-# Project Skepsis
+# openSciRe
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](pyproject.toml)
 [![CI](https://img.shields.io/badge/CI-not_yet_configured-lightgrey.svg)](docs/phase-roadmap.md)
+[![DOI](https://zenodo.org/badge/DOI/10.0000/placeholder.svg)](https://doi.org/10.0000/placeholder)
 
 > **Local-first, open-source, epistemically honest research AI for scientists.**
 
-Skepsis exists because existing "AI for science" tools — Google's Gemini for Science
+openSciRe exists because existing "AI for science" tools — Google's Gemini for Science
 in particular — are structurally dangerous: cloud-locked, epistemically opaque, and
 designed for vendor capture rather than research integrity.
 
@@ -19,7 +20,7 @@ Most AI-for-science tools optimize for *plausibility* — generating outputs tha
 This is not a technical bug; it is a design philosophy that treats scientific reasoning
 as a text-generation problem rather than an epistemic one.
 
-Skepsis inverts this. We build from the insight that the most valuable thing an AI
+openSciRe inverts this. We build from the insight that the most valuable thing an AI
 research assistant can say is **"I don't know — and here's how to find out."**
 
 For the full philosophical grounding, see the [critiques manifesto](critiques/README.md).
@@ -28,7 +29,7 @@ For the full philosophical grounding, see the [critiques manifesto](critiques/RE
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Skepsis Core                             │
+│                     openSciRe Core                            │
 │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────────┐  │
 │  │ Literature│  │   RAG    │  │  Agents  │  │ Hypothesis │  │
 │  │  Engine   │  │  Engine  │  │ Framework│  │ Generator  │  │
@@ -53,13 +54,13 @@ For the phased development plan, see [`docs/phase-roadmap.md`](docs/phase-roadma
 
 ```bash
 # Prerequisites: Python 3.12+, Rust toolchain (for sandbox)
-pip install skepsis-core
+pip install openscire-core
 
 # Configure your first model provider
-skepsis provider add openai --api-key "$OPENAI_KEY"
+openscire provider add openai --api-key "$OPENAI_KEY"
 
 # Start a literature review
-skepsis literature search "CRISPR off-target effects deep learning"
+openscire literature search "CRISPR off-target effects deep learning"
 ```
 
 > **Note**: The package is under active development. CLI commands shown above are
@@ -78,11 +79,11 @@ provenance tracking, epistemic uncertainty quantification — but no AI tool can
 fully prevent harmful applications.
 
 - Read our [Responsible Disclosure policy](RESPONSIBLE_DISCLOSURE.md)
-- Report ethical concerns to `ethics@skepsis-research.dev`
+- Report ethical concerns to `ethics@openscire.dev`
 - Prohibited uses include weapons development, human subjects research without
   IRB approval, surveillance, and research fraud
 
-**Epistemic caveat**: All outputs from language models are fallible. Skepsis
+**Epistemic caveat**: All outputs from language models are fallible. openSciRe
 surfaces uncertainty and requires source grounding, but it cannot guarantee
 correctness. Treat generated content as a starting point for your own judgment.
 

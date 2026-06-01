@@ -11,7 +11,7 @@
 | # | Pain Point | Frequency | Intensity | Segments Affected | Evidence |
 |---|-----------|-----------|-----------|-------------------|----------|
 | 1 | **Literature review takes too long** — 8-10 weeks per systematic review manually; researchers report spending majority of time on search, screening, extraction | Very High | 5/5 | All | JMIR scoping review (65 AI tools identified); Nature SLR tools survey; Bohrium case study: 61 days → 18 days (70% savings); "most time-consuming stage of research" across all sources |
-| 2 | **AI hallucination / citation fabrication** — 16% of ChatGPT-generated biomedical references completely fabricated; 48% had errors in author/journal/date | Very High | 5/5 | All (biomedical especially acute) | Safrai & Orwig 2024 (PMID: 38619763); JMIR evaluation of Deep Research tools; "plausible-sounding hallucinations" of non-existent articles; BioSkepsis and Consensus built specifically to mitigate this |
+| 2 | **AI hallucination / citation fabrication** — 16% of ChatGPT-generated biomedical references completely fabricated; 48% had errors in author/journal/date | Very High | 5/5 | All (biomedical especially acute) | Safrai & Orwig 2024 (PMID: 38619763); JMIR evaluation of Deep Research tools; "plausible-sounding hallucinations" of non-existent articles; BioopenSciRe and Consensus built specifically to mitigate this |
 | 3 | **Tool fragmentation** — researchers use 2-4 tools in combination; no single tool covers discovery, extraction, synthesis, and verification | High | 4/5 | All | "No single AI literature review tool does it all" (Research Gold 2026); "best AI for literature review is not one tool but a stack" (multiple sources); Researchers forced to manually orchestrate across database syntaxes (SLR design study, n=20) |
 | 4 | **AI misses minority subdomains / coverage gaps** — fails at broad evidence maps; collapses toward dominant clusters; can't systematically search diverse topics | High | 4/5 | Computational biology, ecology (cross-disciplinary) | Neal Haddaway (evidence synthesis expert); Aaron Tay analysis: Undermind retrieves only 30-80% of target papers vs. gold standard; "AI tends to miss important minority subdomains" |
 | 5 | **Paywalled content restricts AI tool comprehensiveness** — AI tools can't access full text of paywalled papers; bias toward open access | High | 4/5 | All (clinical research worst hit) | JMIR study: "AI tools' inability to access paywalled literature introduces potential bias"; Scholarly Kitchen: Elsevier/Springer Nature reducing abstract metadata to open repositories |
@@ -27,11 +27,11 @@
 
 ## Top 5 Pain Points (by frequency × intensity)
 
-| Rank | Pain Point | F × I | Skepsis Addresses? |
+| Rank | Pain Point | F × I | openSciRe Addresses? |
 |------|-----------|-------|-------------------|
 | 1 | Literature review takes too long | 25/25 | ✅ Phase 4 (Literature Engine) + Phase 5 (RAG) |
 | 2 | AI hallucination / citation fabrication | 25/25 | ✅ Phase 3 (Ethical Firewall), provenance tracking, source grounding |
-| 3 | Tool fragmentation | 16/25 | ⚠️ Partially — Skepsis covers discovery → extraction → synthesis → verification in one stack |
+| 3 | Tool fragmentation | 16/25 | ⚠️ Partially — openSciRe covers discovery → extraction → synthesis → verification in one stack |
 | 4 | AI misses minority subdomains | 16/25 | ⚠️ Partially — local inference allows user-curated corpora for niche fields |
 | 5 | Paywalled content restricts AI tools | 16/25 | ⚠️ Partially — BYOK lets users bring their own institutional access |
 
@@ -39,7 +39,7 @@
 
 ## Gap Between Roadmap Assumptions and Evidence
 
-| Skepsis assumption | Supported by desk research? | Adjustment needed? |
+| openSciRe assumption | Supported by desk research? | Adjustment needed? |
 |-------------------|---------------------------|-------------------|
 | "Literature review is painful" | ✅ Strongly supported (#1 pain point) | None |
 | "Hallucination is a trust killer" | ✅ Strongly supported (#2 pain point) | None |
@@ -53,4 +53,4 @@
 
 ## Verdict
 
-**6 of 7 roadmap assumptions are confirmed by desk research.** The external evidence base strongly supports the existence and severity of the pain points Skepsis addresses. The most acute gap is hallucination (16% fabrication rate in tools researchers actually use) — this is Skepsis's strongest opening argument.
+**6 of 7 roadmap assumptions are confirmed by desk research.** The external evidence base strongly supports the existence and severity of the pain points openSciRe addresses. The most acute gap is hallucination (16% fabrication rate in tools researchers actually use) — this is openSciRe's strongest opening argument.

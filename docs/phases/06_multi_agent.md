@@ -77,16 +77,25 @@
 - [ ] 6.7.3: Workflow status tracking — progress, bottlenecks, estimated completion
 - [ ] 6.7.4: Workflow provenance — full agent interaction trace stored
 
-### Task 6.8: Multi-Agent Tests
+### Task 6.8: Agent Diversity Guarantee
 
-- [ ] 6.8.1: Unit tests for AgentMessage model and AgentBus routing
-- [ ] 6.8.2: Unit tests for SupervisorAgent state machine and task queue
-- [ ] 6.8.3: Unit tests for LiteratureReviewAgent — query decomposition, synthesis
-- [ ] 6.8.4: Unit tests for FalsificationAgent — counter-example generation, confound identification
-- [ ] 6.8.5: Unit tests for EthicsAgent — DURC flagging, tier classification
-- [ ] 6.8.6: Unit tests for NegativeResultRegistry — create, search, cross-link, export
-- [ ] 6.8.7: Integration test: full research workflow (literature review → hypothesis → falsification → ethics → negative result registration)
-- [ ] 6.8.8: Integration test: ethics escalation stops Tier 1 workflow
+- [ ] 6.8.1: Agent diversity config — SupervisorAgent assigns different model providers, temperatures, and objective functions per agent role at session start
+- [ ] 6.8.2: Heterogeneous tournament validation — verify at session start that no two agents share identical configuration (model + temperature + objective)
+- [ ] 6.8.3: ConfabulationDetector integration — all agent outputs pass through ConfabulationDetector (Phase 3.9) before acceptance into research context
+- [ ] 6.8.4: Cross-agent citation validation — when one agent cites a source, another agent independently verifies the citation claims against the source text
+
+### Task 6.9: Multi-Agent Tests
+
+- [ ] 6.9.1: Unit tests for AgentMessage model and AgentBus routing
+- [ ] 6.9.2: Unit tests for SupervisorAgent state machine and task queue
+- [ ] 6.9.3: Unit tests for LiteratureReviewAgent — query decomposition, synthesis
+- [ ] 6.9.4: Unit tests for FalsificationAgent — counter-example generation, confound identification
+- [ ] 6.9.5: Unit tests for EthicsAgent — DURC flagging, tier classification
+- [ ] 6.9.6: Unit tests for NegativeResultRegistry — create, search, cross-link, export
+- [ ] 6.9.7: Unit tests for AgentDiversityConfig — diversity assignment, heterogeneous validation
+- [ ] 6.9.8: Integration test: full research workflow (literature review → hypothesis → falsification → ethics → negative result registration)
+- [ ] 6.9.9: Integration test: ethics escalation stops Tier 1 workflow
+- [ ] 6.9.10: Integration test: agent diversity config prevents homogeneous agent assignment
 
 ---
 

@@ -12,6 +12,9 @@ build/
 .coverage
 htmlcov/
 
+# Local dev data
+data/
+
 # Rust
 target/
 
@@ -43,3 +46,6 @@ Desktop.ini
 *.key
 *.crt
 *.age
+
+# OpenCode project config (personal tooling — do not commit)
+opencode.json

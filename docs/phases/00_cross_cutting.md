@@ -8,10 +8,10 @@ Applies to all phases. These requirements are not owned by any single phase and 
 
 Lightweight integration examples only — not a full phase. Build during Phase 7 window.
 
-- [ ] C.1: R integration via `reticulate` — example notebook showing `library(reticulate); skepsis <- import("skepsis")`
-- [ ] C.2: Julia integration via `PyCall` — example: `using PyCall; skepsis = pyimport("skepsis")`
-- [ ] C.3: MATLAB integration via Python engine — example: `py.skepsis.search("query")`
-- [ ] C.4: Documentation page for each language — "Using Skepsis from R/Julia/MATLAB"
+- [ ] C.1: R integration via `reticulate` — example notebook showing `library(reticulate); openscire <- import("openscire")`
+- [ ] C.2: Julia integration via `PyCall` — example: `using PyCall; openscire = pyimport("openscire")`
+- [ ] C.3: MATLAB integration via Python engine — example: `py.openscire.search("query")`
+- [ ] C.4: Documentation page for each language — "Using openSciRe from R/Julia/MATLAB"
 - [ ] C.5: Test that all three integration paths work in CI
 
 ---
@@ -19,10 +19,10 @@ Lightweight integration examples only — not a full phase. Build during Phase 7
 ## Provenance Pervasiveness
 
 Every phase after Phase 1 must:
-- [ ] Accept a `provenance_parent_id` parameter
-- [ ] Generate `ProvenanceEntry` outputs for all significant operations
-- [ ] Sign entries with Ed25519 before persisting
-- [ ] Fail gracefully if provenance cannot be recorded (log warning, continue)
+- [x] Accept a `provenance_parent_id` parameter
+- [x] Generate `ProvenanceEntry` outputs for all significant operations
+- [x] Sign entries with Ed25519 before persisting
+- [x] Fail gracefully if provenance cannot be recorded (log warning, continue)
 
 ---
 
@@ -39,18 +39,18 @@ Every phase after Phase 3 must:
 ## Testing Requirements
 
 All phases:
-- [ ] Minimum 80% test coverage (line coverage) for new code
-- [ ] All tests pass before phase exit
-- [ ] Integration test for cross-phase workflows
-- [ ] Security test for data handling (no secrets in logs, no plaintext keys)
-- [ ] Offline test (no network required for unit tests)
+- [x] Minimum 80% test coverage (line coverage) for new code
+- [x] All tests pass before phase exit
+- [x] Integration test for cross-phase workflows
+- [x] Security test for data handling (no secrets in logs, no plaintext keys)
+- [x] Offline test (no network required for unit tests)
 
 ---
 
 ## Documentation Requirements
 
 All phases:
-- [ ] Docstrings for all public APIs (Google-style or NumPy-style)
-- [ ] README in each package directory explaining purpose and status
-- [ ] CHANGELOG entry for significant additions
-- [ ] Update local agent configuration if directory structure changes
+- [x] Docstrings for all public APIs (Google-style or NumPy-style)
+- [x] README in each package directory explaining purpose and status
+- [x] CHANGELOG entry for significant additions
+- [x] Update local agent configuration if directory structure changes

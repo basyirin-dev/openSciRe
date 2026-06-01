@@ -1,29 +1,38 @@
+VENV       := .venv
+PYTHON     := $(VENV)/bin/python
+PIP        := $(VENV)/bin/pip
+RUFF       := $(VENV)/bin/ruff
+MYPY       := $(VENV)/bin/mypy
+PYTEST     := $(VENV)/bin/pytest
+PRE_COMMIT := $(VENV)/bin/pre-commit
+BUILD      := $(VENV)/bin/python -m build
+
 .PHONY: install lint format typecheck test clean build all update-hooks
 
 install:
-	pip install -e ".[dev]"
+	$(PIP) install -e ".[dev]"
+	$(PIP) install build 2>/dev/null || true
 
 lint:
-	ruff check .
+	$(RUFF) check .
 
 format:
-	ruff format .
+	$(RUFF) format .
 
 typecheck:
-	mypy skepsis-core/src/skepsis
+	$(MYPY) openscire-core/src/openscire
 
 test:
-	pytest -v --cov=skepsis
+	$(PYTEST) -v; st=$$?; if [ $$st -eq 5 ]; then exit 0; else exit $$st; fi
 
 clean:
 	rm -rf __pycache__ .mypy_cache .pytest_cache .ruff_cache build/ dist/ *.egg-info
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 
 build:
-	pip install build
-	python -m build
+	$(BUILD)
 
 update-hooks:
-	pre-commit autoupdate
+	$(PRE_COMMIT) autoupdate
 
-all: lint format typecheck build
+all: lint format typecheck test build

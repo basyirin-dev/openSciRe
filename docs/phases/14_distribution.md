@@ -11,25 +11,25 @@
 - [ ] 14.1.1: Configure PyPI trusted publishing (OpenID Connect via GitHub Actions)
 - [ ] 14.1.2: Set up `publish.yml` GitHub Action — triggered on tag push (`v*`)
 - [ ] 14.1.3: Build wheel and source distribution
-- [ ] 14.1.4: Publish `skepsis-core` and `skepsis-jupyter` to PyPI
+- [ ] 14.1.4: Publish `openscire-core` and `openscire-jupyter` to PyPI
 - [ ] 14.1.5: Release notes automation from CHANGELOG.md
 
 ### Task 14.2: Conda/Bioconda Publishing
 
-- [ ] 14.2.1: Create `conda.recipe/meta.yaml` for `skepsis-core`
+- [ ] 14.2.1: Create `conda.recipe/meta.yaml` for `openscire-core`
 - [ ] 14.2.2: Submit to `conda-forge` feedstock
 - [ ] 14.2.3: Submit to `bioconda` (for bioinformatics-specific audience)
-- [ ] 14.2.4: Verify `conda install skepsis-core -c conda-forge` works
+- [ ] 14.2.4: Verify `conda install openscire-core -c conda-forge` works
 
 ### Task 14.3: nixpkgs Submission
 
-- [ ] 14.3.1: Create Nix derivation for `skepsis-core`
+- [ ] 14.3.1: Create Nix derivation for `openscire-core`
 - [ ] 14.3.2: Test with `nix-build`
 - [ ] 14.3.3: Submit to nixpkgs (if project has traction)
 
 ### Task 14.4: Docker + Docker Compose
 
-- [ ] 14.4.1: `Dockerfile` for skepsis-core CLI
+- [ ] 14.4.1: `Dockerfile` for openscire-core CLI
 - [ ] 14.4.2: `Dockerfile` for API server (when built)
 - [ ] 14.4.3: `docker-compose.yml` — one-command self-hosted deployment
 - [ ] 14.4.4: Docker image published to GitHub Container Registry
@@ -41,9 +41,9 @@
 
 ### Task 14.6: Homebrew Tap
 
-- [ ] 14.6.1: Create Homebrew formula for `skepsis` CLI
-- [ ] 14.6.2: Test `brew install skepsis` on macOS and Linux
-- [ ] 14.6.3: Create `homebrew-skepsis` tap repository
+- [ ] 14.6.1: Create Homebrew formula for `openscire` CLI
+- [ ] 14.6.2: Test `brew install openscire` on macOS and Linux
+- [ ] 14.6.3: Create `homebrew-openscire` tap repository
 
 ### Task 14.7: GitHub Actions CI/CD
 

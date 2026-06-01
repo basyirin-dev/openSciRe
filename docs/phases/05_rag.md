@@ -63,15 +63,26 @@
 - [ ] 5.6.4: DOI hyperlinking for digital references
 - [ ] 5.6.5: Multi-format export — BibTeX, RIS, CSL-JSON
 
-### Task 5.7: RAG Tests
+### Task 5.7: SourceEnforcer Cross-Check
 
-- [ ] 5.7.1: Unit tests for DocumentChunker — section detection, citation anchoring, overlap
-- [ ] 5.7.2: Unit tests for HybridRetriever — RRF fusion, reranking correctness
-- [ ] 5.7.3: Unit tests for ContextWindowManager — token budget, compression, priority-based inclusion
-- [ ] 5.7.4: Unit tests for SourceEnforcer — all 3 modes, citation verification
-- [ ] 5.7.5: Unit tests for CitationFormatter — all style templates, reference list generation
-- [ ] 5.7.6: Integration test: chunk document → embed → retrieve → cite → format → enforce
-- [ ] 5.7.7: Integration test: cross-document retrieval with citation context windows
+- [ ] 5.7.1: Semantic cross-check — verify that cited sources actually say what the claim attributes to them (beyond existence check in 5.5.2); uses LLM to compare claim against source text
+
+### Task 5.8: Pedagogical Report
+
+- [ ] 5.8.1: Report template — outputs must include: selection rationale (why these sources), parameter documentation (retrieval settings, model config), alternative interpretations, self-identified limitations, uncertainty indicators
+- [ ] 5.8.2: Export formats — Markdown (default), Jupyter notebook, RO-Crate
+- [ ] 5.8.3: No artifact modes — explicit design constraint: no audio/video/slide-deck generation modes
+
+### Task 5.9: RAG Tests
+
+- [ ] 5.9.1: Unit tests for DocumentChunker — section detection, citation anchoring, overlap
+- [ ] 5.9.2: Unit tests for HybridRetriever — RRF fusion, reranking correctness
+- [ ] 5.9.3: Unit tests for ContextWindowManager — token budget, compression, priority-based inclusion
+- [ ] 5.9.4: Unit tests for SourceEnforcer — all 3 modes, citation verification, semantic cross-check
+- [ ] 5.9.5: Unit tests for CitationFormatter — all style templates, reference list generation
+- [ ] 5.9.6: Integration test: chunk document → embed → retrieve → cite → format → enforce → cross-check
+- [ ] 5.9.7: Integration test: cross-document retrieval with citation context windows
+- [ ] 5.9.8: Unit tests for PedagogicalReport — all export formats, required sections, no-artifact enforcement
 
 ---
 

@@ -49,7 +49,7 @@
 | Lack of skilled people | 34% (up from 23% in 2024) | Pistoia 2025 |
 | Data not FAIR (findable, accessible, interoperable, reusable) | 34% (up from 23% in 2024) | Pistoia 2024 |
 
-**Key insight for Skepsis**: Pistoia 2025 found that **27% of life science professionals don't know what data their AI models use**, and **50% cite lack of shared verification standards as the biggest barrier to AI agent adoption**. This directly validates the provenance and verification architecture.
+**Key insight for openSciRe**: Pistoia 2025 found that **27% of life science professionals don't know what data their AI models use**, and **50% cite lack of shared verification standards as the biggest barrier to AI agent adoption**. This directly validates the provenance and verification architecture.
 
 ### 3. What Researchers Actually Use AI For
 
@@ -122,20 +122,20 @@ What would increase comfort:
 
 ---
 
-## Implications for Skepsis
+## Implications for openSciRe
 
-| Finding | Skepsis Response |
+| Finding | openSciRe Response |
 |---------|-----------------|
 | 84% adoption but surge in skepticism/"reality check" | Mature audience ready for honest, non-hype tooling |
 | 59% prefer open-source/non-profit LLMs | Local-first, open-source position validated |
 | 27% don't know what data their AI uses | Provenance-first architecture is a differentiator |
 | 50% cite lack of verification standards for AI agents | Verification as core feature, not afterthought |
-| Search tools miss 91% of relevant studies on average | Skepsis must invest in retrieval quality, not just LLM output |
+| Search tools miss 91% of relevant studies on average | openSciRe must invest in retrieval quality, not just LLM output |
 | 56% want domain-specific tools but only 14% use them | Demand exists; distribution/marketing is the barrier |
 | 80% using ChatGPT for research | Low bar to beat on accuracy and trust |
 | Lack of guidelines/training is #2 barrier | Invest in onboarding and documentation |
 | Over-reliance on pattern recognition → deskilling concern (69%) | Build for augmentation, not automation; falsification > plausibility |
-| Critical thinking erosion feared by 81% | Epistemic design language validates Skepsis philosophical stance |
+| Critical thinking erosion feared by 81% | Epistemic design language validates openSciRe philosophical stance |
 
 ---
 

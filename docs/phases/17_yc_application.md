@@ -19,7 +19,7 @@
 
 ### Task 17.2: Pitch Deck
 
-- [ ] 17.2.1: Slide 1: Title — Project Skepsis
+- [ ] 17.2.1: Slide 1: Title — Project openSciRe
 - [ ] 17.2.2: Slide 2: Problem — Gemini for Science has 8 structural gaps (epistemic, ethical, methodological)
 - [ ] 17.2.3: Slide 3: Solution — local-first, provenance-native, falsification-first scientific AI
 - [ ] 17.2.4: Slide 4: Demo GIF/screenshots — CLI → Jupyter → provenance graph

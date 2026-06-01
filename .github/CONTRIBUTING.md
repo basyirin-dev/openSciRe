@@ -1,4 +1,4 @@
-# Contributing to Project Skepsis
+# Contributing to openSciRe
 
 Thank you for considering contributing. This project has an explicit ethical
 stance — please read [RESPONSIBLE_DISCLOSURE.md](RESPONSIBLE_DISCLOSURE.md)
@@ -9,7 +9,7 @@ before contributing.
 We are committed to fostering an open and respectful community. Be collegial.
 Assume good faith. Disagreement about technical decisions is fine; personal
 attacks are not. If you witness unacceptable behavior, report it to
-`conduct@skepsis-research.dev`.
+`conduct@openscire.dev`.
 
 ## Development Setup
 
@@ -53,5 +53,5 @@ behalf of an employer, ensure they're okay with this.
 
 ## Questions?
 
-Open a [Discussion](https://github.com/skepsis-research/skepsis/discussions)
-or reach out to `dev@skepsis-research.dev`.
+Open a [Discussion](https://github.com/OpenSciRe/openSciRe/discussions)
+or reach out to `dev@openscire.dev`.

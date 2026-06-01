@@ -1,4 +1,4 @@
-# Project Skepsis — Initial Threat Model
+# openSciRe — Initial Threat Model
 
 > **Status**: Phase 0 — preliminary. Will be updated as components are built.
 > **Last reviewed**: June 2026

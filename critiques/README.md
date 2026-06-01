@@ -1,4 +1,4 @@
-# Critiques — Project Skepsis Manifesto Library
+# Critiques — openSciRe Manifesto Library
 
 These documents are a systematic, multi-dimensional critique of Google's **Gemini for Science** initiative (announced I/O 2026). They are not blog posts or hot takes — they are an excavation of the epistemic, ontological, methodological, ethical, legal, and structural gaps in what Google calls "the next era of discovery."
 

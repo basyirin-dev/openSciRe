@@ -2,12 +2,12 @@
 
 ## Reporting a Vulnerability
 
-Project Skepsis takes security and trust seriously. If you discover a security
+openSciRe takes security and trust seriously. If you discover a security
 vulnerability, **please do not file a public issue**.
 
 ### Disclosure Process
 
-1. **Report via email**: `security@skepsis-research.dev`
+1. **Report via email**: `security@openscire.dev`
    - Encrypt sensitive details using our PGP key (key ID: TBD — will be published
      when infrastructure is established).
 2. **Acknowledgment**: We will acknowledge receipt within **72 hours**.
@@ -17,7 +17,7 @@ vulnerability, **please do not file a public issue**.
 ## Scope
 
 In-scope:
-- Code execution vulnerabilities in `skepsis-core`, `skepsis-sandbox-core`,
+- Code execution vulnerabilities in `openscire-core`, `openscire-sandbox-core`,
   and official packages
 - Data integrity compromises in the provenance system (Ed25519 signing)
 - Prompt injection or model jailbreaks that bypass the Ethical Firewall

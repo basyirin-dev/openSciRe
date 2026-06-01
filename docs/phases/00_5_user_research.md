@@ -24,7 +24,7 @@
 - [x] 0.5.2.1: Compile desk research findings at `docs/user-research-synthesis.md`
 - [x] 0.5.2.2: Decision criteria:
   - Desk research shows active demand across 2+ target segments ✅
-  - No competitor fully addresses the Skepsis value proposition ✅
+  - No competitor fully addresses the openSciRe value proposition ✅
   - Published survey data confirms at least 3 of 5 assumed pain points ✅
 - [x] 0.5.2.3: All criteria met → **GO to Phase 1**
 - [x] 0.5.2.4: N/A — criteria met

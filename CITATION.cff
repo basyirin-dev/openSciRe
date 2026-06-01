@@ -1,21 +1,22 @@
 cff-version: 1.2.0
-title: Skepsis
-message: "If you use Skepsis in your research, please cite it as below."
+title: openSciRe
+message: "If you use openSciRe in your research, please cite it as below."
 type: software
 authors:
-  - given-names: "Project Skepsis Contributors"
+  - given-names: "openSciRe Contributors"
 identifiers:
   - type: doi
     value: 10.0000/placeholder  # placeholder — DOI to be registered
-repository-code: "https://github.com/skepsis-research/skepsis"
-url: "https://skepsis-research.dev"
+repository-code: "https://github.com/OpenSciRe/openSciRe"
+url: "https://openscire.dev"
 preferred-citation:
   type: software
-  title: Skepsis
+  title: openSciRe
   authors:
-    - given-names: "Project Skepsis Contributors"
+  - given-names: "openSciRe Contributors"
   version: 0.1.0
   year: 2026
   doi: 10.0000/placeholder  # placeholder
 license: Apache-2.0
+repository: "https://github.com/OpenSciRe/openSciRe"
 date-released: 2026-06-01

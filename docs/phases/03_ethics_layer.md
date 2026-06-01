@@ -75,16 +75,25 @@
 - [ ] 3.8.3: Verification gap reporting — "40% of generated hypotheses have no known path to verification"
 - [ ] 3.8.4: Suggest verification path — for verifiable claims, suggest experimental or computational approach
 
-### Task 3.9: Ethics Layer Tests
+### Task 3.9: Confabulation Detection
 
-- [ ] 3.9.1: Unit tests for EthicalFirewall — DURC detection with known test cases
-- [ ] 3.9.2: Unit tests for RiskTier classification for each tier
-- [ ] 3.9.3: Unit tests for DataSovereigntyChecker — consent parsing, restriction enforcement
-- [ ] 3.9.4: Unit tests for CarbonBudgetTracker — FLOPs calculation, kWh conversion, budget enforcement
-- [ ] 3.9.5: Unit tests for UncertaintyQuantifier — confidence scoring, contradiction detection
-- [ ] 3.9.6: Unit tests for SourceGrounding — citation enforcement, unsupported claim flagging
-- [ ] 3.9.7: Unit tests for VerificationAsymmetryTracker — claim categorization, tracking
-- [ ] 3.9.8: Integration test: ethical firewall → block → provenance entry → audit log
+- [ ] 3.9.1: `ConfabulationDetector` — cross-claim consistency checker that identifies factual contradictions across agent outputs and against known literature
+- [ ] 3.9.2: Historical hallucination pattern tracking — per-topic hallucination frequency recording; auto-escalation when hallucination rate exceeds configurable threshold for a domain
+- [ ] 3.9.3: Automatic knowledge boundary flagging — when confidence is below threshold for a claim domain, attach KnowledgeBoundaryFlag to output before delivery
+- [ ] 3.9.4: Confabulation report — structured output listing: claims flagged, evidence contradicted by, confidence assessment, and recommended action (retry, escalate, discard)
+
+### Task 3.10: Ethics Layer Tests
+
+- [ ] 3.10.1: Unit tests for EthicalFirewall — DURC detection with known test cases
+- [ ] 3.10.2: Unit tests for RiskTier classification for each tier
+- [ ] 3.10.3: Unit tests for DataSovereigntyChecker — consent parsing, restriction enforcement
+- [ ] 3.10.4: Unit tests for CarbonBudgetTracker — FLOPs calculation, kWh conversion, budget enforcement
+- [ ] 3.10.5: Unit tests for UncertaintyQuantifier — confidence scoring, contradiction detection
+- [ ] 3.10.6: Unit tests for SourceGrounding — citation enforcement, unsupported claim flagging
+- [ ] 3.10.7: Unit tests for VerificationAsymmetryTracker — claim categorization, tracking
+- [ ] 3.10.8: Integration test: ethical firewall → block → provenance entry → audit log
+- [ ] 3.10.9: Unit tests for ConfabulationDetector — cross-claim consistency checking, historical pattern tracking, boundary flagging
+- [ ] 3.10.10: Integration test: detection → flag → KnowledgeBoundaryFlag → confabulation report cycle
 
 ---
 
