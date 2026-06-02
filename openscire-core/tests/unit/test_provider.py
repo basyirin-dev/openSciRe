@@ -657,7 +657,7 @@ class TestTokenCounting:
     @pytest.mark.asyncio
     async def test_heuristic_fallback_on_import_error(self) -> None:
         provider = OpenAICompatibleProvider(ProviderConfig(default_model="test"))
-        original = __import__("tiktoken")
+        __import__("tiktoken")
         import sys
 
         saved = sys.modules.pop("tiktoken", None)

@@ -12,6 +12,7 @@ class BoundaryCategory(StrEnum):
     outside_corpus = "outside_corpus"
     unverifiable_assumptions = "unverifiable_assumptions"
     in_principle_unanswerable = "in_principle_unanswerable"
+    confabulation_suspected = "confabulation_suspected"
 
 
 class SourceCategory(StrEnum):

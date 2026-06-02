@@ -92,7 +92,7 @@ class TestValidationError:
 class TestErrorCodes:
     def test_all_codes_accessible(self) -> None:
         codes = set(ErrorCode)
-        assert len(codes) == 18
+        assert len(codes) == 28
 
     def test_general_code(self) -> None:
         assert ErrorCode.ERR_BASE == "ERR_BASE"
@@ -100,3 +100,21 @@ class TestErrorCodes:
     def test_provenance_codes(self) -> None:
         assert ErrorCode.PROV_SIGNING_FAILURE == "PROV_SIGNING_FAILURE"
         assert ErrorCode.PROV_TAMPER_DETECTED == "PROV_TAMPER_DETECTED"
+
+    def test_carbon_budget_code(self) -> None:
+        assert ErrorCode.ETHICS_CARBON_BUDGET_EXCEEDED == "ETHICS_CARBON_BUDGET_EXCEEDED"
+
+    def test_uncertainty_code(self) -> None:
+        assert ErrorCode.UNCERTAINTY_INSUFFICIENT == "UNCERTAINTY_INSUFFICIENT"
+
+    def test_source_not_found_code(self) -> None:
+        assert ErrorCode.VALIDATION_SOURCE_NOT_FOUND == "VALIDATION_SOURCE_NOT_FOUND"
+
+    def test_retracted_source_code(self) -> None:
+        assert ErrorCode.VALIDATION_RETRACTED_SOURCE == "VALIDATION_RETRACTED_SOURCE"
+
+    def test_asymmetry_code(self) -> None:
+        assert ErrorCode.VALIDATION_ASYMMETRY_DETECTED == "VALIDATION_ASYMMETRY_DETECTED"
+
+    def test_confabulation_code(self) -> None:
+        assert ErrorCode.VALIDATION_CONFABULATION_DETECTED == "VALIDATION_CONFABULATION_DETECTED"

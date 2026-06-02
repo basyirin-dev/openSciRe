@@ -47,5 +47,8 @@ Desktop.ini
 *.crt
 *.age
 
+# Internal documentation (roadmaps, business briefs, competitor analysis — do not push)
+/docs/
+
 # OpenCode project config (personal tooling — do not commit)
 opencode.json

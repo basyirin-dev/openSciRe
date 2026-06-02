@@ -5,15 +5,16 @@ from __future__ import annotations
 from collections.abc import AsyncIterator
 
 import pytest
+from openscire.provenance import ProvenanceTracker
+from openscire.provider import ChatMessage, Chunk, ModelInfo, ModelProvider, ProviderConfig
 from pydantic import SecretStr
 
-from openscire.provider import ChatMessage, Chunk, ModelInfo, ModelProvider, ProviderConfig
-from openscire.provenance import ProvenanceTracker
 from tests.conftest import reset_provenance  # noqa: F401
 
 
 class _EchoProvider(ModelProvider):
     """Provider that echoes back the message content."""
+
     PROVIDER_NAME = "echo"
 
     def _do_stream_chat(  # noqa: ARG002
@@ -27,6 +28,7 @@ class _EchoProvider(ModelProvider):
         async def _gen() -> AsyncIterator[Chunk]:
             text = messages[0].content if messages else ""
             yield Chunk(delta_content=str(text))
+
         return _gen()
 
     async def list_models(self) -> list[ModelInfo]:

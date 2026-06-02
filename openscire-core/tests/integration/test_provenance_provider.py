@@ -11,7 +11,7 @@ import json
 from collections.abc import AsyncIterator
 
 import pytest
-
+from openscire.provenance import ProvenanceExporter, ProvenanceTracker
 from openscire.provider import (
     ChatMessage,
     Chunk,
@@ -19,12 +19,13 @@ from openscire.provider import (
     ModelProvider,
     ProviderConfig,
 )
-from openscire.provenance import ProvenanceExporter, ProvenanceTracker
+
 from tests.conftest import reset_provenance  # noqa: F401
 
 
 class _MinimalProvider(ModelProvider):
     """Minimal provider that yields a single chunk."""
+
     PROVIDER_NAME = "minimal"
 
     def _do_stream_chat(  # noqa: ARG002
@@ -37,6 +38,7 @@ class _MinimalProvider(ModelProvider):
     ) -> AsyncIterator[Chunk]:
         async def _gen() -> AsyncIterator[Chunk]:
             yield Chunk(delta_content="hello from provenance integration")
+
         return _gen()
 
     async def list_models(self) -> list[ModelInfo]:
@@ -78,10 +80,13 @@ class TestProvenanceThroughProvider:
         provider = _MinimalProvider(config)
 
         parent_id = "external-parent-42"
-        chunks = [c async for c in provider.stream_chat(
-            [ChatMessage.user("link me")],
-            provenance_parent_id=parent_id,
-        )]
+        chunks = [
+            c
+            async for c in provider.stream_chat(
+                [ChatMessage.user("link me")],
+                provenance_parent_id=parent_id,
+            )
+        ]
 
         assert len(chunks) == 1
         entries = list(tracker.storage.list())

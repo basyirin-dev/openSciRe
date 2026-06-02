@@ -12,7 +12,7 @@ import yaml
 from pydantic import BaseModel, Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from openscire.constants import ErrorCode
+from openscire.constants import DURCCategory, ErrorCode
 from openscire.exceptions import ConfigError
 from openscire.models import ReproducibilityBundle
 from openscire.models.philosophy import (
@@ -111,15 +111,85 @@ class LiteratureConfig(BaseModel):
 
 
 class EthicsConfig(BaseModel):
-    """Configuration for ethical safeguards and resource accounting.
+    """Configuration for ethical safeguards, DURC detection, and resource accounting.
 
     Attributes:
-        firewall_mode: Action on ethics violation (flag, warn, block, escalate).
+        firewall_mode: Default action on ethics violation (flag, warn, block, escalate).
+        durc_enabled: Whether the DURC firewall is active.
+        durc_categories: List of enabled DURC categories (default: all).
+        durc_embedding_model: Embedding model name for semantic detection
+            (empty = disabled). Requires sentence-transformers.
+        durc_llm_classifier_provider: Provider for LLM-assisted DURC classification
+            (empty = disabled). Should be a separate model from the primary
+            inference model to avoid circular jailbreak risk.
+        durc_llm_classifier_model: Model name for LLM classifier.
+        durc_min_confidence: Minimum confidence threshold for flagging (0.0-1.0).
+        audit_db_path: Filesystem path for the firewall audit SQLite DB.
+        audit_signing_key_path: Path to Ed25519 signing key for audit entries
+            (empty = unsigned).
+        enable_feedback_loop: Whether users can contest firewall decisions.
         carbon_budget_monthly_kwh: Monthly carbon budget in kWh.
+        tier_enabled: Whether tier-based governance is active.
+        tier_cooling_off_hours: Cooling-off period in hours for HIGH tier queries.
+        tier_embedding_model: Embedding model for semantic tier classification
+            (empty = disabled).
+        tier_llm_classifier_provider: Provider for LLM-assisted tier classification
+            (empty = disabled).
+        tier_llm_classifier_model: Model name for LLM tier classifier.
+        tier_min_confidence: Minimum confidence for tier classification (0.0-1.0).
+        sovereignty_enabled: Whether data sovereignty checks are active.
+        sovereignty_require_origin: Whether data origin metadata is required.
+        sovereignty_block_no_consent: Whether to block data without consent metadata.
+        sovereignty_allowlist_countries: Comma-separated list of data origin
+            countries exempt from export restriction (empty = none).
+        indigenous_knowledge_enabled: Whether CARE-based indigenous knowledge
+            protection checks are active.
+        carbon_enabled: Whether carbon tracking and budget enforcement is active.
+        carbon_budget_monthly_kwh: Monthly carbon budget in kWh.
+        carbon_budget_warning_threshold: Fraction (0-1) of budget that triggers
+            a warning (default 0.8 = 80%).
+        carbon_grid_intensity_kg_co2e_per_kwh: Grid carbon intensity in kg CO2e
+            per kWh for CO2e estimation.
+        carbon_hardware_tdp_watts: GPU TDP in watts for energy modeling
+            (default 350 = RTX 3090 class).
+        carbon_hardware_flops: GPU FP16 TFLOPS for runtime estimation
+            (default 142e12 = RTX 3090).
+        carbon_model_params: Default model parameter count (default 7B).
+        carbon_equivalences_enabled: Whether to include human-readable
+            equivalence text in carbon estimates.
+        carbon_db_path: Filesystem path for the carbon budget SQLite DB.
     """
 
     firewall_mode: str = Field(default="warn")
+    durc_enabled: bool = True
+    durc_categories: list[str] = Field(default_factory=lambda: [c.value for c in DURCCategory])
+    durc_embedding_model: str = ""
+    durc_llm_classifier_provider: str = ""
+    durc_llm_classifier_model: str = "llama3.2:3b"
+    durc_min_confidence: float = Field(default=0.6, ge=0.0, le=1.0)
+    audit_db_path: str = "data/firewall_audit.db"
+    audit_signing_key_path: str = ""
+    enable_feedback_loop: bool = True
+    carbon_enabled: bool = True
     carbon_budget_monthly_kwh: float = Field(default=50.0, ge=0.0)
+    carbon_budget_warning_threshold: float = Field(default=0.8, ge=0.0, le=1.0)
+    carbon_grid_intensity_kg_co2e_per_kwh: float = Field(default=0.4, ge=0.0)
+    carbon_hardware_tdp_watts: int = Field(default=350, gt=0)
+    carbon_hardware_flops: int = Field(default=142_000_000_000_000, gt=0)
+    carbon_model_params: int = Field(default=7_000_000_000, gt=0)
+    carbon_equivalences_enabled: bool = True
+    carbon_db_path: str = "data/carbon_budget.db"
+    tier_enabled: bool = True
+    tier_cooling_off_hours: int = Field(default=24, gt=0)
+    tier_embedding_model: str = ""
+    tier_llm_classifier_provider: str = ""
+    tier_llm_classifier_model: str = "llama3.2:3b"
+    tier_min_confidence: float = Field(default=0.5, ge=0.0, le=1.0)
+    sovereignty_enabled: bool = True
+    sovereignty_require_origin: bool = False
+    sovereignty_block_no_consent: bool = True
+    sovereignty_allowlist_countries: str = ""
+    indigenous_knowledge_enabled: bool = True
 
     @field_validator("firewall_mode")
     @classmethod
@@ -129,6 +199,107 @@ class EthicsConfig(BaseModel):
             msg = f"firewall_mode must be one of {allowed}"
             raise ConfigError(msg, source="config", error_code=ErrorCode.CONFIG_INVALID)
         return v.lower()
+
+
+class UncertaintyConfig(BaseModel):
+    """Configuration for uncertainty quantification and disclosure.
+
+    Attributes:
+        enabled: Whether uncertainty quantification is active.
+        min_confidence_for_acceptance: Minimum confidence (0-1) for accepting
+            a claim without additional review.
+        contradiction_threshold: Overlap threshold (0-1) for detecting
+            contradiction between claims.
+        boundary_confidence_threshold: Confidence threshold (0-1) for
+            flagging a knowledge boundary.
+        source_quality_peer_reviewed: Quality score for peer-reviewed sources.
+        source_quality_preprint: Quality score for preprints.
+        source_quality_gray: Quality score for gray literature.
+        source_quality_anecdotal: Quality score for anecdotal sources.
+        retraction_penalty: Penalty subtracted from source quality when
+            a source is retracted.
+    """
+
+    enabled: bool = True
+    min_confidence_for_acceptance: float = Field(default=0.3, ge=0.0, le=1.0)
+    contradiction_threshold: float = Field(default=0.6, ge=0.0, le=1.0)
+    boundary_confidence_threshold: float = Field(default=0.3, ge=0.0, le=1.0)
+    source_quality_peer_reviewed: float = Field(default=0.9, ge=0.0, le=1.0)
+    source_quality_preprint: float = Field(default=0.6, ge=0.0, le=1.0)
+    source_quality_gray: float = Field(default=0.3, ge=0.0, le=1.0)
+    source_quality_anecdotal: float = Field(default=0.1, ge=0.0, le=1.0)
+    retraction_penalty: float = Field(default=-0.5, le=0.0)
+
+
+class SourceGroundingConfig(BaseModel):
+    """Configuration for source grounding and citation verification.
+
+    Attributes:
+        enabled: Whether source grounding checks are active.
+        require_citations: Whether every factual claim must cite at least
+            one source.
+        verify_retraction_status: Whether to check retraction databases
+            when verifying sources.
+        min_sources_per_claim: Minimum verified sources required per claim.
+        max_citation_age_years: Maximum acceptable citation age.
+        allow_unsupported_claims: If True, flag unsupported claims but
+            do not block them.
+        check_support_level: Whether to distinguish between SUPPORTS and
+            NEUTRAL citation relationships.
+        extraction_enabled: Whether citation extraction from text is active.
+    """
+
+    enabled: bool = True
+    require_citations: bool = True
+    verify_retraction_status: bool = True
+    min_sources_per_claim: int = Field(default=1, ge=0)
+    max_citation_age_years: int = Field(default=20, gt=0)
+    allow_unsupported_claims: bool = False
+    check_support_level: bool = True
+    extraction_enabled: bool = True
+
+
+class VerificationAsymmetryConfig(BaseModel):
+    """Configuration for verification asymmetry tracking and reporting.
+
+    Attributes:
+        enabled: Whether asymmetry tracking is active.
+        db_path: Filesystem path for the asymmetry tracking SQLite DB.
+        max_asymmetry_gap: Maximum allowed gap between claim confidence
+            and verification score (0-1) before flagging.
+        require_citation_verification: If True, only compute asymmetry
+            for claims with verified citations.
+        flag_severity: Default severity for asymmetry flags.
+    """
+
+    enabled: bool = True
+    db_path: str = "data/verification_asymmetry.db"
+    max_asymmetry_gap: float = Field(default=0.4, ge=0.0, le=1.0)
+    require_citation_verification: bool = True
+    flag_severity: str = "warn"
+
+
+class ConfabulationConfig(BaseModel):
+    """Configuration for confabulation detection and hallucination tracking.
+
+    Attributes:
+        enabled: Whether confabulation detection is active.
+        claim_vs_literature_threshold: Minimum Jaccard overlap (0-1) between
+            a claim and known literature before flagging as unsupported.
+        boundary_confidence_threshold: Confidence threshold (0-1) below which
+            a flagged claim gets a KnowledgeBoundaryFlag attached.
+        domain_hallucination_threshold: Flag rate threshold (0-1) for a domain
+            that triggers auto-escalation.
+        db_path: Filesystem path for the hallucination tracking SQLite DB.
+        tracking_enabled: Whether historical hallucination tracking is active.
+    """
+
+    enabled: bool = True
+    claim_vs_literature_threshold: float = Field(default=0.05, ge=0.0, le=1.0)
+    boundary_confidence_threshold: float = Field(default=0.3, ge=0.0, le=1.0)
+    domain_hallucination_threshold: float = Field(default=0.15, ge=0.0, le=1.0)
+    db_path: str = "data/confabulation.db"
+    tracking_enabled: bool = True
 
 
 class SandboxConfig(BaseModel):
@@ -166,6 +337,10 @@ class Config(BaseSettings):
     logging: LoggingConfig = LoggingConfig()
     literature: LiteratureConfig = LiteratureConfig()
     ethics: EthicsConfig = EthicsConfig()
+    uncertainty: UncertaintyConfig = UncertaintyConfig()
+    source_grounding: SourceGroundingConfig = SourceGroundingConfig()
+    verification_asymmetry: VerificationAsymmetryConfig = VerificationAsymmetryConfig()
+    confabulation: ConfabulationConfig = ConfabulationConfig()
     sandbox: SandboxConfig = SandboxConfig()
     falsification: FalsificationConfig = FalsificationConfig()
     agent_diversity: AgentDiversityConfig = AgentDiversityConfig()

@@ -41,8 +41,7 @@ def passphrase() -> str:
 
 @pytest.fixture
 def manager(passphrase: str, tmp_home: Path) -> BYOKManager:
-    mgr = BYOKManager(passphrase=passphrase)
-    return mgr
+    return BYOKManager(passphrase=passphrase)
 
 
 # ── BYOKProfile tests ─────────────────────────────────────────────────────
@@ -305,8 +304,8 @@ class TestBYOKManager:
         assert manager.get_active_profile() is None
 
     def test_multiple_profiles_independent(self, manager: BYOKManager) -> None:
-        p1 = manager.create_profile(name="profile-a", api_key="key-a", model_id="model-a")
-        p2 = manager.create_profile(name="profile-b", api_key="key-b", model_id="model-b")
+        manager.create_profile(name="profile-a", api_key="key-a", model_id="model-a")
+        manager.create_profile(name="profile-b", api_key="key-b", model_id="model-b")
 
         loaded_a = manager.get_profile("profile-a")
         loaded_b = manager.get_profile("profile-b")

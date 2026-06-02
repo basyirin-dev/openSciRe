@@ -186,10 +186,8 @@ class GeminiProvider(ModelProvider):
         tools: list[dict[str, Any]] | None = None,
         temperature: float | None = None,
         max_tokens: int | None = None,
-        provenance_parent_id: str | None = None,
+        provenance_parent_id: str | None = None,  # noqa: ARG002
     ) -> AsyncIterator[Chunk]:
-        _ = provenance_parent_id
-
         payload = self._build_payload(messages, tools, temperature, max_tokens)
         start = time.monotonic()
 

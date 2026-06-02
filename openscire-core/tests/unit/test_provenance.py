@@ -106,7 +106,7 @@ class TestProvenanceTracker:
     def test_unknown_backend_raises_config_error(self) -> None:
         try:
             ProvenanceTracker.get_tracker("test", storage_backend="nonexistent")
-            assert False
+            raise AssertionError()
         except ConfigError as e:
             assert e.error_code == ErrorCode.CONFIG_INVALID
 
@@ -160,7 +160,7 @@ class TestProvenanceGraph:
             g.add_entry(ProvenanceEntry(action_id="a"))  # already exists
             # duplicate is silently ignored
         except ProvenanceError:
-            assert False, "duplicate should not raise"
+            raise AssertionError("duplicate should not raise")
 
     def test_cycle_creation_raises(self) -> None:
         g = ProvenanceGraph()
@@ -169,18 +169,20 @@ class TestProvenanceGraph:
         try:
             g.add_entry(ProvenanceEntry(action_id="c", parent_ids=["b"]))
         except ProvenanceError:
-            assert False
+            raise AssertionError()
 
     def test_root_hash_empty(self) -> None:
         g = ProvenanceGraph()
         h = g.root_hash()
-        assert isinstance(h, str) and len(h) == 64
+        assert isinstance(h, str)
+        assert len(h) == 64
 
     def test_root_hash_non_empty(self) -> None:
         g = ProvenanceGraph()
         g.add_entry(ProvenanceEntry(action_id="a"))
         h = g.root_hash()
-        assert isinstance(h, str) and len(h) == 64
+        assert isinstance(h, str)
+        assert len(h) == 64
 
     def test_topological_sort(self) -> None:
         g = ProvenanceGraph()
@@ -194,7 +196,7 @@ class TestProvenanceGraph:
         g.add_entry(ProvenanceEntry(action_id="a"))
         try:
             g.add_entry(ProvenanceEntry(action_id="orphan", parent_ids=["nonexistent"]))
-            assert False
+            raise AssertionError()
         except ProvenanceError as e:
             assert e.error_code == ErrorCode.PROV_CHAIN_BREAK
 

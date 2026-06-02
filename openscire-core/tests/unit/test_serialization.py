@@ -79,7 +79,7 @@ class TestSerializerFileRoundTrip:
         p = tmp_path / "data.xyz"
         try:
             Serializer.dump(FalsificationConfig(), p)
-            assert False
+            raise AssertionError()
         except UnknownFormatError:
             pass
 
@@ -88,7 +88,7 @@ class TestSerializerErrors:
     def test_unsupported_format(self) -> None:
         try:
             Serializer.dumps(FalsificationConfig(), format="xml")
-            assert False
+            raise AssertionError()
         except UnknownFormatError:
             pass
 
@@ -96,7 +96,7 @@ class TestSerializerErrors:
         ser = Serializer.dumps(sample_claim)
         try:
             Serializer.loads(ser, ProvenanceEntry)
-            assert False
+            raise AssertionError()
         except SchemaVersionMismatchError:
             pass
 
@@ -107,21 +107,21 @@ class TestSerializerErrors:
         ser["serialization_version"] = "99"
         try:
             Serializer.loads(json.dumps(ser), ScientificClaim)
-            assert False
+            raise AssertionError()
         except SchemaVersionMismatchError:
             pass
 
     def test_corrupt_json(self) -> None:
         try:
             Serializer.loads("not json", ScientificClaim)
-            assert False
+            raise AssertionError()
         except SerializationError:
             pass
 
     def test_corrupt_yaml(self) -> None:
         try:
             Serializer.loads("not: yaml: [[[", ScientificClaim, format="yaml")
-            assert False
+            raise AssertionError()
         except SerializationError:
             pass
 
@@ -133,7 +133,7 @@ class TestSerializerEdgeCases:
     def test_empty_data_json(self) -> None:
         try:
             Serializer.loads("{}", ScientificClaim)
-            assert False
+            raise AssertionError()
         except SerializationError:
             pass
 

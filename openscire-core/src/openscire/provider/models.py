@@ -135,6 +135,8 @@ class Chunk:
     provider_metrics: ProviderMetrics | None = None
     thinking: str | None = None
     fallback_info: FallbackInfo | None = None
+    logprobs: dict[str, float] | None = None
+    top_logprobs: list[dict[str, float]] | None = None
 
 
 @dataclass

@@ -92,7 +92,7 @@ class TestConfigFileParsing:
         cfg = Config()
         try:
             cfg.load_file(str(tmp_path / "nonexistent.yaml"))
-            assert False
+            raise AssertionError()
         except FileNotFoundError:
             pass
 
@@ -102,7 +102,7 @@ class TestConfigFileParsing:
         cfg = Config()
         try:
             cfg.load_file(str(path))
-            assert False
+            raise AssertionError()
         except ConfigError:
             pass
 
@@ -112,7 +112,7 @@ class TestConfigFileParsing:
         cfg = Config()
         try:
             cfg.load_file(str(path))
-            assert False
+            raise AssertionError()
         except ConfigError:
             pass
 

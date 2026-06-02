@@ -61,6 +61,7 @@ class ProviderConfig(BaseModel):
     extra_headers: dict[str, str] = Field(default_factory=dict)
     rate_limit_config: RateLimitConfig = Field(default_factory=RateLimitConfig)
     provenance_tracker: Any | None = None
+    firewall: Any | None = None
 
 
 class HealthStatus:
