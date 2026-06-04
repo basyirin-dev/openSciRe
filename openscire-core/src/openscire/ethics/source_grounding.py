@@ -311,6 +311,7 @@ class SourceGroundingEngine:
         allow_unsupported_claims: bool = False,
         check_support_level: bool = True,
         extraction_enabled: bool = True,
+        provenance_tracker: Any = None,
     ) -> None:
         self._require_citations = require_citations
         self._verify_retraction_status = verify_retraction_status
@@ -319,6 +320,7 @@ class SourceGroundingEngine:
         self._allow_unsupported_claims = allow_unsupported_claims
         self._check_support_level = check_support_level
         self._extraction_enabled = extraction_enabled
+        self._provenance_tracker = provenance_tracker
 
     # ------------------------------------------------------------------
     # Public API
@@ -487,6 +489,21 @@ class SourceGroundingEngine:
                 n_verified=n_verified,
                 total_claims=len(claim_sentences),
             )
+
+        if self._provenance_tracker is not None:
+            try:
+                self._provenance_tracker.track(
+                    action_type="citation_grounding",
+                    params={
+                        "n_claims_flagged": len(claims_flagged),
+                        "n_citations_verified": n_verified,
+                        "n_claim_sentences": len(claim_sentences),
+                        "approved": approved,
+                        "overall_support": overall.value if overall else "",
+                    },
+                )
+            except Exception:
+                logger.warning("Failed to record citation grounding provenance", exc_info=True)
 
         return GroundingVerdict(
             approved=approved,

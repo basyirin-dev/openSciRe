@@ -88,6 +88,18 @@ class ValidationError(openSciReError):
         super().__init__(error_code=error_code, message=message, source=source)
 
 
+class ReferenceError(openSciReError):
+    """Raised on reference manager bridge failures (auth, sync, import, parse)."""
+
+    def __init__(
+        self,
+        message: str = "",
+        source: str = "",
+        error_code: ErrorCode = ErrorCode.ERR_BASE,
+    ) -> None:
+        super().__init__(error_code=error_code, message=message, source=source)
+
+
 class KeyManagementError(openSciReError):
     """Raised on BYOK key management failures (missing passphrase, crypto errors)."""
 

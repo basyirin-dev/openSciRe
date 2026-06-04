@@ -302,6 +302,32 @@ class ConfabulationConfig(BaseModel):
     tracking_enabled: bool = True
 
 
+class ReferenceConfig(BaseModel):
+    """Configuration for reference manager bridges and imports.
+
+    Attributes:
+        api_key: Zotero personal API key (simpler auth path).
+        client_id: OAuth2 client ID for Zotero/Mendeley.
+        client_secret: OAuth2 client secret (encrypted at rest).
+        storage_path: Directory for cached attachments and imports.
+        sync_state_path: Path to JSON file for incremental sync state.
+        dedup_threshold: Confidence threshold (0-1) for fuzzy dedup matches.
+        pubmed_api_key: NCBI API key for higher E-utilities rate limit (10/s).
+        pubmed_email: Email address required by NCBI usage policy.
+        pubmed_tool: Tool name sent to NCBI E-utilities.
+    """
+
+    api_key: str = ""
+    client_id: str = ""
+    client_secret: SecretStr | None = None
+    storage_path: str = "data/references"
+    sync_state_path: str = "data/sync_state.json"
+    dedup_threshold: float = Field(default=0.85, ge=0.0, le=1.0)
+    pubmed_api_key: str = ""
+    pubmed_email: str = ""
+    pubmed_tool: str = "openscire"
+
+
 class SandboxConfig(BaseModel):
     """Configuration for sandboxed code execution.
 
@@ -336,6 +362,7 @@ class Config(BaseSettings):
     provenance: ProvenanceConfig = ProvenanceConfig()
     logging: LoggingConfig = LoggingConfig()
     literature: LiteratureConfig = LiteratureConfig()
+    references: ReferenceConfig = ReferenceConfig()
     ethics: EthicsConfig = EthicsConfig()
     uncertainty: UncertaintyConfig = UncertaintyConfig()
     source_grounding: SourceGroundingConfig = SourceGroundingConfig()

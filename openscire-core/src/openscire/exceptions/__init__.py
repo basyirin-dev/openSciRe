@@ -12,6 +12,7 @@ from openscire.exceptions.exceptions import (
     KeyManagementError,
     ModelProviderError,
     ProvenanceError,
+    ReferenceError,
     ValidationError,
     openSciReError,
 )
@@ -24,5 +25,6 @@ __all__ = [
     "KeyManagementError",
     "ModelProviderError",
     "EthicsError",
+    "ReferenceError",
     "ValidationError",
 ]

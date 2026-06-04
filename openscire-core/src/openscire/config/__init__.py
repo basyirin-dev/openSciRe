@@ -14,6 +14,7 @@ from openscire.config.config import (
     LoggingConfig,
     ModelConfig,
     ProvenanceConfig,
+    ReferenceConfig,
     SandboxConfig,
 )
 
@@ -23,6 +24,7 @@ __all__ = [
     "ProvenanceConfig",
     "LoggingConfig",
     "LiteratureConfig",
+    "ReferenceConfig",
     "EthicsConfig",
     "SandboxConfig",
     "BYOKProfile",
