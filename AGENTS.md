@@ -269,6 +269,8 @@ openSciRe/
 │   │   │   ├── graph/                 # Citation graph analysis (traversal, PageRank, temporal, clustering, export)
 │   │   │   ├── indexing/              # FAISS + Local embedding index, FilterExpression DSL
 │   │   │   ├── multilingual/          # Language detection, multilingual embedder, translation
+│   │   │   ├── chunking/              # Narrative structure-preserving document chunker
+│   │   │   ├── retrieval/             # HybridRetriever (dense + sparse BM25 + RRF fusion + fielded search)
 │   │   │   ├── parsing/               # PDF parsing pipeline (pdfplumber, GROBID, sections, refs)
 │   │   │   └── retraction/            # Retraction monitoring (PubMed, Crossref, PubPeer, OpenAlex)
 │   │   └── serialization/
@@ -340,7 +342,7 @@ openSciRe/
 | Build Python pkg | `pip install -e ".[dev]"` | Working (venv: .venv/) |
 | Build Rust | `cargo build` | Working |
 | Build Tauri | `npm run tauri build` | N/A — scaffold first |
-| Run tests | `pytest -v --cov=openscire --cov-fail-under=75` | Works (1120+ unit tests + 37 integration, 70%+ coverage) |
+| Run tests | `pytest -v --cov=openscire --cov-fail-under=75` | Works (1700+ unit tests + 37 integration, 80%+ coverage) |
 | Lint Python | `ruff check .` | Works |
 | Lint Rust | `cargo clippy` | N/A — add with first real crate |
 | Format Python | `ruff format .` | Works |
@@ -421,6 +423,9 @@ When context limits are tight, disable the bulkiest servers first by setting `"e
 - **Citation Graph Analyzer lives in `references/graph/`**: New sub-package with 7 modules (`__init__`, `models`, `builder`, `analyzer`, `influence`, `temporal`, `clustering`, `export`). Follows `GapAnalyzer` orchestration pattern. Adds `networkx>=3.0` as required core dependency.
 - **`CitationGraphBuilder.build(refs)` extracts edges from `ReferenceItem.extra`**: OpenAlex `referenced_works` and `related_works` URLs are parsed via regex `/([A-Za-z0-9]+)/?$` and matched against graph node IDs.
 - **Pure Python PageRank avoids scipy**: networkx 3.x `nx.pagerank` uses scipy by default. Custom `_pagerank()` in `influence.py` implements power iteration directly (~20 lines).
+- **DocumentChunker lives in `references/chunking/`**: New sub-package with 3 files (`__init__.py`, `models.py`, `chunker.py`). Single `DocumentChunker` class with config-driven `ChunkConfig`. Handles 8 requirements (section-aware, hierarchical, citation-anchored, figure/table proximity, configurable overlap, metadata, list/code block preservation). Takes `FullTextArticle` or raw text via `chunk_text()`. Token estimation uses lazy `tiktoken` import with word-count fallback (`len(text.split()) * 13 // 10`). Sentence splitter requires uppercase letter after `. ` to avoid splitting on abbreviations — test text must use uppercase sentence starts or it won't split.
+- **HybridRetriever lives in `references/retrieval/`**: New sub-package with 6 files. `HybridRetriever` orchestrates dense (`EmbeddingIndex`) + sparse (`BM25SparseIndex`) retrieval via weighted RRF fusion. `BM25SparseIndex` is pure Python BM25Okapi (stdlib only — no `rank_bm25` dep). `FieldedSearchIndex` builds lazy per-field BM25 indices. `QueryExpander` has a built-in ~60-entry scientific synonym dictionary. `CrossEncoderReranker` from `indexing/reranker.py` is reused directly for optional reranking. `HybridRetrieverConfig` controls all knobs (top_k, dense_weight, sparse_weight, rrf_k, rerank_top_k, enable_query_expansion, enable_reranking).
+- **CitationFormatter lives in `references/formatter/`**: 6-file sub-package (`__init__.py`, `models.py`, `styles.py`, `formatter.py`, `bibtex.py`, `ris.py`, `csl_json.py`). `CitationFormatter` class accepts `CitationStyle` enum or string + optional `StyleConfig` override. `StyleConfig` controls all formatting knobs (inline format, reference order, author format, et al threshold, DOI prefix, format template). 7 built-in styles defined in `styles.py` with per-style `format_template` strings using `{authors}`, `{title}`, `{journal}`, `{year}`, `{volume}`, `{issue}`, `{pages}`, `{doi}` placeholders. Standalone `to_bibtex()`, `to_ris()`, `to_csl_json()` functions accept `list[ReferenceItem]` and return formatted strings — inverses of the importers in `references/importers/`. Author formatting uses Oxford comma before `&` (APA style). Type mapping tables live in each export module (`BIBTEX_TYPE_MAP`, `RIS_TYPE_MAP`, `CSL_TYPE_MAP_REVERSE`).
 
 ### Ambiguity Handling (for Code)
 If a design detail, API contract, or dependency version is unspecified:

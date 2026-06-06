@@ -17,6 +17,7 @@ from openscire.provider.capabilities import (
 from openscire.provider.cascade import CascadeConfig, CascadeProvider
 from openscire.provider.factory import select_provider
 from openscire.provider.gemini_adapter import GeminiProvider
+from openscire.provider.guarded import create_guarded_provider
 from openscire.provider.litellm_adapter import (
     LiteLLMProvider,
     LiteLLMRouterConfig,
@@ -54,6 +55,7 @@ __all__ = [
     "CapabilityProbe",
     "CascadeConfig",
     "CascadeProvider",
+    "create_guarded_provider",
     "GeminiProvider",
     "LiteLLMProvider",
     "LiteLLMRouterConfig",
