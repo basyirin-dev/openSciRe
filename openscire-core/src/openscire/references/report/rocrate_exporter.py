@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import timezone
+from datetime import UTC
 from typing import Any
 
-from openscire.references.report.models import PedagogicalReport, ReportSection
+from openscire.references.report.models import PedagogicalReport
 
 
 def to_ro_crate(report: PedagogicalReport) -> dict[str, Any]:
@@ -34,7 +34,7 @@ def to_ro_crate(report: PedagogicalReport) -> dict[str, Any]:
         "@type": "Dataset",
         "name": report.title,
         "description": report.description or report.title,
-        "datePublished": report.generated_at.astimezone(timezone.utc).isoformat(),
+        "datePublished": report.generated_at.astimezone(UTC).isoformat(),
     }
     if report.model_id:
         root["author"] = {"@id": f"#model-{report.model_id}"}
@@ -53,9 +53,7 @@ def to_ro_crate(report: PedagogicalReport) -> dict[str, Any]:
             }
         )
     if section_entities:
-        root["hasPart"] = [
-            {"@id": f"#section-{s.section.value}"} for s in report.sections
-        ]
+        root["hasPart"] = [{"@id": f"#section-{s.section.value}"} for s in report.sections]
 
     graph.append(root)
 

@@ -3,17 +3,20 @@
 """Tests for TemporalAnalyzer."""
 
 import networkx as nx
-
 from openscire.references.graph.models import YearCount
 from openscire.references.graph.temporal import TemporalAnalyzer
 from openscire.references.models import ReferenceItem, ReferenceSource
 
 
-def _make_ref(pid: str, title: str = "", year: int | None = None, counts: list | None = None) -> ReferenceItem:
+def _make_ref(
+    pid: str, title: str = "", year: int | None = None, counts: list | None = None
+) -> ReferenceItem:
     extra = {}
     if counts is not None:
         extra["counts_by_year"] = counts
-    return ReferenceItem(id=pid, source=ReferenceSource.openalex, title=title, year=year, extra=extra)
+    return ReferenceItem(
+        id=pid, source=ReferenceSource.openalex, title=title, year=year, extra=extra
+    )
 
 
 class TestTimeline:
@@ -120,10 +123,7 @@ class TestDecay:
     def test_below_min_peak_excluded(self):
         ta = TemporalAnalyzer({"min_peak_citations": 50})
         G = nx.DiGraph()
-        counts = [
-            {"year": y, "cited_by_count": c}
-            for y, c in [(2020, 5), (2021, 10), (2022, 8)]
-        ]
+        counts = [{"year": y, "cited_by_count": c} for y, c in [(2020, 5), (2021, 10), (2022, 8)]]
         ref = _make_ref("W001", "Low Citations", 2020, counts)
         G.add_node("W001", ref=ref)
         report = ta.detect_decay(G)

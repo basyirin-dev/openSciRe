@@ -59,9 +59,7 @@ def _parse_authors(author_field: str) -> list[ReferenceAuthor]:
             continue
         if "," in part:
             last, first = part.split(",", 1)
-            authors.append(
-                ReferenceAuthor(first=_strip_braces(first), last=_strip_braces(last))
-            )
+            authors.append(ReferenceAuthor(first=_strip_braces(first), last=_strip_braces(last)))
         else:
             authors.append(ReferenceAuthor(full=_strip_braces(part)))
     return authors
@@ -175,9 +173,7 @@ class BibtexImporter(ReferenceImporter):
         return self.parse(path.read_text(encoding="utf-8"))
 
     @staticmethod
-    def _parse_entry(
-        entry_type: str, citekey: str, body: str
-    ) -> ReferenceItem | None:  # noqa: PLR0912
+    def _parse_entry(entry_type: str, citekey: str, body: str) -> ReferenceItem | None:  # noqa: PLR0912
         fields = _parse_fields(body)
 
         authors = _parse_authors(fields.get("author", ""))

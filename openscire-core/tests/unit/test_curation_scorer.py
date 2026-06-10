@@ -91,6 +91,7 @@ class TestSourceQualityScorer:
 class TestConfidenceWeightedRanker:
     def test_ranks_by_score_descending(self) -> None:
         from openscire.curation.models import SourceQualityScore
+
         scores = [
             SourceQualityScore(source_id="a", overall_score=0.3),
             SourceQualityScore(source_id="b", overall_score=0.9),

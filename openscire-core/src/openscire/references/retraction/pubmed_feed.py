@@ -88,13 +88,15 @@ class PubMedRetractionClient:
         summaries = []
         for uid in uids:
             entry = result.get(uid, {})
-            summaries.append({
-                "pmid": str(uid),
-                "title": entry.get("title", ""),
-                "doi": self._extract_doi(entry.get("elocationid", "")),
-                "source": entry.get("source", ""),
-                "pubdate": entry.get("pubdate", ""),
-            })
+            summaries.append(
+                {
+                    "pmid": str(uid),
+                    "title": entry.get("title", ""),
+                    "doi": self._extract_doi(entry.get("elocationid", "")),
+                    "source": entry.get("source", ""),
+                    "pubdate": entry.get("pubdate", ""),
+                }
+            )
         return summaries
 
     async def to_retraction_record(

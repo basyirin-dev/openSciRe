@@ -7,6 +7,8 @@ with support for error codes and source attribution.
 """
 
 from openscire.exceptions.exceptions import (
+    AgentBusError,
+    AgentMessageError,
     ConfigError,
     EthicsError,
     KeyManagementError,
@@ -27,4 +29,6 @@ __all__ = [
     "EthicsError",
     "ReferenceError",
     "ValidationError",
+    "AgentBusError",
+    "AgentMessageError",
 ]

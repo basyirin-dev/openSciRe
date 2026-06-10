@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class CitationStyle(str, enum.Enum):

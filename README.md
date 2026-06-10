@@ -7,21 +7,21 @@
 
 > **Local-first, open-source, epistemically honest research AI for scientists.**
 
-openSciRe exists because existing "AI for science" tools — Google's Gemini for Science
-in particular — are structurally dangerous: cloud-locked, epistemically opaque, and
-designed for vendor capture rather than research integrity.
+openSciRe exists because existing "AI for science" tools — Google's Gemini for Science in particular
+— are structurally dangerous: cloud-locked, epistemically opaque, and designed for vendor capture
+rather than research integrity.
 
 We build the alternative.
 
 ## Philosophical Stance
 
-Most AI-for-science tools optimize for *plausibility* — generating outputs that
-*sound right* — rather than *falsifiability* — supporting claims that *can be tested*.
-This is not a technical bug; it is a design philosophy that treats scientific reasoning
-as a text-generation problem rather than an epistemic one.
+Most AI-for-science tools optimize for *plausibility* — generating outputs that *sound right* —
+rather than *falsifiability* — supporting claims that *can be tested*. This is not a technical bug;
+it is a design philosophy that treats scientific reasoning as a text-generation problem rather than
+an epistemic one.
 
-openSciRe inverts this. We build from the insight that the most valuable thing an AI
-research assistant can say is **"I don't know — and here's how to find out."**
+openSciRe inverts this. We build from the insight that the most valuable thing an AI research
+assistant can say is **"I don't know — and here's how to find out."**
 
 For the full philosophical grounding, see the [critiques manifesto](critiques/README.md).
 
@@ -63,8 +63,8 @@ openscire provider add openai --api-key "$OPENAI_KEY"
 openscire literature search "CRISPR off-target effects deep learning"
 ```
 
-> **Note**: The package is under active development. CLI commands shown above are
-> the target interface; not all are implemented yet. See the phase roadmap.
+> **Note**: The package is under active development. CLI commands shown above are the target
+> interface; not all are implemented yet. See the phase roadmap.
 
 ## Prerequisites
 
@@ -74,25 +74,25 @@ openscire literature search "CRISPR off-target effects deep learning"
 
 ## Ethical Use
 
-**This tool can be misused.** We've built layered defenses — an Ethical Firewall,
-provenance tracking, epistemic uncertainty quantification — but no AI tool can
-fully prevent harmful applications.
+**This tool can be misused.** We've built layered defenses — an Ethical Firewall, provenance
+tracking, epistemic uncertainty quantification — but no AI tool can fully prevent harmful
+applications.
 
 - Read our [Responsible Disclosure policy](RESPONSIBLE_DISCLOSURE.md)
 - Report ethical concerns to `ethics@openscire.dev`
-- Prohibited uses include weapons development, human subjects research without
-  IRB approval, surveillance, and research fraud
+- Prohibited uses include weapons development, human subjects research without IRB approval,
+  surveillance, and research fraud
 
-**Epistemic caveat**: All outputs from language models are fallible. openSciRe
-surfaces uncertainty and requires source grounding, but it cannot guarantee
-correctness. Treat generated content as a starting point for your own judgment.
+**Epistemic caveat**: All outputs from language models are fallible. openSciRe surfaces uncertainty
+and requires source grounding, but it cannot guarantee correctness. Treat generated content as a
+starting point for your own judgment.
 
 ## License
 
-Apache 2.0 — see [`LICENSE`](LICENSE). Enterprise features available under
-separate commercial license (see [`LICENSE-COMMERCIAL.md`](LICENSE-COMMERCIAL.md)).
+Apache 2.0 — see [`LICENSE`](LICENSE). Enterprise features available under separate commercial
+license (see [`LICENSE-COMMERCIAL.md`](LICENSE-COMMERCIAL.md)).
 
 ## Status
 
-Pre-alpha. Active development toward a Y Combinator S2027 application.
-Pilot program for academic labs opening January 2027.
+Pre-alpha. Active development toward a Y Combinator S2027 application. Pilot program for academic
+labs opening January 2027.

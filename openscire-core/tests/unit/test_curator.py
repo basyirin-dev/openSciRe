@@ -18,9 +18,9 @@ class MockBridge:
 
 def _make_ref(id_str: str, title: str = "Paper") -> ReferenceItem:
     return ReferenceItem(
-                id=id_str,
+        id=id_str,
         source=ReferenceSource.pubmed,
-                title=title,
+        title=title,
         year=2024,
         authors=[ReferenceAuthor(first="A", last="B")],
     )
@@ -79,7 +79,12 @@ async def test_confidence_ranked_sources() -> None:
     user = [_make_ref("u1", "A meta-analysis of everything")]
     external = [_make_ref("e1", "A case report")]
     report = await curator.analyze(
-        "Test", user_sources=user, external_sources=external,
+        "Test",
+        user_sources=user,
+        external_sources=external,
     )
     assert len(report.confidence_ranked_sources) == 2
-    assert report.confidence_ranked_sources[0].overall_score >= report.confidence_ranked_sources[1].overall_score
+    assert (
+        report.confidence_ranked_sources[0].overall_score
+        >= report.confidence_ranked_sources[1].overall_score
+    )

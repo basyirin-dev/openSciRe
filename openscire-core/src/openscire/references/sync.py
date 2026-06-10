@@ -52,9 +52,7 @@ class SyncManager:
     def _key(source: ReferenceSource, bridge_id: str) -> str:
         return f"{source.value}:{bridge_id}"
 
-    def get_sync_state(
-        self, source: ReferenceSource, bridge_id: str
-    ) -> SyncState | None:
+    def get_sync_state(self, source: ReferenceSource, bridge_id: str) -> SyncState | None:
         """Retrieve the last sync state for a bridge.
 
         Args:
@@ -93,9 +91,7 @@ class SyncManager:
         data = self._load()
         key = self._key(state.source, state.bridge_id)
         data[key] = {
-            "last_sync": state.last_sync.isoformat()
-            if state.last_sync
-            else None,
+            "last_sync": state.last_sync.isoformat() if state.last_sync else None,
             "last_version": state.last_version,
             "sync_token": state.sync_token,
         }
@@ -107,9 +103,7 @@ class SyncManager:
             state.last_version,
         )
 
-    def clear_sync_state(
-        self, source: ReferenceSource, bridge_id: str
-    ) -> None:
+    def clear_sync_state(self, source: ReferenceSource, bridge_id: str) -> None:
         """Remove the sync state entry for a bridge.
 
         Args:

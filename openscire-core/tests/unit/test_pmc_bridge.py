@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
-import respx
 import pytest
+import respx
 from httpx import Response
-
 from openscire.references.bridges.pmc import PMCBridge
 
 PMC_ESEARCH_XML = b"""<?xml version="1.0"?>

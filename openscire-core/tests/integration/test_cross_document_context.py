@@ -10,7 +10,6 @@ correct neighborhood, density, temporal weights, and contradiction signals.
 from __future__ import annotations
 
 import pytest
-
 from openscire.references.chunking import ChunkConfig, DocumentChunker
 from openscire.references.chunking.models import DocumentChunk
 from openscire.references.citation.window import CitationContextWindow
@@ -119,17 +118,25 @@ def doc_c() -> FullTextArticle:
 @pytest.fixture
 def ref_a() -> ReferenceItem:
     return _make_ref(
-        "W001", "Paper A: Epigenetic Regulation", 2025,
-        citation_count=10, doi="10.1234/a.001",
-        extra={"referenced_works": ["https://api.openalex.org/W002", "https://api.openalex.org/W003"]},
+        "W001",
+        "Paper A: Epigenetic Regulation",
+        2025,
+        citation_count=10,
+        doi="10.1234/a.001",
+        extra={
+            "referenced_works": ["https://api.openalex.org/W002", "https://api.openalex.org/W003"]
+        },
     )
 
 
 @pytest.fixture
 def ref_b() -> ReferenceItem:
     return _make_ref(
-        "W002", "Paper B: Histone Modification Patterns", 2023,
-        citation_count=45, doi="10.1234/b.001",
+        "W002",
+        "Paper B: Histone Modification Patterns",
+        2023,
+        citation_count=45,
+        doi="10.1234/b.001",
         extra={"referenced_works": ["https://api.openalex.org/W003"]},
     )
 
@@ -137,8 +144,11 @@ def ref_b() -> ReferenceItem:
 @pytest.fixture
 def ref_c() -> ReferenceItem:
     return _make_ref(
-        "W003", "Paper C: H3K27me3 in Development", 2021,
-        citation_count=120, doi="10.1234/c.001",
+        "W003",
+        "Paper C: H3K27me3 in Development",
+        2021,
+        citation_count=120,
+        doi="10.1234/c.001",
     )
 
 
@@ -178,13 +188,16 @@ class TestCrossDocumentContext:
         chunks.extend(chunker.chunk(doc_c, document_id="W003"))
 
         index = BM25SparseIndex()
-        index.add_documents([
-            IndexedDocument(
-                id=c.id, text=c.text,
-                metadata={"doc_id": c.metadata.document_id, "section": c.metadata.section},
-            )
-            for c in chunks
-        ])
+        index.add_documents(
+            [
+                IndexedDocument(
+                    id=c.id,
+                    text=c.text,
+                    metadata={"doc_id": c.metadata.document_id, "section": c.metadata.section},
+                )
+                for c in chunks
+            ]
+        )
 
         results = index.search("H3K27me3 developmental regulation", top_k=10)
         assert len(results) >= 2
@@ -208,9 +221,15 @@ class TestCrossDocumentContext:
         )
 
         chunks = [
-            _make_chunk_with_citations("W001:0", "Epigenetic regulation is key (Lee, 2020).", ["W001"]),
-            _make_chunk_with_citations("W002:0", "Histone modifications regulate expression.", ["W002"]),
-            _make_chunk_with_citations("W003:0", "H3K27me3 is essential for differentiation.", ["W003"]),
+            _make_chunk_with_citations(
+                "W001:0", "Epigenetic regulation is key (Lee, 2020).", ["W001"]
+            ),
+            _make_chunk_with_citations(
+                "W002:0", "Histone modifications regulate expression.", ["W002"]
+            ),
+            _make_chunk_with_citations(
+                "W003:0", "H3K27me3 is essential for differentiation.", ["W003"]
+            ),
         ]
 
         report = window.build(chunks, query="H3K27me3 regulation")
@@ -284,7 +303,9 @@ class TestCrossDocumentContext:
         )
 
         chunks = [
-            _make_chunk_with_citations("W001:0", "Epigenetic regulation (Lee, 2020).", ["(Lee, 2020)", "W001"]),
+            _make_chunk_with_citations(
+                "W001:0", "Epigenetic regulation (Lee, 2020).", ["(Lee, 2020)", "W001"]
+            ),
         ]
 
         report = window.build(chunks, query="epigenetics")
@@ -312,10 +333,12 @@ class TestCrossDocumentContext:
         chunks.extend(chunker.chunk(doc_c, document_id="W003"))
 
         index = BM25SparseIndex()
-        index.add_documents([
-            IndexedDocument(id=c.id, text=c.text, metadata={"doc_id": c.metadata.document_id})
-            for c in chunks
-        ])
+        index.add_documents(
+            [
+                IndexedDocument(id=c.id, text=c.text, metadata={"doc_id": c.metadata.document_id})
+                for c in chunks
+            ]
+        )
 
         results = index.search("H3K27me3 developmental gene regulation", top_k=5)
 

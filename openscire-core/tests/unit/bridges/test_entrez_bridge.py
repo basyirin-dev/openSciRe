@@ -108,8 +108,7 @@ GENBANK_XML = """<?xml version="1.0"?>
 </GBSet>"""
 
 FASTA_TEXT = (
-    ">NM_000001.1 Homo sapiens hypothetical gene\n"
-    "ATGCGATCGATCGTAGCTAGCTAGCTAGCTAGCTAGCGTAGC\n"
+    ">NM_000001.1 Homo sapiens hypothetical gene\nATGCGATCGATCGTAGCTAGCTAGCTAGCTAGCTAGCGTAGC\n"
 )
 
 ASSEMBLY_XML = """<?xml version="1.0"?>
@@ -205,10 +204,18 @@ class TestCoreEUtilities:
             return_value=_summary_json(
                 ["12345", "67890"],
                 [
-                    {"uid": "12345", "title": "Paper A", "source": "Journal A",
-                     "pubdate": "2024 Jan"},
-                    {"uid": "67890", "title": "Paper B", "source": "Journal B",
-                     "pubdate": "2023 Jun"},
+                    {
+                        "uid": "12345",
+                        "title": "Paper A",
+                        "source": "Journal A",
+                        "pubdate": "2024 Jan",
+                    },
+                    {
+                        "uid": "67890",
+                        "title": "Paper B",
+                        "source": "Journal B",
+                        "pubdate": "2023 Jun",
+                    },
                 ],
             ),
         )
@@ -322,7 +329,7 @@ class TestNucleotide:
     @respx.mock
     async def test_fetch_missing_gbseq(self, client: EntrezClient) -> None:
         respx.get(f"{BASE_URL}/efetch.fcgi").mock(
-            return_value=Response(200, text="<?xml version=\"1.0\"?><GBSet/>"),
+            return_value=Response(200, text='<?xml version="1.0"?><GBSet/>'),
         )
 
         with pytest.raises(ReferenceError, match="No GBSeq element"):
@@ -368,7 +375,7 @@ class TestAssembly:
     @respx.mock
     async def test_fetch_not_found(self, client: EntrezClient) -> None:
         respx.get(f"{BASE_URL}/efetch.fcgi").mock(
-            return_value=Response(200, text="<?xml version=\"1.0\"?><AssemblySet/>"),
+            return_value=Response(200, text='<?xml version="1.0"?><AssemblySet/>'),
         )
 
         with pytest.raises(ReferenceError, match="No assembly found"):
@@ -498,6 +505,7 @@ class TestErrorHandling:
     @respx.mock
     async def test_network_error(self, client: EntrezClient) -> None:
         import httpx
+
         respx.get(f"{BASE_URL}/esearch.fcgi").mock(
             side_effect=httpx.ConnectError("connection failed"),
         )

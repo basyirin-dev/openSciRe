@@ -87,9 +87,7 @@ class PMCBridge:
             )
         return response
 
-    async def search_pmc(
-        self, query: str, max_results: int = 20, retstart: int = 0
-    ) -> list[str]:
+    async def search_pmc(self, query: str, max_results: int = 20, retstart: int = 0) -> list[str]:
         """Search PMC articles via E-utilities esearch with db=pmc.
 
         Args:
@@ -107,9 +105,7 @@ class PMCBridge:
             "retstart": str(retstart),
             "retmode": "xml",
         }
-        response = await self._eutils_get(
-            f"{EUTILS_BASE}/esearch.fcgi", params
-        )
+        response = await self._eutils_get(f"{EUTILS_BASE}/esearch.fcgi", params)
         root = ET.fromstring(response.content)
         id_list = root.findall(".//IdList/Id")
         return [f"PMC{id_el.text}" for id_el in id_list if id_el.text]
@@ -284,7 +280,7 @@ class PMCBridge:
             body = "".join(sec.itertext()).strip()
             # Remove heading text from body to avoid duplication
             if heading and body.startswith(heading):
-                body = body[len(heading):].lstrip()
+                body = body[len(heading) :].lstrip()
             sections.append(
                 ArticleSection(
                     heading=heading,

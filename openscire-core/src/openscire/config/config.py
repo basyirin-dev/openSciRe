@@ -335,11 +335,21 @@ class SandboxConfig(BaseModel):
         time_limit: Maximum execution time in seconds.
         memory_limit_mb: Memory limit in megabytes.
         network_access: Whether sandbox has network access.
+        filesystem_mounts: List of filesystem paths to mount in sandbox.
+        env_vars: Environment variables to set inside sandbox.
+        dependencies: Pip requirement strings (e.g. ``numpy>=1.24``).
+        language: Language runtime to use (default: python).
+        random_seed: Deterministic seed; None for random.
     """
 
     time_limit: int = Field(default=30, gt=0)
     memory_limit_mb: int = Field(default=1024, gt=0)
     network_access: bool = False
+    filesystem_mounts: list[str] = Field(default_factory=list)
+    env_vars: dict[str, str] = Field(default_factory=dict)
+    dependencies: list[str] = Field(default_factory=list)
+    language: str = "python"
+    random_seed: int | None = None
 
 
 class Config(BaseSettings):

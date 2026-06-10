@@ -98,15 +98,11 @@ class MendeleyBridge(ReferenceBridge):
             url = self._next_link(response.headers)
         return collections
 
-    async def list_items(
-        self, collection_id: str, limit: int = 100
-    ) -> list[ReferenceItem]:
+    async def list_items(self, collection_id: str, limit: int = 100) -> list[ReferenceItem]:
         """List documents in a folder."""
         token = await self._ensure_auth()
         items: list[ReferenceItem] = []
-        url: str | None = (
-            f"{self._base}/folders/{collection_id}/documents?limit={limit}"
-        )
+        url: str | None = f"{self._base}/folders/{collection_id}/documents?limit={limit}"
         while url:
             response = await self._client.get(url, headers=self._headers(token))
             response.raise_for_status()
@@ -129,14 +125,10 @@ class MendeleyBridge(ReferenceBridge):
         data: dict[str, Any] = response.json()
         item = self._parse_item(data)
         if item is None:
-            raise ReferenceError(
-                f"Document {item_id} not found", source="mendeley"
-            )
+            raise ReferenceError(f"Document {item_id} not found", source="mendeley")
         return item
 
-    async def _enrich_item(
-        self, entry: dict[str, Any], token: str
-    ) -> ReferenceItem | None:
+    async def _enrich_item(self, entry: dict[str, Any], token: str) -> ReferenceItem | None:
         """Fetch full document details (Mendeley list returns only partial data)."""
         item_id = entry.get("id", "")
         if not item_id:
@@ -152,7 +144,9 @@ class MendeleyBridge(ReferenceBridge):
         return self._parse_item(data)
 
     async def download_attachment(
-        self, item_id: str, attachment_id: str  # noqa: ARG002
+        self,
+        item_id: str,
+        attachment_id: str,  # noqa: ARG002
     ) -> bytes:
         """Download a file by file ID."""
         token = await self._ensure_auth()
@@ -163,9 +157,7 @@ class MendeleyBridge(ReferenceBridge):
         response.raise_for_status()
         return response.content
 
-    async def sync(
-        self, last_sync: datetime | None = None
-    ) -> list[ReferenceItem]:
+    async def sync(self, last_sync: datetime | None = None) -> list[ReferenceItem]:
         """Fetch documents modified since a timestamp.
 
         Args:
@@ -260,8 +252,7 @@ class MendeleyBridge(ReferenceBridge):
             doi=doi,
             title=entry.get("title", ""),
             authors=authors,
-            journal=entry.get("journal", "")
-            or entry.get("container-title", ""),
+            journal=entry.get("journal", "") or entry.get("container-title", ""),
             year=year,
             volume=entry.get("volume", ""),
             issue=entry.get("issue", ""),

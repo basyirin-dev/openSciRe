@@ -125,12 +125,13 @@ class CrossrefRetractionClient:
         for item in items:
             updates = item.get("update-to") or []
             filtered_updates = [
-                u for u in updates
-                if (u.get("type") or "").lower() in _UPDATE_TYPE_MAP
+                u for u in updates if (u.get("type") or "").lower() in _UPDATE_TYPE_MAP
             ]
             if filtered_updates:
-                result.append({
-                    "item": item,
-                    "updates": filtered_updates,
-                })
+                result.append(
+                    {
+                        "item": item,
+                        "updates": filtered_updates,
+                    }
+                )
         return result

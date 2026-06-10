@@ -36,13 +36,13 @@ class LanguageDetector:
             return
         try:
             from langdetect import DetectorFactory
+
             DetectorFactory.seed = 42
             import langdetect as _ld  # noqa: F811
+
             self._detector = _ld
         except ImportError:
-            logger.warning(
-                "langdetect not installed. Install with: pip install langdetect"
-            )
+            logger.warning("langdetect not installed. Install with: pip install langdetect")
             self._detector = False
 
     def detect(self, text: str) -> str:

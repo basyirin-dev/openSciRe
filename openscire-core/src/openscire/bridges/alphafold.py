@@ -262,12 +262,14 @@ class AlphaFoldClient:
         for i in range(len(residue_numbers)):
             score = confidence_scores[i] if i < len(confidence_scores) else 0.0
             cat = categories[i] if i < len(categories) else _plddt_category(score)
-            residues.append(ResidueConfidence(
-                residue_number=residue_numbers[i],
-                plddt_score=score,
-                confidence_category=cat,
-                is_disordered=score < _PLDDT_LOW,
-            ))
+            residues.append(
+                ResidueConfidence(
+                    residue_number=residue_numbers[i],
+                    plddt_score=score,
+                    confidence_category=cat,
+                    is_disordered=score < _PLDDT_LOW,
+                )
+            )
         return residues
 
     def get_confidence_trace(self, prediction: AlphaFoldPrediction) -> ConfidenceTrace:
@@ -331,19 +333,23 @@ class AlphaFoldClient:
         start = 0
         for i in range(1, n):
             if matrix[i][i - 1] > threshold:
-                regions.append(DomainRegion(
-                    start=start,
-                    end=i - 1,
-                    size=i - start,
-                    mean_pae=_mean_submatrix(matrix, start, i - 1),
-                ))
+                regions.append(
+                    DomainRegion(
+                        start=start,
+                        end=i - 1,
+                        size=i - start,
+                        mean_pae=_mean_submatrix(matrix, start, i - 1),
+                    )
+                )
                 start = i
-        regions.append(DomainRegion(
-            start=start,
-            end=n - 1,
-            size=n - start,
-            mean_pae=_mean_submatrix(matrix, start, n - 1),
-        ))
+        regions.append(
+            DomainRegion(
+                start=start,
+                end=n - 1,
+                size=n - start,
+                mean_pae=_mean_submatrix(matrix, start, n - 1),
+            )
+        )
         return regions
 
     # --- 4.18.5: Confidence warnings ---
@@ -397,22 +403,26 @@ class AlphaFoldClient:
                 run_scores.append(r.plddt_score)
             else:
                 if start is not None and run_scores:
-                    regions.append(DisorderedRegion(
-                        start=start,
-                        end=r.residue_number - 1,
-                        length=len(run_scores),
-                        mean_plddt=sum(run_scores) / len(run_scores),
-                    ))
+                    regions.append(
+                        DisorderedRegion(
+                            start=start,
+                            end=r.residue_number - 1,
+                            length=len(run_scores),
+                            mean_plddt=sum(run_scores) / len(run_scores),
+                        )
+                    )
                     start = None
                     run_scores = []
 
         if start is not None and run_scores:
-            regions.append(DisorderedRegion(
-                start=start,
-                end=residues[-1].residue_number,
-                length=len(run_scores),
-                mean_plddt=sum(run_scores) / len(run_scores),
-            ))
+            regions.append(
+                DisorderedRegion(
+                    start=start,
+                    end=residues[-1].residue_number,
+                    length=len(run_scores),
+                    mean_plddt=sum(run_scores) / len(run_scores),
+                )
+            )
 
         total_disordered = sum(r.length for r in regions)
         n_total = len(residues)

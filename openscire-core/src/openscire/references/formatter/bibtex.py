@@ -110,10 +110,7 @@ def to_bibtex(references: list[ReferenceItem]) -> str:
         if ref.keywords:
             fields["keywords"] = ", ".join(ref.keywords)
 
-        field_lines = "\n".join(
-            f"  {key} = {{{value}}},"
-            for key, value in fields.items()
-        )
+        field_lines = "\n".join(f"  {key} = {{{value}}}," for key, value in fields.items())
 
         entry = f"@{bib_type}{{{citekey},\n{field_lines}\n}}"
         entries.append(entry)

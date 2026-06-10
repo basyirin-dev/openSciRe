@@ -149,6 +149,7 @@ class TestBridgeCrossrefCycle:
 
         # Create a combined citation entry with both sides populated
         from openscire.references.models import CitationGraphEntry
+
         combined_entry = CitationGraphEntry(
             citing_paper=citing_item,
             cited_paper=cited_item,

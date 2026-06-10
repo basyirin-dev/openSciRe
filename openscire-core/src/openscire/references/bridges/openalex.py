@@ -110,9 +110,7 @@ class OpenAlexClient:
         if not inverted_index:
             return ""
         word_positions: list[tuple[str, int]] = [
-            (word, pos)
-            for word, positions in inverted_index.items()
-            for pos in positions
+            (word, pos) for word, positions in inverted_index.items() for pos in positions
         ]
         word_positions.sort(key=lambda x: x[1])
         return " ".join(wp[0] for wp in word_positions)
@@ -120,7 +118,7 @@ class OpenAlexClient:
     def _parse_work(self, data: dict[str, Any]) -> ReferenceItem:
         oa_id = data.get("id", "")
         if oa_id.startswith("https://openalex.org/"):
-            work_id = oa_id[len("https://openalex.org/"):]
+            work_id = oa_id[len("https://openalex.org/") :]
         else:
             work_id = oa_id
 
@@ -149,13 +147,15 @@ class OpenAlexClient:
                 }
                 for i in institutions_raw
             ]
-            authorships_data.append({
-                "author_id": author_data.get("id"),
-                "author_name": name,
-                "orcid": author_data.get("orcid"),
-                "institutions": insts,
-                "is_corresponding": a.get("is_corresponding"),
-            })
+            authorships_data.append(
+                {
+                    "author_id": author_data.get("id"),
+                    "author_name": name,
+                    "orcid": author_data.get("orcid"),
+                    "institutions": insts,
+                    "is_corresponding": a.get("is_corresponding"),
+                }
+            )
 
         abstract = self.decode_abstract(data.get("abstract_inverted_index"))
 
@@ -165,9 +165,17 @@ class OpenAlexClient:
 
         extra: dict[str, Any] = {}
         for key in (
-            "cited_by_count", "fwci", "is_retracted", "language",
-            "type", "publication_date", "ids", "counts_by_year",
-            "referenced_works", "related_works", "is_oa",
+            "cited_by_count",
+            "fwci",
+            "is_retracted",
+            "language",
+            "type",
+            "publication_date",
+            "ids",
+            "counts_by_year",
+            "referenced_works",
+            "related_works",
+            "is_oa",
         ):
             if key in data and data[key] is not None:
                 extra[key] = data[key]
@@ -216,10 +224,7 @@ class OpenAlexClient:
             pages = f"{fp}-{lp}" if fp and lp else fp or ""
 
         keywords_list = data.get("keywords") or []
-        keywords = [
-            k.get("display_name", "") for k in keywords_list
-            if k.get("display_name")
-        ]
+        keywords = [k.get("display_name", "") for k in keywords_list if k.get("display_name")]
         for t in data.get("topics") or []:
             name = t.get("display_name", "")
             if name:

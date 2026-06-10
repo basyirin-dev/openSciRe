@@ -4,7 +4,6 @@
 
 import networkx as nx
 import pytest
-
 from openscire.references.graph.export import GraphExporter
 
 

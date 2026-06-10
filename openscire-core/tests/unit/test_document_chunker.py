@@ -353,9 +353,7 @@ class TestDocumentChunker:
     def test_subsection_context_in_metadata(self) -> None:
         article = FullTextArticle(
             sections=[
-                ArticleSection(
-                    heading="Introduction", body="First para.\n\nSecond para."
-                ),
+                ArticleSection(heading="Introduction", body="First para.\n\nSecond para."),
             ],
         )
         chunker = DocumentChunker(ChunkConfig(max_tokens=4, overlap_sentences=0))

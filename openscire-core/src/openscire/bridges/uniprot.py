@@ -15,9 +15,17 @@ from openscire.exceptions import ReferenceError
 logger = logging.getLogger(__name__)
 
 # Target databases for cross-reference extraction (4.15.6)
-_TARGET_XREF_DBS = frozenset({
-    "PDB", "EMBL", "Pfam", "InterPro", "STRING", "Reactome", "GO",
-})
+_TARGET_XREF_DBS = frozenset(
+    {
+        "PDB",
+        "EMBL",
+        "Pfam",
+        "InterPro",
+        "STRING",
+        "Reactome",
+        "GO",
+    }
+)
 
 
 class UniProtFeature(BaseModel):
@@ -299,11 +307,13 @@ class UniProtClient:
                         ev_codes.append(eco)
 
             if texts:
-                parsed.append(UniProtComment(
-                    comment_type=ctype,
-                    texts=texts,
-                    evidence_codes=ev_codes,
-                ))
+                parsed.append(
+                    UniProtComment(
+                        comment_type=ctype,
+                        texts=texts,
+                        evidence_codes=ev_codes,
+                    )
+                )
 
             if ctype == "FUNCTION":
                 function = texts[0] if texts else ""
@@ -334,14 +344,16 @@ class UniProtClient:
             if end_data and "value" in end_data:
                 end = end_data["value"]
 
-            result.append(UniProtFeature(
-                type=f.get("type", ""),
-                description=f.get("description", ""),
-                feature_id=f.get("featureId", ""),
-                start=start,
-                end=end,
-                evidence_codes=ev_codes,
-            ))
+            result.append(
+                UniProtFeature(
+                    type=f.get("type", ""),
+                    description=f.get("description", ""),
+                    feature_id=f.get("featureId", ""),
+                    start=start,
+                    end=end,
+                    evidence_codes=ev_codes,
+                )
+            )
         return result
 
     # --- 4.15.4: Evidence code extraction ---
@@ -354,11 +366,7 @@ class UniProtClient:
 
     @staticmethod
     def _extract_evidence_codes(evidences: list[dict[str, Any]]) -> list[str]:
-        return [
-            ev.get("evidenceCode", "")
-            for ev in evidences
-            if ev.get("evidenceCode")
-        ]
+        return [ev.get("evidenceCode", "") for ev in evidences if ev.get("evidenceCode")]
 
     # --- 4.15.5: Version tracking ---
 
@@ -392,11 +400,13 @@ class UniProtClient:
                 value = prop.get("value", "")
                 if key and value:
                     properties[key] = value
-            result.append(CrossReference(
-                database=db,
-                identifier=identifier,
-                properties=properties,
-            ))
+            result.append(
+                CrossReference(
+                    database=db,
+                    identifier=identifier,
+                    properties=properties,
+                )
+            )
         return result
 
     async def close(self) -> None:

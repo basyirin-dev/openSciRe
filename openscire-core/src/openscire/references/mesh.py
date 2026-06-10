@@ -80,9 +80,7 @@ def extract_mesh_from_xml(xml_content: str | bytes) -> list[MeshTerm]:
                     )
                 )
             else:
-                terms.append(
-                    MeshTerm(descriptor=qualifier_str, qualifier="", ui=qualifier_ui)
-                )
+                terms.append(MeshTerm(descriptor=qualifier_str, qualifier="", ui=qualifier_ui))
 
         if descriptor is not None and not has_qualifier:
             terms.append(descriptor)
@@ -116,11 +114,7 @@ def extract_mesh_from_efetch_root(root: ET.Element) -> list[MeshTerm]:
                     )
                 )
             else:
-                terms.append(
-                    MeshTerm(
-                        descriptor=qualifier_str, qualifier="", ui=qualifier_ui
-                    )
-                )
+                terms.append(MeshTerm(descriptor=qualifier_str, qualifier="", ui=qualifier_ui))
         if descriptor is not None and len(heading.findall("QualifierName")) == 0:
             terms.append(descriptor)
     return terms

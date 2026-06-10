@@ -1,4 +1,3 @@
-import pytest
 from openscire.references.gap.coverage import CoverageGapDetector
 from openscire.references.gap.models import GapType
 from openscire.references.models import ReferenceAuthor, ReferenceItem, ReferenceSource
@@ -46,13 +45,16 @@ class TestCoverageGapDetector:
 
     def test_multiple_subtopics(self) -> None:
         detector = CoverageGapDetector({"gap_min_sources": 2, "gap_min_papers": 1})
-        gaps = detector.detect("topic", {
-            "good": [
-                _make_ref(ReferenceSource.pubmed),
-                _make_ref(ReferenceSource.openalex),
-            ],
-            "bad": [_make_ref(ReferenceSource.pubmed)],
-        })
+        gaps = detector.detect(
+            "topic",
+            {
+                "good": [
+                    _make_ref(ReferenceSource.pubmed),
+                    _make_ref(ReferenceSource.openalex),
+                ],
+                "bad": [_make_ref(ReferenceSource.pubmed)],
+            },
+        )
         assert len(gaps) == 1
         assert gaps[0].topic == "bad"
 

@@ -2,11 +2,9 @@
 
 import json
 
-import pytest
-
 from openscire.references.formatter import (
-    AuthorFormat,
     BUILT_IN_STYLES,
+    AuthorFormat,
     CitationFormatter,
     CitationStyle,
     FormattedCitation,
@@ -20,11 +18,6 @@ from openscire.references.formatter import (
 )
 from openscire.references.formatter.bibtex import _generate_citekey
 from openscire.references.formatter.formatter import _format_authors
-from openscire.references.formatter.models import (
-    CitationStyle as CS,
-    InlineFormat as IF,
-    ReferenceOrder as RO,
-)
 from openscire.references.models import ReferenceAuthor, ReferenceItem, ReferenceSource
 
 # ---------------------------------------------------------------------------
@@ -112,9 +105,15 @@ class TestStyleConfig:
 
 class TestBuiltInStyles:
     def test_all_builtin_styles_defined(self) -> None:
-        builtin = {CitationStyle.APA, CitationStyle.NATURE, CitationStyle.SCIENCE,
-                   CitationStyle.VANCOUVER, CitationStyle.IEEE, CitationStyle.CHICAGO,
-                   CitationStyle.ACS}
+        builtin = {
+            CitationStyle.APA,
+            CitationStyle.NATURE,
+            CitationStyle.SCIENCE,
+            CitationStyle.VANCOUVER,
+            CitationStyle.IEEE,
+            CitationStyle.CHICAGO,
+            CitationStyle.ACS,
+        }
         for style in builtin:
             assert style in BUILT_IN_STYLES, f"Missing style: {style}"
 

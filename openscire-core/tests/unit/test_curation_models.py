@@ -23,8 +23,19 @@ class TestAdversarialSource:
         assert s.confidence == 0.0
 
     def test_with_source(self) -> None:
-        ref = ReferenceItem(id="r1", source=ReferenceSource.pubmed, title="Test", authors=[ReferenceAuthor(first="A", last="B")])
-        s = AdversarialSource(claim="claim", source=ref, contradiction_type="direct", retrieved_via="pubmed", confidence=0.8)
+        ref = ReferenceItem(
+            id="r1",
+            source=ReferenceSource.pubmed,
+            title="Test",
+            authors=[ReferenceAuthor(first="A", last="B")],
+        )
+        s = AdversarialSource(
+            claim="claim",
+            source=ref,
+            contradiction_type="direct",
+            retrieved_via="pubmed",
+            confidence=0.8,
+        )
         assert s.claim == "claim"
         assert s.source is not None
         assert s.source.id == "r1"

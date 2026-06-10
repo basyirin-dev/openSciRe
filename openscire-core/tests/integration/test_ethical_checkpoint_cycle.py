@@ -53,11 +53,13 @@ class _EchoProvider:
             # Simulate token-by-token streaming
             chunk_size = max(1, len(last_content) // 3)
             for i in range(0, len(last_content), chunk_size):
-                yield Chunk(delta_content=last_content[i:i + chunk_size])
+                yield Chunk(delta_content=last_content[i : i + chunk_size])
             yield Chunk(
                 delta_content="",
                 finish_reason="stop",
-                usage=type("Usage", (), {"prompt_tokens": 15, "completion_tokens": len(last_content)})(),
+                usage=type(
+                    "Usage", (), {"prompt_tokens": 15, "completion_tokens": len(last_content)}
+                )(),
             )
 
         return _gen()
@@ -150,15 +152,18 @@ async def test_ethical_checkpoint_full_cycle(tmp_path) -> None:
 
     # 6. Carbon estimate provenance (via EthicalFirewall.record_carbon -> CarbonBudgetTracker)
     carbon_entries = [e for e in entries if "carbon_estimate" in e.action_type]
-    assert len(carbon_entries) >= 1 or "carbon" in str(entry_types).lower(), \
+    assert len(carbon_entries) >= 1 or "carbon" in str(entry_types).lower(), (
         "Carbon provenance should be recorded"
+    )
 
     # 7. All entries are Ed25519-signed
     for entry in entries:
-        assert entry.cryptographic_signature is not None, \
+        assert entry.cryptographic_signature is not None, (
             f"Entry {entry.action_id} ({entry.action_type}) should be signed"
-        assert verify_entry(entry, pub_key.hex()), \
+        )
+        assert verify_entry(entry, pub_key.hex()), (
             f"Entry {entry.action_id} signature verification failed"
+        )
 
     # 8. Provenance DAG has parent-child relationships
     root_entries = [e for e in entries if not e.parent_ids]
@@ -167,6 +172,7 @@ async def test_ethical_checkpoint_full_cycle(tmp_path) -> None:
     # 9. Export works
     json_str = ProvenanceExporter.to_json(entries, root_hash=tracker.graph.root_hash())
     import json as _json
+
     output = _json.loads(json_str)
     assert "provenance" in output
     assert len(output["provenance"]) == len(entries)
@@ -218,8 +224,7 @@ async def test_ethical_checkpoint_dag_structure(tmp_path) -> None:
     all_ids = {e.action_id for e in entries}
     for inf in inference_entries:
         for pid in inf.parent_ids:
-            assert pid in all_ids, \
-                f"model_inference parent {pid} not found in graph"
+            assert pid in all_ids, f"model_inference parent {pid} not found in graph"
 
     # Ensure no duplicate action_ids
     assert len(all_ids) == len(entries), "Duplicate action_ids detected"
@@ -234,8 +239,7 @@ async def test_ethical_checkpoint_dag_structure(tmp_path) -> None:
     all_ids = {e.action_id for e in entries}
     for inf in inference_entries:
         for pid in inf.parent_ids:
-            assert pid in all_ids, \
-                f"model_inference parent {pid} not found in graph"
+            assert pid in all_ids, f"model_inference parent {pid} not found in graph"
 
     # Ensure no duplicate action_ids
     assert len(all_ids) == len(entries), "Duplicate action_ids detected"

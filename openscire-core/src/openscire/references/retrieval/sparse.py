@@ -49,9 +49,7 @@ class BM25SparseIndex:
         if doc_ids_added:
             self._doc_count += len(doc_ids_added)
             self._avgdl = (
-                sum(self._doc_lengths.values()) / self._doc_count
-                if self._doc_count > 0
-                else 0.0
+                sum(self._doc_lengths.values()) / self._doc_count if self._doc_count > 0 else 0.0
             )
             self._idf_cache.clear()
 
@@ -79,9 +77,7 @@ class BM25SparseIndex:
             for doc_id, tf in posting.items():
                 doc_len = self._doc_lengths[doc_id]
                 numerator = tf * (self._k1 + 1)
-                denominator = tf + self._k1 * (
-                    1 - self._b + self._b * doc_len / self._avgdl
-                )
+                denominator = tf + self._k1 * (1 - self._b + self._b * doc_len / self._avgdl)
                 scores[doc_id] = scores.get(doc_id, 0.0) + qtf * idf * numerator / denominator
 
         ranked = sorted(scores.items(), key=lambda x: -x[1])

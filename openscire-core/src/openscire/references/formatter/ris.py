@@ -25,7 +25,9 @@ def _format_ris_authors(authors: list[Any]) -> list[str]:
     for author in authors:
         if hasattr(author, "last") and author.last:
             first_part = getattr(author, "first", "")
-            lines.append(f"AU  - {author.last}, {first_part}" if first_part else f"AU  - {author.last}")
+            lines.append(
+                f"AU  - {author.last}, {first_part}" if first_part else f"AU  - {author.last}"
+            )
         elif hasattr(author, "full") and author.full:
             lines.append(f"AU  - {author.full}")
     return lines

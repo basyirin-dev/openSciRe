@@ -3,7 +3,6 @@
 """Tests for InfluenceScorer."""
 
 import networkx as nx
-
 from openscire.references.graph.influence import InfluenceScorer
 
 
@@ -68,7 +67,7 @@ class TestPageRank:
         for i in range(5):
             G.add_node(f"W00{i}")
         for i in range(4):
-            G.add_edge(f"W00{i}", f"W00{i+1}")
+            G.add_edge(f"W00{i}", f"W00{i + 1}")
         report = InfluenceScorer.score(G)
         total = sum(r.score for r in report.results)
         assert abs(total - 1.0) < 0.01

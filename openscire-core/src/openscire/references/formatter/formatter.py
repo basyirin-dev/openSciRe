@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import re
-from typing import Any
 
 from openscire.references.formatter.models import (
     AuthorFormat,
@@ -123,7 +122,7 @@ class CitationFormatter:
 
         elif self.config.inline_format == InlineFormat.NUMERIC_SUPERSCRIPT:
             num = number if number is not None else 1
-            text = f"\u207b¹\u00b9"  # fallback: use [num] for plain text
+            text = "\u207b¹\u00b9"  # fallback: use [num] for plain text
             text = f"[{num}]"
 
         elif self.config.inline_format == InlineFormat.AUTHOR_NUMERIC:
@@ -200,9 +199,16 @@ class CitationFormatter:
         ordered = list(references)
 
         if self.config.reference_order == ReferenceOrder.ALPHABETICAL:
-            ordered.sort(key=lambda r: (r.authors[0].last.lower() if r.authors else r.title.lower(), r.year or 0))
+            ordered.sort(
+                key=lambda r: (
+                    r.authors[0].last.lower() if r.authors else r.title.lower(),
+                    r.year or 0,
+                )
+            )
         elif self.config.reference_order == ReferenceOrder.CHRONOLOGICAL:
-            ordered.sort(key=lambda r: (r.year or 0, r.authors[0].last.lower() if r.authors else ""))
+            ordered.sort(
+                key=lambda r: (r.year or 0, r.authors[0].last.lower() if r.authors else "")
+            )
 
         prefix_format = self.config.reference_prefix_format
 

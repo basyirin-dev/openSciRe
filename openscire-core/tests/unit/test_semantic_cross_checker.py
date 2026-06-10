@@ -1,12 +1,10 @@
 """Tests for SemanticCrossChecker — LLM-based claim-vs-source verification."""
 
 import json
-from typing import Any, AsyncIterator
-from unittest.mock import AsyncMock, MagicMock, patch
+from collections.abc import AsyncIterator
+from typing import Any
 
-import pytest
-
-from openscire.ethics.models import Source, SourceVerificationStatus
+from openscire.ethics.models import Source
 from openscire.references.enforcer import (
     CitationMode,
     CrossCheckResult,
@@ -18,7 +16,7 @@ from openscire.references.enforcer.cross_check import (
     _build_cross_check_prompt,
     _parse_llm_response,
 )
-from openscire.references.enforcer.models import SourceEnforcementReport, UnsupportedClaim
+from openscire.references.enforcer.models import SourceEnforcementReport
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -52,12 +50,14 @@ _SOURCE_EMPTY = Source(
 
 class FakeChunk:
     """Simulates a streaming LLM chunk."""
+
     def __init__(self, text: str) -> None:
         self.delta_content = text
 
 
 class FakeProvider:
     """A mock provider that returns pre-determined LLM responses."""
+
     def __init__(self, response: str, model: str = "mock-model") -> None:
         self.response = response
         self.model = model
@@ -72,7 +72,11 @@ class FakeProvider:
 
 
 def _make_provider(verdict: str, confidence: float = 0.9, explanation: str = "") -> Any:
-    data = {"verdict": verdict, "confidence": confidence, "explanation": explanation or f"{verdict} verdict"}
+    data = {
+        "verdict": verdict,
+        "confidence": confidence,
+        "explanation": explanation or f"{verdict} verdict",
+    }
     return FakeProvider(json.dumps(data))
 
 
@@ -226,11 +230,13 @@ class TestBatchCheck:
     def test_multiple_items(self) -> None:
         provider = _make_provider("supports")
         checker = SemanticCrossChecker(provider)
-        results = checker.batch_check([
-            ("Claim one", _SOURCE),
-            ("Claim two", _SOURCE),
-            ("Claim three", _SOURCE_EMPTY),
-        ])
+        results = checker.batch_check(
+            [
+                ("Claim one", _SOURCE),
+                ("Claim two", _SOURCE),
+                ("Claim three", _SOURCE_EMPTY),
+            ]
+        )
         assert len(results) == 3
         assert results[0].verdict == CrossCheckVerdict.SUPPORTS
         assert results[1].verdict == CrossCheckVerdict.SUPPORTS
@@ -256,7 +262,7 @@ class TestParseEdgeCases:
         assert result.get("verdict") in ("supports",)
 
     def test_extra_whitespace_code_fence(self) -> None:
-        raw = "  ```  json  \n{\"verdict\": \"supports\"}\n  ```  "
+        raw = '  ```  json  \n{"verdict": "supports"}\n  ```  '
         result = _parse_llm_response(raw)
         assert result.get("verdict") == "supports"
 

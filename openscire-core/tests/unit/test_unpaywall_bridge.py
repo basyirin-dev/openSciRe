@@ -177,12 +177,14 @@ def authed_client() -> UnpaywallClient:
 class TestUnpaywallRateLimiter:
     def test_default_delay(self) -> None:
         from openscire.references.bridges.unpaywall import UnpaywallRateLimiter
+
         limiter = UnpaywallRateLimiter()
         assert limiter._delay == 0.1
 
     @pytest.mark.asyncio
     async def test_rate_limiter_enforces_delay(self) -> None:
         from openscire.references.bridges.unpaywall import UnpaywallRateLimiter
+
         limiter = UnpaywallRateLimiter()
         await limiter.wait()
         t1 = time.monotonic()
@@ -316,10 +318,12 @@ class TestUnpaywallClient:
         respx.get("https://api.unpaywall.org/v2/10.1234/closed-paper").mock(
             return_value=Response(200, json=CLOSED_RESPONSE)
         )
-        results = await client.fetch_batch([
-            "10.1038/s41586-019-1093-3",
-            "10.1234/closed-paper",
-        ])
+        results = await client.fetch_batch(
+            [
+                "10.1038/s41586-019-1093-3",
+                "10.1234/closed-paper",
+            ]
+        )
         assert len(results) == 2
         assert results[0].doi == "10.1038/s41586-019-1093-3"
         assert results[0].is_oa is True
@@ -335,10 +339,12 @@ class TestUnpaywallClient:
         respx.get("https://api.unpaywall.org/v2/10.9999/fail").mock(
             return_value=Response(404, json={})
         )
-        results = await client.fetch_batch([
-            "10.1038/s41586-019-1093-3",
-            "10.9999/fail",
-        ])
+        results = await client.fetch_batch(
+            [
+                "10.1038/s41586-019-1093-3",
+                "10.9999/fail",
+            ]
+        )
         assert len(results) == 1
         assert results[0].doi == "10.1038/s41586-019-1093-3"
 
@@ -394,6 +400,7 @@ class TestUnpaywallClient:
     @respx.mock
     async def test_http_error(self, client: UnpaywallClient) -> None:
         from openscire.exceptions import ReferenceError
+
         respx.get("https://api.unpaywall.org/v2/10.9999/nonexistent").mock(
             return_value=Response(429, json={"error": "too many requests"})
         )

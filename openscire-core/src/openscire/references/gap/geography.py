@@ -54,16 +54,58 @@ _LANGUAGE_REGION: dict[str, str] = {
 }
 
 _GLOBAL_SOUTH_AFFILIATIONS: list[str] = [
-    "africa", "asia", "south america", "latin america",
-    "india", "china", "brazil", "nigeria", "indonesia", "pakistan",
-    "bangladesh", "russia", "mexico", "ethiopia", "philippines", "egypt",
-    "vietnam", "drc", "turkey", "iran", "thailand", "tanzania",
-    "south africa", "kenya", "uganda", "algeria", "sudan", "iraq",
-    "afghanistan", "poland", "romania", "ukraine",
-    "argentina", "colombia", "peru", "venezuela", "chile",
-    "malaysia", "indonesia", "myanmar", "nepal", "sri lanka",
-    "ghana", "côte d'ivoire", "cameroon", "angola", "mozambique",
-    "kenya", "ethiopia", "tanzania", "sudan", "morocco",
+    "africa",
+    "asia",
+    "south america",
+    "latin america",
+    "india",
+    "china",
+    "brazil",
+    "nigeria",
+    "indonesia",
+    "pakistan",
+    "bangladesh",
+    "russia",
+    "mexico",
+    "ethiopia",
+    "philippines",
+    "egypt",
+    "vietnam",
+    "drc",
+    "turkey",
+    "iran",
+    "thailand",
+    "tanzania",
+    "south africa",
+    "kenya",
+    "uganda",
+    "algeria",
+    "sudan",
+    "iraq",
+    "afghanistan",
+    "poland",
+    "romania",
+    "ukraine",
+    "argentina",
+    "colombia",
+    "peru",
+    "venezuela",
+    "chile",
+    "malaysia",
+    "indonesia",
+    "myanmar",
+    "nepal",
+    "sri lanka",
+    "ghana",
+    "côte d'ivoire",
+    "cameroon",
+    "angola",
+    "mozambique",
+    "kenya",
+    "ethiopia",
+    "tanzania",
+    "sudan",
+    "morocco",
 ]
 
 
@@ -97,45 +139,49 @@ class GeographicGapDetector:
                 if any(s in country for s in _GLOBAL_SOUTH_AFFILIATIONS):
                     global_south_count += 1
         if global_south_count == 0 and len(items) > 0:
-            gaps.append(LiteratureGap(
-                gap_type=GapType.geographic,
-                severity=GapSeverity.high,
-                topic=topic,
-                description=(
-                    f"All {len(items)} studies for '{topic}' are from Global North sources "
-                    f"(languages: {', '.join(sorted(languages)) or 'none detected'}). "
-                    "No Global South representation found."
-                ),
-                recommendation=(
-                    "Search regional databases (SciELO, AJOL, CNKI, Wanfang) or "
-                    "include non-English keywords to capture Global South research."
-                ),
-                affected_count=len(items),
-                details={
-                    "languages_detected": sorted(languages),
-                    "has_global_south": False,
-                    "n_total": len(items),
-                },
-            ))
+            gaps.append(
+                LiteratureGap(
+                    gap_type=GapType.geographic,
+                    severity=GapSeverity.high,
+                    topic=topic,
+                    description=(
+                        f"All {len(items)} studies for '{topic}' are from Global North sources "
+                        f"(languages: {', '.join(sorted(languages)) or 'none detected'}). "
+                        "No Global South representation found."
+                    ),
+                    recommendation=(
+                        "Search regional databases (SciELO, AJOL, CNKI, Wanfang) or "
+                        "include non-English keywords to capture Global South research."
+                    ),
+                    affected_count=len(items),
+                    details={
+                        "languages_detected": sorted(languages),
+                        "has_global_south": False,
+                        "n_total": len(items),
+                    },
+                )
+            )
         elif 0 < global_south_count < self.min_global_south:
-            gaps.append(LiteratureGap(
-                gap_type=GapType.geographic,
-                severity=GapSeverity.medium,
-                topic=topic,
-                description=(
-                    f"Minimal Global South representation in '{topic}' studies "
-                    f"({global_south_count}/{len(items)} papers from Global South). "
-                    f"Languages: {', '.join(sorted(languages))}."
-                ),
-                recommendation=(
-                    "Consider broadening search to include more Global South databases and languages."
-                ),
-                affected_count=len(items),
-                details={
-                    "languages_detected": sorted(languages),
-                    "global_south_count": global_south_count,
-                    "has_global_south": True,
-                    "min_required": self.min_global_south,
-                },
-            ))
+            gaps.append(
+                LiteratureGap(
+                    gap_type=GapType.geographic,
+                    severity=GapSeverity.medium,
+                    topic=topic,
+                    description=(
+                        f"Minimal Global South representation in '{topic}' studies "
+                        f"({global_south_count}/{len(items)} papers from Global South). "
+                        f"Languages: {', '.join(sorted(languages))}."
+                    ),
+                    recommendation=(
+                        "Consider broadening search to include more Global South databases and languages."
+                    ),
+                    affected_count=len(items),
+                    details={
+                        "languages_detected": sorted(languages),
+                        "global_south_count": global_south_count,
+                        "has_global_south": True,
+                        "min_required": self.min_global_south,
+                    },
+                )
+            )
         return gaps

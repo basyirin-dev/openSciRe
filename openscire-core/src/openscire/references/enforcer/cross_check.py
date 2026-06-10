@@ -35,11 +35,7 @@ Return ONLY valid JSON, no other text."""
 def _build_cross_check_prompt(claim_text: str, source_title: str, source_abstract: str) -> str:
     """Build the user message for the cross-check LLM call."""
     abstract_part = source_abstract if source_abstract else "[No abstract available]"
-    return (
-        f"CLAIM: {claim_text}\n\n"
-        f"SOURCE TITLE: {source_title}\n"
-        f"SOURCE ABSTRACT: {abstract_part}"
-    )
+    return f"CLAIM: {claim_text}\n\nSOURCE TITLE: {source_title}\nSOURCE ABSTRACT: {abstract_part}"
 
 
 def _parse_llm_response(raw: str) -> dict[str, Any]:
@@ -62,7 +58,11 @@ def _parse_llm_response(raw: str) -> dict[str, Any]:
         # Fallback: try to extract verdict via keyword match
         for v in ("supports", "contradicts", "insufficient_evidence", "ambiguous", "unverifiable"):
             if v in text.lower():
-                return {"verdict": v, "confidence": 0.0, "explanation": "Parsed from unstructured response."}  # noqa: E501
+                return {
+                    "verdict": v,
+                    "confidence": 0.0,
+                    "explanation": "Parsed from unstructured response.",
+                }  # noqa: E501
         return {}
 
 
@@ -97,7 +97,9 @@ class SemanticCrossChecker:
         self._llm_model: str = getattr(provider, "model", "") or self._config.get("model", "")
 
     def check(
-        self, claim_text: str, source: Any  # noqa: ANN401
+        self,
+        claim_text: str,
+        source: Any,  # noqa: ANN401
     ) -> CrossCheckResult:
         """Check a single claim against a single source."""
         source_id = getattr(source, "source_id", "")
@@ -151,16 +153,12 @@ class SemanticCrossChecker:
         """Cross-check multiple (claim_text, source) pairs."""
         return [self.check(claim, source) for claim, source in items]
 
-    async def _call_llm(
-        self, claim_text: str, source_title: str, source_abstract: str
-    ) -> str:
+    async def _call_llm(self, claim_text: str, source_title: str, source_abstract: str) -> str:
         from openscire.provider.models import ChatMessage
 
         messages = [
             ChatMessage.system(_CROSS_CHECK_SYSTEM_PROMPT),
-            ChatMessage.user(
-                _build_cross_check_prompt(claim_text, source_title, source_abstract)
-            ),
+            ChatMessage.user(_build_cross_check_prompt(claim_text, source_title, source_abstract)),
         ]
         content = ""
         async for chunk in self._provider.stream_chat(messages, temperature=0.0):

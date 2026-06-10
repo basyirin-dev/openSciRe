@@ -8,8 +8,8 @@ assignees: ""
 
 ## Use Case
 
-What research workflow would this enable or improve? Describe the scientist's
-problem, not your proposed solution.
+What research workflow would this enable or improve? Describe the scientist's problem, not your
+proposed solution.
 
 ## Proposed Solution
 
@@ -27,10 +27,5 @@ What workarounds have you tried? What existing tools partially solve this?
 
 ## Domain
 
-[ ] Literature review
-[ ] Hypothesis generation
-[ ] Experimental design
-[ ] Ethics / safety
-[ ] CLI / UX
-[ ] Integration with another tool
-[ ] Other (please specify)
+\[ \] Literature review [ ] Hypothesis generation [ ] Experimental design [ ] Ethics / safety [ ] CLI
+/ UX [ ] Integration with another tool [ ] Other (please specify)

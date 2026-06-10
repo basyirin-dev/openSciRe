@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
-import respx
 import pytest
+import respx
 from httpx import Response
-
 from openscire.references.bridges.pubmed import PubMedBridge
 
 ESEARCH_XML = b"""<?xml version="1.0"?>

@@ -130,17 +130,21 @@ class TestNcbiCrossrefCycle:
         assert doi_pmid == "12345678"
 
     async def test_evidence_labeling_from_ncbi(self) -> None:
-        combined = EvidencePropagator.combine([
-            EvidenceTypeLabel.EXPERIMENTAL,
-            EvidenceTypeLabel.REVIEWED,
-            EvidenceTypeLabel.REVIEWED,
-        ])
+        combined = EvidencePropagator.combine(
+            [
+                EvidenceTypeLabel.EXPERIMENTAL,
+                EvidenceTypeLabel.REVIEWED,
+                EvidenceTypeLabel.REVIEWED,
+            ]
+        )
         assert combined == EvidenceTypeLabel.REVIEWED
 
-        predicted_only = EvidencePropagator.combine([
-            EvidenceTypeLabel.PREDICTED,
-            EvidenceTypeLabel.PREDICTED,
-        ])
+        predicted_only = EvidencePropagator.combine(
+            [
+                EvidenceTypeLabel.PREDICTED,
+                EvidenceTypeLabel.PREDICTED,
+            ]
+        )
         assert predicted_only == EvidenceTypeLabel.PREDICTED
 
     @pytest.mark.asyncio

@@ -1,15 +1,14 @@
 from __future__ import annotations
 
+import logging
 import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from openscire.logging import get_logger
-
 from .models import FirewallAuditEntry
 
-logger = get_logger("openscire.ethics.audit")
+logger = logging.getLogger(__name__)
 
 _AUDIT_TABLE = """
 CREATE TABLE IF NOT EXISTS firewall_audit (
@@ -150,6 +149,7 @@ class FirewallAuditLog:
         match_type: str | None = None,
         contested: bool | None = None,
         user_id: str | None = None,
+        decision_id: str | None = None,
         limit: int = 100,
         offset: int = 0,
     ) -> list[FirewallAuditEntry]:
@@ -161,6 +161,7 @@ class FirewallAuditLog:
             match_type: Filter by match type (keyword, embedding, llm).
             contested: Filter by contested status.
             user_id: Filter by user identifier.
+            decision_id: Filter by decision UUID.
             limit: Maximum entries to return.
             offset: Pagination offset.
 
@@ -184,6 +185,9 @@ class FirewallAuditLog:
         if user_id is not None:
             sql += " AND user_id = ?"
             params.append(user_id)
+        if decision_id is not None:
+            sql += " AND decision_id = ?"
+            params.append(decision_id)
         sql += " ORDER BY timestamp DESC LIMIT ? OFFSET ?"
         params.extend([limit, offset])
         rows = self._conn.execute(sql, params).fetchall()

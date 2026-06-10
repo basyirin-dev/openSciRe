@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import sqlite3
 import uuid
 from datetime import datetime
@@ -8,11 +9,10 @@ from typing import Any
 
 from openscire.constants import ErrorCode
 from openscire.exceptions import EthicsError
-from openscire.logging import get_logger
 
 from .models import BudgetStatus, CarbonEstimate, CarbonRecord
 
-logger = get_logger("openscire.ethics.carbon")
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Hardware profile lookup table
@@ -273,10 +273,10 @@ class CarbonBudgetTracker:
 
         if warning:
             logger.warning(
-                "Carbon budget warning",
-                usage_kwh=current_usage,
-                budget_kwh=self._budget_kwh,
-                percentage=percentage,
+                "Carbon budget warning: usage=%.4f kWh, budget=%.4f kWh, percentage=%.1f%%",
+                current_usage,
+                self._budget_kwh,
+                percentage,
             )
 
         if blocked:

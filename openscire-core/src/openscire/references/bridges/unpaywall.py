@@ -115,10 +115,7 @@ class UnpaywallClient:
 
     def _parse_result(self, data: dict[str, Any]) -> UnpaywallResult:
         raw_locations = data.get("oa_locations") or []
-        oa_locations = [
-            self._parse_oa_location(loc)
-            for loc in raw_locations
-        ]
+        oa_locations = [self._parse_oa_location(loc) for loc in raw_locations]
         best_raw = data.get("best_oa_location")
         first_raw = data.get("first_oa_location")
 
@@ -208,6 +205,7 @@ class UnpaywallClient:
         Semaphore to control concurrency and run parallel single-DOI lookups.
         Failed lookups are skipped with a warning.
         """
+
         async def fetch_one(doi: str) -> UnpaywallResult | None:
             async with self._semaphore:
                 try:

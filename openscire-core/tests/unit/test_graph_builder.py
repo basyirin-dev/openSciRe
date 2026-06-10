@@ -5,13 +5,14 @@
 from openscire.references.graph.builder import CitationGraphBuilder
 from openscire.references.models import (
     CitationGraphEntry,
-    ReferenceAuthor,
     ReferenceItem,
     ReferenceSource,
 )
 
 
-def _make_ref(pid: str, title: str = "", year: int | None = None, extra: dict | None = None) -> ReferenceItem:
+def _make_ref(
+    pid: str, title: str = "", year: int | None = None, extra: dict | None = None
+) -> ReferenceItem:
     return ReferenceItem(
         id=pid,
         source=ReferenceSource.openalex,

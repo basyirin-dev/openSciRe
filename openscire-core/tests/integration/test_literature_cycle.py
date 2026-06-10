@@ -60,7 +60,9 @@ class TestLiteratureCycle:
     ) -> None:
         pipeline = mocker.MagicMock(spec=PDFParsingPipeline)
 
-        async def fake_parse(pdf_bytes: bytes = b"", source_path: str = "", **kwargs: Any) -> ExtractionResult:  # noqa: ANN401
+        async def fake_parse(
+            pdf_bytes: bytes = b"", source_path: str = "", **kwargs: Any
+        ) -> ExtractionResult:  # noqa: ANN401
             return ExtractionResult(
                 method="pdfplumber",
                 full_text=FullTextArticle(

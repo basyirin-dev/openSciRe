@@ -102,7 +102,7 @@ class MedlineImporter(ReferenceImporter):
             else:
                 idx = p.index("PMID- ") if "PMID- " in p else -1
                 if idx >= 0:
-                    p = p[idx + 6:]
+                    p = p[idx + 6 :]
                 records.append(p)
         return records
 

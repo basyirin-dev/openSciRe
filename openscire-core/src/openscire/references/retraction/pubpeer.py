@@ -124,8 +124,15 @@ class PubPeerClient:
         category = (comment.get("category") or "").lower()
         text = (comment.get("title") or "").lower() + (comment.get("text") or "").lower()
         concern_keywords = [
-            "concern", "retraction", "error", "fabrication", "falsification",
-            "plagiarism", "duplicate", "unreliable", "misconduct",
+            "concern",
+            "retraction",
+            "error",
+            "fabrication",
+            "falsification",
+            "plagiarism",
+            "duplicate",
+            "unreliable",
+            "misconduct",
         ]
         if category in ("concern", "retraction", "expression_of_concern"):
             return True

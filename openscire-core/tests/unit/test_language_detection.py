@@ -42,9 +42,7 @@ class TestLanguageDetector:
 
     def test_detect_with_confidence_english(self) -> None:
         detector = LanguageDetector()
-        lang, conf = detector.detect_with_confidence(
-            "The quick brown fox jumps over the lazy dog."
-        )
+        lang, conf = detector.detect_with_confidence("The quick brown fox jumps over the lazy dog.")
         assert lang == "en"
         assert conf > 0.5
 

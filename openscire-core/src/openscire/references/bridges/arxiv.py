@@ -70,9 +70,7 @@ SORT_OPTIONS = {"relevance", "lastUpdatedDate", "submittedDate"}
 
 def is_valid_arxiv_category(category: str) -> bool:
     """Check if a category string is a known arXiv category."""
-    return category in ARXIV_CATEGORIES or bool(
-        re.match(r"^[a-z-]+(\.[A-Za-z-]+)?$", category)
-    )
+    return category in ARXIV_CATEGORIES or bool(re.match(r"^[a-z-]+(\.[A-Za-z-]+)?$", category))
 
 
 def arxiv_category_name(category: str) -> str:
@@ -169,9 +167,7 @@ class ArXivClient:
             start=start,
         )
 
-    async def fetch_by_id(
-        self, arxiv_ids: str | list[str]
-    ) -> list[ReferenceItem]:
+    async def fetch_by_id(self, arxiv_ids: str | list[str]) -> list[ReferenceItem]:
         """Fetch papers by their arXiv IDs.
 
         Uses the id_list parameter for efficient batch retrieval.
@@ -252,9 +248,7 @@ class ArXivClient:
             sort_by="submittedDate",
         )
 
-    async def search_all(
-        self, search_query: str, max_results: int = 1000
-    ) -> list[ReferenceItem]:
+    async def search_all(self, search_query: str, max_results: int = 1000) -> list[ReferenceItem]:
         """Paginate through all search results.
 
         Fetches in chunks of 100 to stay within arXiv rate limits.
@@ -284,9 +278,7 @@ class ArXivClient:
                 break
         return all_items[:max_results]
 
-    async def fetch_multiple(
-        self, arxiv_ids: list[str]
-    ) -> list[ReferenceItem]:
+    async def fetch_multiple(self, arxiv_ids: list[str]) -> list[ReferenceItem]:
         """Fetch multiple papers by IDs, splitting into batches of 50."""
         if not arxiv_ids:
             return []

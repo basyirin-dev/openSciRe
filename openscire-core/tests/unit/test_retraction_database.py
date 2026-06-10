@@ -64,15 +64,18 @@ class TestRetractionDatabase:
 
     def test_list_retracted(self, db: RetractionDatabase) -> None:
         r1 = RetractionRecord(
-            identifier="10.1234/a", source=RetractionSource.pubmed,
+            identifier="10.1234/a",
+            source=RetractionSource.pubmed,
             retraction_status=RetractionStatus.retracted,
         )
         r2 = RetractionRecord(
-            identifier="10.1234/b", source=RetractionSource.crossref,
+            identifier="10.1234/b",
+            source=RetractionSource.crossref,
             retraction_status=RetractionStatus.expression_of_concern,
         )
         r3 = RetractionRecord(
-            identifier="10.1234/c", source=RetractionSource.openalex,
+            identifier="10.1234/c",
+            source=RetractionSource.openalex,
             retraction_status=RetractionStatus.unchecked,
         )
         for r in (r1, r2, r3):
@@ -114,18 +117,27 @@ class TestRetractionDatabase:
         assert db.count() == 2
 
     def test_count_by_status(self, db: RetractionDatabase) -> None:
-        db.upsert(RetractionRecord(  # noqa: E501
-            identifier="10.1234/a", source=RetractionSource.pubmed,
-            retraction_status=RetractionStatus.retracted,
-        ))
-        db.upsert(RetractionRecord(  # noqa: E501
-            identifier="10.1234/b", source=RetractionSource.crossref,
-            retraction_status=RetractionStatus.retracted,
-        ))
-        db.upsert(RetractionRecord(  # noqa: E501
-            identifier="10.1234/c", source=RetractionSource.openalex,
-            retraction_status=RetractionStatus.unchecked,
-        ))
+        db.upsert(
+            RetractionRecord(  # noqa: E501
+                identifier="10.1234/a",
+                source=RetractionSource.pubmed,
+                retraction_status=RetractionStatus.retracted,
+            )
+        )
+        db.upsert(
+            RetractionRecord(  # noqa: E501
+                identifier="10.1234/b",
+                source=RetractionSource.crossref,
+                retraction_status=RetractionStatus.retracted,
+            )
+        )
+        db.upsert(
+            RetractionRecord(  # noqa: E501
+                identifier="10.1234/c",
+                source=RetractionSource.openalex,
+                retraction_status=RetractionStatus.unchecked,
+            )
+        )
         assert db.count_by_status(RetractionStatus.retracted) == 2
         assert db.count_by_status(RetractionStatus.unchecked) == 1
         assert db.count_by_status(RetractionStatus.corrected) == 0

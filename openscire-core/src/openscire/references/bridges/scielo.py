@@ -180,8 +180,7 @@ class ScieloClient:
 
         data = await self._get(f"{self.BASE_URL}/article/", params=params)
         articles = (
-            data.get("objects") or data.get("results") or
-            (data if isinstance(data, list) else [])
+            data.get("objects") or data.get("results") or (data if isinstance(data, list) else [])
         )
         return [self._parse_article(a) for a in articles]
 
@@ -225,8 +224,7 @@ class ScieloClient:
             params={"issn": issn, "limit": min(limit, 100)},
         )
         articles = (
-            data.get("objects") or data.get("results") or
-            (data if isinstance(data, list) else [])
+            data.get("objects") or data.get("results") or (data if isinstance(data, list) else [])
         )
         return [self._parse_article(a) for a in articles]
 

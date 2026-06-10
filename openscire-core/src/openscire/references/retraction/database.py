@@ -125,25 +125,19 @@ class RetractionDatabase:
         conn = self._get_conn()
         cutoff = (datetime.now(UTC) - timedelta(seconds=max_age_seconds)).isoformat()
         rows = conn.execute(
-            "SELECT * FROM retraction_records "
-            "WHERE updated_at < ? "
-            "ORDER BY updated_at ASC LIMIT ?",
+            "SELECT * FROM retraction_records WHERE updated_at < ? ORDER BY updated_at ASC LIMIT ?",
             (cutoff, limit),
         ).fetchall()
         return [self._row_to_record(r) for r in rows]
 
     def get_all_identifiers(self) -> list[str]:
         conn = self._get_conn()
-        rows = conn.execute(
-            "SELECT DISTINCT identifier FROM retraction_records"
-        ).fetchall()
+        rows = conn.execute("SELECT DISTINCT identifier FROM retraction_records").fetchall()
         return [r["identifier"] for r in rows]
 
     def count(self) -> int:
         conn = self._get_conn()
-        row = conn.execute(
-            "SELECT COUNT(*) FROM retraction_records"
-        ).fetchone()
+        row = conn.execute("SELECT COUNT(*) FROM retraction_records").fetchone()
         return int(row[0]) if row else 0
 
     def count_by_status(self, status: RetractionStatus) -> int:

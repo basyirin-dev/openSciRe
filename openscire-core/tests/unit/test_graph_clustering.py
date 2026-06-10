@@ -3,7 +3,6 @@
 """Tests for ClusterEngine."""
 
 import networkx as nx
-
 from openscire.references.graph.clustering import ClusterEngine
 
 

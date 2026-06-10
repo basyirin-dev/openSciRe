@@ -4,10 +4,8 @@
 
 import networkx as nx
 import pytest
-
 from openscire.references.graph.analyzer import CitationGraphAnalyzer
 from openscire.references.graph.models import (
-    CitationCluster,
     CitationGraphReport,
     CitationTimeline,
     ClusterReport,
@@ -22,7 +20,9 @@ from openscire.references.models import (
 )
 
 
-def _make_ref(pid: str, title: str = "", year: int | None = None, extra: dict | None = None) -> ReferenceItem:
+def _make_ref(
+    pid: str, title: str = "", year: int | None = None, extra: dict | None = None
+) -> ReferenceItem:
     return ReferenceItem(
         id=pid,
         source=ReferenceSource.openalex,
@@ -173,6 +173,7 @@ class TestTraverse:
         class MockSS:
             async def get_citations(self, pid):
                 return []
+
             async def get_references(self, pid):
                 return []
 

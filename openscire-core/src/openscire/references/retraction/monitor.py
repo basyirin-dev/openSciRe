@@ -242,6 +242,8 @@ class RetractionMonitor:
                 )
         except ImportError:
             logger.debug("ProvenanceTracker not available — skipping provenance")
+        except Exception:
+            logger.warning("Failed to record provenance for %s", action_type, exc_info=True)
 
     @staticmethod
     def _is_worse(

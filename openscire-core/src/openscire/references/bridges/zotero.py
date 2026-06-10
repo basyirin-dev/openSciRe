@@ -143,7 +143,9 @@ class ZoteroBridge(ReferenceBridge):
         return item
 
     async def download_attachment(
-        self, item_id: str, attachment_id: str  # noqa: ARG002
+        self,
+        item_id: str,
+        attachment_id: str,  # noqa: ARG002
     ) -> bytes:
         """Download an attachment file (PDF, etc.) by item key."""
         if not self._user_id:
@@ -155,9 +157,7 @@ class ZoteroBridge(ReferenceBridge):
         response.raise_for_status()
         return response.content
 
-    async def sync(
-        self, last_sync: datetime | None = None
-    ) -> list[ReferenceItem]:
+    async def sync(self, last_sync: datetime | None = None) -> list[ReferenceItem]:
         """Fetch items modified since a version.
 
         Args:
@@ -252,9 +252,7 @@ class ZoteroBridge(ReferenceBridge):
                         id=child_data.get("key", ""),
                         filename=child_data.get("filename", ""),
                         content_type=child_data.get("contentType", ""),
-                        size_bytes=child_data.get("meta", {}).get(
-                            "parsedDate", 0
-                        ),
+                        size_bytes=child_data.get("meta", {}).get("parsedDate", 0),
                         url=child_data.get("url", ""),
                     )
                 )
@@ -266,17 +264,14 @@ class ZoteroBridge(ReferenceBridge):
             doi=doi,
             title=data.get("title", ""),
             authors=authors,
-            journal=data.get("publicationTitle", "")
-            or data.get("bookTitle", ""),
+            journal=data.get("publicationTitle", "") or data.get("bookTitle", ""),
             year=year,
             volume=data.get("volume", ""),
             issue=data.get("issue", ""),
             pages=data.get("pages", ""),
             publisher=data.get("publisher", ""),
             abstract=data.get("abstractNote", ""),
-            keywords=[
-                t.get("tag", "") for t in data.get("tags", []) if t.get("tag")
-            ],
+            keywords=[t.get("tag", "") for t in data.get("tags", []) if t.get("tag")],
             url=data.get("url", ""),
             attachments=attachments,
             tags=tags,

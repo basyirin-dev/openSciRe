@@ -92,7 +92,7 @@ class TestValidationError:
 class TestErrorCodes:
     def test_all_codes_accessible(self) -> None:
         codes = set(ErrorCode)
-        assert len(codes) == 28
+        assert len(codes) == 41
 
     def test_general_code(self) -> None:
         assert ErrorCode.ERR_BASE == "ERR_BASE"

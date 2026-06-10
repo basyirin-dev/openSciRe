@@ -8,7 +8,6 @@ from openscire.curation.models import SourceQualityScore
 from openscire.models.models import ReproducibilityStatus
 from openscire.references.models import ReferenceItem
 
-
 _METHOD_PATTERNS: dict[str, list[str]] = {
     "meta-analysis": [r"\bmeta-analysis\b", r"\bmeta analysis\b", r"\bsystematic review\b"],
     "clinical trial": [r"\bclinical trial\b", r"\brandomized\b", r"\bphase [iiv]+\b"],
@@ -33,12 +32,15 @@ class SourceQualityScorer:
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         config = config or {}
-        self.weights = config.get("quality_weights", {
-            "methodology": 0.30,
-            "replication": 0.25,
-            "citation": 0.15,
-            "recency": 0.30,
-        })
+        self.weights = config.get(
+            "quality_weights",
+            {
+                "methodology": 0.30,
+                "replication": 0.25,
+                "citation": 0.15,
+                "recency": 0.30,
+            },
+        )
 
     def score(self, source: ReferenceItem) -> SourceQualityScore:
         methodology = self._score_methodology(source)

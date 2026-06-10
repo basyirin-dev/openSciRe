@@ -39,13 +39,15 @@ class AdversarialSourceRetriever:
                     try:
                         items = await bridge.search(query)
                         for item in items[:max_per_claim]:
-                            results.append(AdversarialSource(
-                                claim=claim,
-                                source=item,
-                                contradiction_type="alternative_view",
-                                retrieved_via=bridge_name,
-                                confidence=0.5,
-                            ))
+                            results.append(
+                                AdversarialSource(
+                                    claim=claim,
+                                    source=item,
+                                    contradiction_type="alternative_view",
+                                    retrieved_via=bridge_name,
+                                    confidence=0.5,
+                                )
+                            )
                     except Exception:
                         logger.exception("Bridge %s failed for query %s", bridge_name, query)
         return results

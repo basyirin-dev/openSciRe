@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import enum
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -29,9 +29,7 @@ class SectionContent(BaseModel):
 class PedagogicalReport(BaseModel):
     title: str = "Research Analysis Report"
     description: str = ""
-    generated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     sections: list[SectionContent] = Field(default_factory=list)
     model_id: str = ""
     retrieval_config: dict[str, Any] = Field(default_factory=dict)

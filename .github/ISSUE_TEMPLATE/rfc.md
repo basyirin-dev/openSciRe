@@ -13,6 +13,7 @@ Why is this change needed? What problem does it solve, and for whom?
 ## Design Proposal
 
 Describe the proposed architecture, API, or workflow. Include:
+
 - Interfaces (types, function signatures, data models)
 - Data flow diagrams (text-based is fine)
 - Integration points with existing components
@@ -22,7 +23,7 @@ Describe the proposed architecture, API, or workflow. Include:
 What are the pros and cons of this approach?
 
 | Pro | Con |
-|-----|-----|
+| --- | --- |
 | ... | ... |
 | ... | ... |
 

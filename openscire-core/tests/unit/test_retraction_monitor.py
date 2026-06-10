@@ -53,6 +53,7 @@ class TestRetractionMonitor:
     @pytest.mark.asyncio
     async def test_check_batch(self, db: RetractionDatabase) -> None:
         retracted_dois: set[str] = {"10.1234/bad"}
+
         def is_retracted(doi: str) -> bool:
             return doi in retracted_dois
 
@@ -115,7 +116,10 @@ class TestRetractionMonitor:
             return doi == "10.1234/now-retracted"
 
         flagged_dois: list[str] = []
-        def flag_cb(doi: str, _old: RetractionStatus, _new: RetractionStatus, _records: list) -> None:  # noqa: E501
+
+        def flag_cb(
+            doi: str, _old: RetractionStatus, _new: RetractionStatus, _records: list
+        ) -> None:  # noqa: E501
             flagged_dois.append(doi)
 
         monitor = RetractionMonitor(

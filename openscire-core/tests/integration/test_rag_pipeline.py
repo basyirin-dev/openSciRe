@@ -5,10 +5,10 @@
 from __future__ import annotations
 
 import json
-from typing import Any, AsyncIterator
+from collections.abc import AsyncIterator
+from typing import Any
 
 import pytest
-
 from openscire.ethics.models import Source
 from openscire.references.chunking import ChunkConfig, DocumentChunker
 from openscire.references.enforcer import (
@@ -191,10 +191,12 @@ class TestRagPipeline:
         chunks = chunker.chunk(article, document_id="test:001")
 
         index = BM25SparseIndex()
-        index.add_documents([
-            IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
-            for c in chunks
-        ])
+        index.add_documents(
+            [
+                IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
+                for c in chunks
+            ]
+        )
 
         results = index.search("DNA methylation cancer tumor", top_k=5)
         assert len(results) >= 1
@@ -209,10 +211,12 @@ class TestRagPipeline:
         chunks = chunker.chunk(article, document_id="test:001")
 
         index = BM25SparseIndex()
-        index.add_documents([
-            IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
-            for c in chunks
-        ])
+        index.add_documents(
+            [
+                IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
+                for c in chunks
+            ]
+        )
 
         results = index.search("bisulfite sequencing statistical analysis", top_k=5)
         assert len(results) >= 1
@@ -286,16 +290,23 @@ class TestRagPipeline:
         self,
         known_sources: list[Source],
     ) -> None:
-        provider = _MockProvider(json.dumps({
-            "verdict": "supports",
-            "confidence": 0.92,
-            "explanation": "supports verdict",
-        }))
+        provider = _MockProvider(
+            json.dumps(
+                {
+                    "verdict": "supports",
+                    "confidence": 0.92,
+                    "explanation": "supports verdict",
+                }
+            )
+        )
         enforcer = SourceEnforcer()
         text = "DNA methylation patterns are altered in tumor cells (Smith, 2020)."
 
         report = enforcer.enforce(
-            text, known_sources, mode=CitationMode.WARN, provider=provider,
+            text,
+            known_sources,
+            mode=CitationMode.WARN,
+            provider=provider,
         )
         assert report.cross_check_enabled is True
         assert len(report.cross_check_results) == 1
@@ -305,16 +316,23 @@ class TestRagPipeline:
         self,
         known_sources: list[Source],
     ) -> None:
-        provider = _MockProvider(json.dumps({
-            "verdict": "contradicts",
-            "confidence": 0.85,
-            "explanation": "contradicts verdict",
-        }))
+        provider = _MockProvider(
+            json.dumps(
+                {
+                    "verdict": "contradicts",
+                    "confidence": 0.85,
+                    "explanation": "contradicts verdict",
+                }
+            )
+        )
         enforcer = SourceEnforcer()
         text = "DNA methylation patterns are altered in tumor cells (Smith, 2020)."
 
         report = enforcer.enforce(
-            text, known_sources, mode=CitationMode.WARN, provider=provider,
+            text,
+            known_sources,
+            mode=CitationMode.WARN,
+            provider=provider,
         )
         assert report.cross_check_enabled is True
         assert len(report.cross_check_results) == 1
@@ -332,10 +350,12 @@ class TestRagPipeline:
         chunks = chunker.chunk(article, document_id="test:001")
 
         index = BM25SparseIndex()
-        index.add_documents([
-            IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
-            for c in chunks
-        ])
+        index.add_documents(
+            [
+                IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
+                for c in chunks
+            ]
+        )
 
         results = index.search("DNA methylation gene expression", top_k=5)
         assert len(results) >= 1
@@ -361,23 +381,32 @@ class TestRagPipeline:
         chunks = chunker.chunk(article, document_id="test:001")
 
         index = BM25SparseIndex()
-        index.add_documents([
-            IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
-            for c in chunks
-        ])
+        index.add_documents(
+            [
+                IndexedDocument(id=c.id, text=c.text, metadata={"section": c.metadata.section})
+                for c in chunks
+            ]
+        )
 
         results = index.search("DNA methylation cancer", top_k=5)
         retrieved_text = " ".join(r.document.text for r in results[:3])
 
-        provider = _MockProvider(json.dumps({
-            "verdict": "supports",
-            "confidence": 0.90,
-            "explanation": "supports verdict",
-        }))
+        provider = _MockProvider(
+            json.dumps(
+                {
+                    "verdict": "supports",
+                    "confidence": 0.90,
+                    "explanation": "supports verdict",
+                }
+            )
+        )
 
         enforcer = SourceEnforcer()
         report = enforcer.enforce(
-            retrieved_text, known_sources, mode=CitationMode.WARN, provider=provider,
+            retrieved_text,
+            known_sources,
+            mode=CitationMode.WARN,
+            provider=provider,
         )
         assert report.cross_check_enabled is True
         assert len(report.cross_check_results) >= 0

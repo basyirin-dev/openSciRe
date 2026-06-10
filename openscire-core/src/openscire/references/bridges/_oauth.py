@@ -53,6 +53,7 @@ def _encrypt_token(data: dict[str, object]) -> str:
     if _FERNET is None:
         try:
             from cryptography.fernet import Fernet
+
             _FERNET = Fernet(_ensure_key())
         except ImportError:
             raise ReferenceError(
@@ -70,6 +71,7 @@ def _decrypt_token(ciphertext: str) -> dict[str, object]:
     if _FERNET is None:
         try:
             from cryptography.fernet import Fernet
+
             _FERNET = Fernet(_ensure_key())
         except ImportError:
             raise ReferenceError(
@@ -324,6 +326,7 @@ class OAuth2Helper:
 
         try:
             from aiohttp import web
+
             app = web.Application()
             app.router.add_get("/callback", _handle)  # type: ignore[arg-type]
             runner = web.AppRunner(app)
@@ -339,9 +342,7 @@ class OAuth2Helper:
                 await asyncio.sleep(1)
             await runner.cleanup()
         except ImportError:
-            logger.warning(
-                "aiohttp not available. Paste the full redirect URL: "
-            )
+            logger.warning("aiohttp not available. Paste the full redirect URL: ")
             # Fallback: prompt user to paste callback URL
             callback_url = input("Paste the full callback URL: ").strip()
             parsed = urlparse(callback_url)

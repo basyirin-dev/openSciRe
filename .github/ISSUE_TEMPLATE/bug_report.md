@@ -20,9 +20,9 @@ A clear, concise description of the bug.
 ## Reproduction Steps
 
 1. Run command: `...`
-2. Input: `...`
-3. Expected behavior: `...`
-4. Actual behavior: `...`
+1. Input: `...`
+1. Expected behavior: `...`
+1. Actual behavior: `...`
 
 ## Scientific Context (if applicable)
 

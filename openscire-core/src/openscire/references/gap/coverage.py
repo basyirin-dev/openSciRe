@@ -29,36 +29,48 @@ class CoverageGapDetector:
             n_sources = len(sources)
             n_papers = len(items)
             if n_sources < self.min_sources:
-                missing = [s for s in ("pubmed", "semantic_scholar", "openalex", "arxiv") if s not in sources]
-                gaps.append(LiteratureGap(
-                    gap_type=GapType.coverage,
-                    severity=GapSeverity.high,
-                    topic=subtopic,
-                    description=(
-                        f"Subtopic '{subtopic}' under '{topic}' has only {n_sources} source(s) "
-                        f"(min {self.min_sources} required). Sources found: {', '.join(sorted(sources)) or 'none'}."
-                    ),
-                    recommendation=(
-                        f"Search {', '.join(missing)} for '{subtopic}' to broaden evidence base."
-                    ),
-                    affected_count=n_papers,
-                    details={"sources_found": sorted(sources), "missing_sources": missing, "n_papers": n_papers},
-                ))
+                missing = [
+                    s
+                    for s in ("pubmed", "semantic_scholar", "openalex", "arxiv")
+                    if s not in sources
+                ]
+                gaps.append(
+                    LiteratureGap(
+                        gap_type=GapType.coverage,
+                        severity=GapSeverity.high,
+                        topic=subtopic,
+                        description=(
+                            f"Subtopic '{subtopic}' under '{topic}' has only {n_sources} source(s) "
+                            f"(min {self.min_sources} required). Sources found: {', '.join(sorted(sources)) or 'none'}."
+                        ),
+                        recommendation=(
+                            f"Search {', '.join(missing)} for '{subtopic}' to broaden evidence base."
+                        ),
+                        affected_count=n_papers,
+                        details={
+                            "sources_found": sorted(sources),
+                            "missing_sources": missing,
+                            "n_papers": n_papers,
+                        },
+                    )
+                )
             elif n_papers < self.min_papers:
-                gaps.append(LiteratureGap(
-                    gap_type=GapType.coverage,
-                    severity=GapSeverity.medium,
-                    topic=subtopic,
-                    description=(
-                        f"Subtopic '{subtopic}' under '{topic}' has only {n_papers} paper(s) "
-                        f"(min {self.min_papers} recommended)."
-                    ),
-                    recommendation=(
-                        f"Search for more papers on '{subtopic}' to strengthen coverage."
-                    ),
-                    affected_count=n_papers,
-                    details={"sources_found": sorted(sources), "n_papers": n_papers},
-                ))
+                gaps.append(
+                    LiteratureGap(
+                        gap_type=GapType.coverage,
+                        severity=GapSeverity.medium,
+                        topic=subtopic,
+                        description=(
+                            f"Subtopic '{subtopic}' under '{topic}' has only {n_papers} paper(s) "
+                            f"(min {self.min_papers} recommended)."
+                        ),
+                        recommendation=(
+                            f"Search for more papers on '{subtopic}' to strengthen coverage."
+                        ),
+                        affected_count=n_papers,
+                        details={"sources_found": sorted(sources), "n_papers": n_papers},
+                    )
+                )
         return gaps
 
     @staticmethod

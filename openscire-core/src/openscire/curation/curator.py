@@ -47,7 +47,8 @@ class Curator:
         claims: list[str] | None = None,
     ) -> EchoChamberReport:
         passed, ratio = self.ratio_enforcer.check_ratio(
-            len(user_sources), len(external_sources),
+            len(user_sources),
+            len(external_sources),
         )
         all_sources = user_sources + external_sources
         effective_claims = claims or [s.title for s in user_sources if s.title]

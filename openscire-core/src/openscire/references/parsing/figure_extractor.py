@@ -48,7 +48,6 @@ class FigureExtractor:
         fitz = self._get_pymupdf()
         images: list[dict[str, Any]] = []
         try:
-
             doc = fitz.open(stream=pdf_bytes, filetype="pdf")
         except Exception as e:
             raise ReferenceError(

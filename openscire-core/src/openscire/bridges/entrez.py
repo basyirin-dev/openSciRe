@@ -187,11 +187,13 @@ class EntrezClient:
         summaries: list[EntrezSummary] = []
         for uid in uid_list:
             entry = result.get(str(uid), {})
-            summaries.append(EntrezSummary(
-                id=str(uid),
-                db=db,
-                data=entry,
-            ))
+            summaries.append(
+                EntrezSummary(
+                    id=str(uid),
+                    db=db,
+                    data=entry,
+                )
+            )
         return summaries
 
     async def efetch(
@@ -235,11 +237,13 @@ class EntrezClient:
                 id=str(ls.get("ids", [""])[0]) if ls.get("ids") else "",
             )
             for link_db in ls.get("linksetdbs", []):
-                link_set.links.append(EntrezLink(
-                    db_to=link_db.get("dbto", ""),
-                    link_name=link_db.get("linkname", ""),
-                    ids=[str(lid) for lid in link_db.get("links", [])],
-                ))
+                link_set.links.append(
+                    EntrezLink(
+                        db_to=link_db.get("dbto", ""),
+                        link_name=link_db.get("linkname", ""),
+                        ids=[str(lid) for lid in link_db.get("links", [])],
+                    )
+                )
             results.append(link_set)
         return results
 
@@ -421,18 +425,20 @@ class EntrezClient:
 
             date_el = assembly.find("Date")
 
-            records.append(AssemblyRecord(
-                assembly_accession=_safe_text(assembly, "Assembly_accession"),
-                assembly_name=_safe_text(assembly, "Assembly_name"),
-                organism=organism,
-                taxon_id=taxon_id,
-                assembly_level=_safe_text(assembly, "Assembly_level"),
-                assembly_type=_safe_text(assembly, "Assembly_type"),
-                genome_representation=_safe_text(assembly, "Genome_representation"),
-                release_date=date_el.text or "" if date_el is not None else "",
-                submitter=submitter,
-                total_sequence_length=total_length,
-            ))
+            records.append(
+                AssemblyRecord(
+                    assembly_accession=_safe_text(assembly, "Assembly_accession"),
+                    assembly_name=_safe_text(assembly, "Assembly_name"),
+                    organism=organism,
+                    taxon_id=taxon_id,
+                    assembly_level=_safe_text(assembly, "Assembly_level"),
+                    assembly_type=_safe_text(assembly, "Assembly_type"),
+                    genome_representation=_safe_text(assembly, "Genome_representation"),
+                    release_date=date_el.text or "" if date_el is not None else "",
+                    submitter=submitter,
+                    total_sequence_length=total_length,
+                )
+            )
         return records
 
     @staticmethod
@@ -460,22 +466,24 @@ class EntrezClient:
             tax_id_str = _safe_text(taxon, "TaxId")
             tax_id = int(tax_id_str) if tax_id_str else 0
 
-            records.append(TaxonomyRecord(
-                taxon_id=tax_id,
-                scientific_name=_safe_text(taxon, "ScientificName"),
-                common_name=_safe_text(taxon, "CommonName"),
-                genbank_common_name=_safe_text(taxon, "GenbankCommonName"),
-                lineage=_safe_text(taxon, "Lineage"),
-                genetic_code=gc_id,
-                mito_genetic_code=mito_gc_id,
-                rank=_safe_text(taxon, "Rank"),
-                division=_safe_text(taxon, "Division"),
-                parent_taxon_id=(
-                    int(_safe_text(taxon, "ParentTaxId"))
-                    if _safe_text(taxon, "ParentTaxId")
-                    else None
-                ),
-            ))
+            records.append(
+                TaxonomyRecord(
+                    taxon_id=tax_id,
+                    scientific_name=_safe_text(taxon, "ScientificName"),
+                    common_name=_safe_text(taxon, "CommonName"),
+                    genbank_common_name=_safe_text(taxon, "GenbankCommonName"),
+                    lineage=_safe_text(taxon, "Lineage"),
+                    genetic_code=gc_id,
+                    mito_genetic_code=mito_gc_id,
+                    rank=_safe_text(taxon, "Rank"),
+                    division=_safe_text(taxon, "Division"),
+                    parent_taxon_id=(
+                        int(_safe_text(taxon, "ParentTaxId"))
+                        if _safe_text(taxon, "ParentTaxId")
+                        else None
+                    ),
+                )
+            )
         return records
 
     async def close(self) -> None:

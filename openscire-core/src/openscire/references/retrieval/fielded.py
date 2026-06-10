@@ -56,9 +56,7 @@ class FieldedSearchIndex:
             field_results = self._search_field(field, query, top_k)
             for r in field_results:
                 doc_id = r.document.id
-                all_scores[doc_id] = all_scores.get(doc_id, 0.0) + 1.0 / (
-                    60 + r.rank
-                )
+                all_scores[doc_id] = all_scores.get(doc_id, 0.0) + 1.0 / (60 + r.rank)
 
         ranked = sorted(all_scores.items(), key=lambda x: -x[1])
         ranked = ranked[:top_k]

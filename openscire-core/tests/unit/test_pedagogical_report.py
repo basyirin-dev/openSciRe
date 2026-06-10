@@ -2,8 +2,6 @@
 
 import json
 
-import pytest
-
 from openscire.references.report import (
     PedagogicalReport,
     PedagogicalReportBuilder,
@@ -15,15 +13,20 @@ from openscire.references.report import (
 )
 from openscire.references.report.builder import _confidence_label, _pct
 
-
 # ---------------------------------------------------------------------------
 # Helpers — minimal test double classes
 # ---------------------------------------------------------------------------
 
 
 class _FakeGap:
-    def __init__(self, gap_type: str, severity: str, description: str,
-                 recommendation: str = "", affected_count: int = 0) -> None:
+    def __init__(
+        self,
+        gap_type: str,
+        severity: str,
+        description: str,
+        recommendation: str = "",
+        affected_count: int = 0,
+    ) -> None:
         self.gap_type = gap_type
         self.severity = severity
         self.description = description
@@ -37,9 +40,14 @@ class _FakeGapReport:
 
 
 class _FakeEnforcementReport:
-    def __init__(self, total_sentences: int = 0, cited_sentences: int = 0,
-                 unsupported_claims: list | None = None,
-                 mode: str = "audit", cross_check_enabled: bool = False) -> None:
+    def __init__(
+        self,
+        total_sentences: int = 0,
+        cited_sentences: int = 0,
+        unsupported_claims: list | None = None,
+        mode: str = "audit",
+        cross_check_enabled: bool = False,
+    ) -> None:
         self.total_sentences = total_sentences
         self.cited_sentences = cited_sentences
         self.unsupported_claims = unsupported_claims or []
@@ -48,9 +56,14 @@ class _FakeEnforcementReport:
 
 
 class _FakeCrossCheckResult:
-    def __init__(self, verdict: str, claim_text: str = "",
-                 confidence: float = 0.0, explanation: str = "",
-                 source_title: str = "") -> None:
+    def __init__(
+        self,
+        verdict: str,
+        claim_text: str = "",
+        confidence: float = 0.0,
+        explanation: str = "",
+        source_title: str = "",
+    ) -> None:
         self.verdict = _FakeVerdict(verdict)
         self.claim_text = claim_text
         self.confidence = confidence
@@ -119,9 +132,7 @@ class TestPedagogicalReport:
         r = PedagogicalReport(
             title="My Report",
             description="Test",
-            sections=[
-                SectionContent(section=ReportSection.PROVENANCE, body="data")
-            ],
+            sections=[SectionContent(section=ReportSection.PROVENANCE, body="data")],
             model_id="gpt-4",
             total_gaps=3,
         )
@@ -153,13 +164,18 @@ class TestBuilder:
         builder = PedagogicalReportBuilder()
         report = builder.add_gap_report(gr).build()
         assert report.total_gaps == 2
-        rationale = next(s for s in report.sections if s.section == ReportSection.SELECTION_RATIONALE)
+        rationale = next(
+            s for s in report.sections if s.section == ReportSection.SELECTION_RATIONALE
+        )
         assert "coverage" in rationale.body
         assert "geographic" in rationale.body
 
     def test_build_with_enforcement_report(self) -> None:
-        er = _FakeEnforcementReport(total_sentences=10, cited_sentences=7,
-                                    unsupported_claims=[_FakeUnsupportedClaim("no_citation")])
+        er = _FakeEnforcementReport(
+            total_sentences=10,
+            cited_sentences=7,
+            unsupported_claims=[_FakeUnsupportedClaim("no_citation")],
+        )
         builder = PedagogicalReportBuilder()
         report = builder.add_enforcement_report(er).build()
         summary = next(s for s in report.sections if s.section == ReportSection.EXECUTIVE_SUMMARY)
@@ -177,21 +193,26 @@ class TestBuilder:
         assert report.cross_checks_run == 3
         assert report.cross_checks_failed == 2  # contradicts + unverifiable
 
-        alternatives = next(s for s in report.sections if s.section == ReportSection.ALTERNATIVE_INTERPRETATIONS)
+        alternatives = next(
+            s for s in report.sections if s.section == ReportSection.ALTERNATIVE_INTERPRETATIONS
+        )
         assert "Claim B" in alternatives.body
 
-        limitations = next(s for s in report.sections if s.section == ReportSection.SELF_IDENTIFIED_LIMITATIONS)
+        limitations = next(
+            s for s in report.sections if s.section == ReportSection.SELF_IDENTIFIED_LIMITATIONS
+        )
         assert "Claim C" in limitations.body
 
-        uncertainty = next(s for s in report.sections if s.section == ReportSection.UNCERTAINTY_INDICATORS)
+        uncertainty = next(
+            s for s in report.sections if s.section == ReportSection.UNCERTAINTY_INDICATORS
+        )
         assert "Claim A" in uncertainty.body
         assert "high confidence" in uncertainty.body
 
     def test_build_with_metadata(self) -> None:
         builder = PedagogicalReportBuilder()
         report = (
-            builder
-            .set_model_id("claude-3.5")
+            builder.set_model_id("claude-3.5")
             .set_retrieval_config({"top_k": 20, "threshold": 0.7})
             .set_generation_params({"temperature": 0.2})
             .build()
@@ -199,7 +220,9 @@ class TestBuilder:
         assert report.model_id == "claude-3.5"
         assert report.retrieval_config == {"top_k": 20, "threshold": 0.7}
 
-        params = next(s for s in report.sections if s.section == ReportSection.PARAMETER_DOCUMENTATION)
+        params = next(
+            s for s in report.sections if s.section == ReportSection.PARAMETER_DOCUMENTATION
+        )
         assert "claude-3.5" in params.body
 
     def test_chaining(self) -> None:
@@ -210,13 +233,17 @@ class TestBuilder:
     def test_no_gaps_shows_empty_message(self) -> None:
         builder = PedagogicalReportBuilder()
         report = builder.add_gap_report(_FakeGapReport([])).build()
-        rationale = next(s for s in report.sections if s.section == ReportSection.SELECTION_RATIONALE)
+        rationale = next(
+            s for s in report.sections if s.section == ReportSection.SELECTION_RATIONALE
+        )
         assert "No literature gaps" in rationale.body
 
     def test_no_cross_checks_shows_no_alternatives_message(self) -> None:
         builder = PedagogicalReportBuilder()
         report = builder.build()
-        alt = next(s for s in report.sections if s.section == ReportSection.ALTERNATIVE_INTERPRETATIONS)
+        alt = next(
+            s for s in report.sections if s.section == ReportSection.ALTERNATIVE_INTERPRETATIONS
+        )
         assert "No alternative interpretations" in alt.body
 
 
@@ -343,8 +370,10 @@ class TestROCrateExport:
 
     def test_quantitative_values(self) -> None:
         report = PedagogicalReport(
-            total_gaps=5, total_unsupported_claims=3,
-            cross_checks_run=10, cross_checks_failed=2,
+            total_gaps=5,
+            total_unsupported_claims=3,
+            cross_checks_run=10,
+            cross_checks_failed=2,
         )
         crate = to_ro_crate(report)
         qvs = [e for e in crate["@graph"] if e.get("@type") == "QuantitativeValue"]
@@ -357,8 +386,11 @@ class TestROCrateExport:
     def test_section_entities(self) -> None:
         report = PedagogicalReportBuilder().build()
         crate = to_ro_crate(report)
-        sections = [e for e in crate["@graph"] if e.get("@type") == "CreativeWork"
-                    and e["@id"].startswith("#section-")]
+        sections = [
+            e
+            for e in crate["@graph"]
+            if e.get("@type") == "CreativeWork" and e["@id"].startswith("#section-")
+        ]
         assert len(sections) == 7  # one per ReportSection
 
 
@@ -388,5 +420,6 @@ class TestNoArtifactModes:
 
     def test_only_three_export_functions(self) -> None:
         from openscire.references.report import __all__ as report_exports
+
         export_funcs = [e for e in report_exports if e.startswith("to_")]
         assert set(export_funcs) == {"to_markdown", "to_ipynb", "to_ro_crate"}

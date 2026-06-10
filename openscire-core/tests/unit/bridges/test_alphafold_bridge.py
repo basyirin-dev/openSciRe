@@ -142,6 +142,7 @@ class TestPredictionAPI:
     @respx.mock
     async def test_fetch_prediction_network_error(self, client: AlphaFoldClient) -> None:
         import httpx
+
         respx.get(f"{BASE_URL}/api/prediction/P05067").mock(
             side_effect=httpx.ConnectError("connection failed"),
         )
@@ -156,8 +157,10 @@ class TestPredictionAPI:
             async def search(self, query: str = "", size: int = 50) -> object:  # noqa: ARG002
                 class _Result:
                     primary_accession = "P05067"
+
                 class _SearchResult:
                     results = [_Result()]
+
                 return _SearchResult()
 
         respx.get(f"{BASE_URL}/api/prediction/P05067").mock(
@@ -208,6 +211,7 @@ class TestStructureDownload:
     @respx.mock
     async def test_download_to_file(self, client: AlphaFoldClient, tmp_path: Any) -> None:  # noqa: ANN401
         import os
+
         respx.get(f"{BASE_URL}/api/prediction/P05067").mock(
             return_value=Response(200, json=PREDICTION_RESPONSE),
         )
@@ -227,6 +231,7 @@ class TestStructureDownload:
     @respx.mock
     async def test_download_batch(self, client: AlphaFoldClient, tmp_path: Any) -> None:  # noqa: ANN401
         import os
+
         respx.get(f"{BASE_URL}/api/prediction/P05067").mock(
             return_value=Response(200, json=PREDICTION_RESPONSE),
         )

@@ -40,17 +40,13 @@ class TestTranslationService:
         assert flags == []
 
     def test_estimate_meaning_loss_empty_translation(self) -> None:
-        flags = TranslationService.estimate_meaning_loss(
-            "Hello world", "", "en", "fr"
-        )
+        flags = TranslationService.estimate_meaning_loss("Hello world", "", "en", "fr")
         assert MeaningLossFlag.LOW_CONFIDENCE in flags
 
     def test_estimate_meaning_loss_ratio_anomaly(self) -> None:
         short_source = "Hi"
         long_translation = " ".join(["word"] * 20)
-        flags = TranslationService.estimate_meaning_loss(
-            short_source, long_translation, "en", "fr"
-        )
+        flags = TranslationService.estimate_meaning_loss(short_source, long_translation, "en", "fr")
         assert MeaningLossFlag.LOW_CONFIDENCE in flags
 
     def test_estimate_meaning_loss_untranslated_segment(self) -> None:

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from openscire.references.report.models import PedagogicalReport, ReportSection
 
-
 _SECTION_ORDER: list[ReportSection] = [
     ReportSection.EXECUTIVE_SUMMARY,
     ReportSection.SELECTION_RATIONALE,

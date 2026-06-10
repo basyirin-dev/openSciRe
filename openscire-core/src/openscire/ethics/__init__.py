@@ -1,3 +1,12 @@
+"""Ethical governance layer: firewall, tier classification, carbon tracking, and source grounding.
+
+Provides EthicalFirewall (pre/post-inference scanning), TierClassifier (risk tier
+assignment with cool-off), CarbonBudgetTracker (energy/carbon estimation and capping),
+DataSovereigntyChecker (consent/export restriction enforcement), IndigenousKnowledgeProtector
+(CARE principles), ConfabulationDetector (post-generation claim validation), and
+VerificationAsymmetryTracker (epistemic asymmetry auditing).
+"""
+
 from openscire.constants import DURCCategory, ErrorCode, RiskTier
 from openscire.ethics.audit import FirewallAuditLog
 from openscire.ethics.carbon import CarbonBudgetTracker

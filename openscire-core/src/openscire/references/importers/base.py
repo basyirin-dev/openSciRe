@@ -12,8 +12,7 @@ class ReferenceImporter(ABC):
     """Parse reference metadata from a file format into ReferenceItems."""
 
     @abstractmethod
-    def parse(self, content: str | bytes) -> list[ReferenceItem]:
-        ...
+    def parse(self, content: str | bytes) -> list[ReferenceItem]: ...
 
     def parse_file(self, path: str | Path) -> list[ReferenceItem]:
         path = Path(path)

@@ -2,24 +2,11 @@
 
 """Bio-database bridge clients (UniProt, PDB, Entrez, AlphaFold, etc.)."""
 
-from openscire.bridges.interpro import (
-    GoTerm,
-    InterProClient,
-    InterProEntry,
-    InterProMatch,
-    InterProProteinEntry,
-    InterProScanClient,
-    InterProScanResult,
-    LiteratureRef,
-    MemberDatabaseEntry,
-    SignatureDBMeta,
-    SignatureDBMethod,
-)
 from openscire.bridges.alphafold import (
     AlphaFoldClient,
     AlphaFoldPrediction,
-    DisorderReport,
     DisorderedRegion,
+    DisorderReport,
     DomainRegion,
     PaeMatrix,
     ResidueConfidence,
@@ -33,6 +20,19 @@ from openscire.bridges.entrez import (
     EntrezSummary,
     NucleotideRecord,
     TaxonomyRecord,
+)
+from openscire.bridges.interpro import (
+    GoTerm,
+    InterProClient,
+    InterProEntry,
+    InterProMatch,
+    InterProProteinEntry,
+    InterProScanClient,
+    InterProScanResult,
+    LiteratureRef,
+    MemberDatabaseEntry,
+    SignatureDBMeta,
+    SignatureDBMethod,
 )
 from openscire.bridges.pdb import (
     PdbAuthor,

@@ -14,9 +14,14 @@ from openscire.exceptions import ReferenceError
 
 logger = logging.getLogger(__name__)
 
-_TARGET_ANNOTATION_TYPES = frozenset({
-    "InterPro", "SCOP", "CATH", "GO",
-})
+_TARGET_ANNOTATION_TYPES = frozenset(
+    {
+        "InterPro",
+        "SCOP",
+        "CATH",
+        "GO",
+    }
+)
 
 _GRAPHQL_ENTRY_QUERY = """
 query($id: String!) {
@@ -146,15 +151,17 @@ class PdbQueryBuilder:
         value: Any,  # noqa: ANN401
         service: str = "text",
     ) -> PdbQueryBuilder:
-        self._nodes.append({
-            "type": "terminal",
-            "service": service,
-            "parameters": {
-                "attribute": attribute,
-                "operator": operator,
-                "value": value,
-            },
-        })
+        self._nodes.append(
+            {
+                "type": "terminal",
+                "service": service,
+                "parameters": {
+                    "attribute": attribute,
+                    "operator": operator,
+                    "value": value,
+                },
+            }
+        )
         return self
 
     def resolution(
@@ -180,30 +187,32 @@ class PdbQueryBuilder:
         min_val: float,
         max_val: float,
     ) -> PdbQueryBuilder:
-        self._nodes.append({
-            "type": "group",
-            "logical_operator": "and",
-            "nodes": [
-                {
-                    "type": "terminal",
-                    "service": "text",
-                    "parameters": {
-                        "attribute": attribute,
-                        "operator": "greater_or_equal",
-                        "value": min_val,
+        self._nodes.append(
+            {
+                "type": "group",
+                "logical_operator": "and",
+                "nodes": [
+                    {
+                        "type": "terminal",
+                        "service": "text",
+                        "parameters": {
+                            "attribute": attribute,
+                            "operator": "greater_or_equal",
+                            "value": min_val,
+                        },
                     },
-                },
-                {
-                    "type": "terminal",
-                    "service": "text",
-                    "parameters": {
-                        "attribute": attribute,
-                        "operator": "less_or_equal",
-                        "value": max_val,
+                    {
+                        "type": "terminal",
+                        "service": "text",
+                        "parameters": {
+                            "attribute": attribute,
+                            "operator": "less_or_equal",
+                            "value": max_val,
+                        },
                     },
-                },
-            ],
-        })
+                ],
+            }
+        )
         return self
 
     def ligand(self, ligand_id: str) -> PdbQueryBuilder:
@@ -225,15 +234,17 @@ class PdbQueryBuilder:
         seq: str,
         identity: float = 0.9,
     ) -> PdbQueryBuilder:
-        self._nodes.append({
-            "type": "terminal",
-            "service": "sequence",
-            "parameters": {
-                "value": seq,
-                "sequence_type": "protein",
-                "identity_cutoff": identity,
-            },
-        })
+        self._nodes.append(
+            {
+                "type": "terminal",
+                "service": "sequence",
+                "parameters": {
+                    "value": seq,
+                    "sequence_type": "protein",
+                    "identity_cutoff": identity,
+                },
+            }
+        )
         return self
 
     def structure_id(self, pdb_id: str) -> PdbQueryBuilder:
@@ -437,11 +448,7 @@ class PdbClient:
     def _parse_authors(
         audit_author: list[dict[str, Any]],
     ) -> list[PdbAuthor]:
-        return [
-            PdbAuthor(name=a.get("name", ""))
-            for a in audit_author
-            if a.get("name")
-        ]
+        return [PdbAuthor(name=a.get("name", "")) for a in audit_author if a.get("name")]
 
     @staticmethod
     def _parse_citation(
@@ -479,9 +486,7 @@ class PdbClient:
             poly = ent.get("entity_poly", {}) or {}
             polymer_type = poly.get("rcsb_entity_polymer_type", "")
             sequence = poly.get("pdbx_seq_one_letter_code_can", "")
-            container = (
-                ent.get("rcsb_polymer_entity_container_identifiers", {}) or {}
-            )
+            container = ent.get("rcsb_polymer_entity_container_identifiers", {}) or {}
             chain_ids = container.get("asym_ids", [])
 
             uniprots_raw = ent.get("uniprots") or []
@@ -493,19 +498,19 @@ class PdbClient:
 
             pfams_raw = ent.get("pfams") or []
             pfam_accessions = [
-                p.get("rcsb_pfam_accession", "")
-                for p in pfams_raw
-                if p.get("rcsb_pfam_accession")
+                p.get("rcsb_pfam_accession", "") for p in pfams_raw if p.get("rcsb_pfam_accession")
             ]
 
-            result.append(PdbPolymerEntity(
-                entity_id=entity_id,
-                polymer_type=polymer_type,
-                sequence=sequence,
-                chain_ids=list(chain_ids),
-                uniprot_accessions=uniprot_accessions,
-                pfam_accessions=pfam_accessions,
-            ))
+            result.append(
+                PdbPolymerEntity(
+                    entity_id=entity_id,
+                    polymer_type=polymer_type,
+                    sequence=sequence,
+                    chain_ids=list(chain_ids),
+                    uniprot_accessions=uniprot_accessions,
+                    pfam_accessions=pfam_accessions,
+                )
+            )
         return result
 
     # --- 4.16.3: Experimental vs predicted classification ---
@@ -528,10 +533,7 @@ class PdbClient:
         results: list[PdbStructureResult],
         max_res: float,
     ) -> list[PdbStructureResult]:
-        return [
-            r for r in results
-            if r.resolution is not None and r.resolution <= max_res
-        ]
+        return [r for r in results if r.resolution is not None and r.resolution <= max_res]
 
     @staticmethod
     def check_quality(
@@ -541,12 +543,8 @@ class PdbClient:
     ) -> bool:
         if not result.experimental_method:
             return False
-        r_free_ok = (
-            result.r_free is None or result.r_free <= max_r_free
-        )
-        r_work_ok = (
-            result.r_work is None or result.r_work <= max_r_work
-        )
+        r_free_ok = result.r_free is None or result.r_free <= max_r_free
+        r_work_ok = result.r_work is None or result.r_work <= max_r_work
         return r_free_ok and r_work_ok
 
     # --- 4.16.5: Cross-reference extraction ---
@@ -560,15 +558,19 @@ class PdbClient:
 
         for entity in polymer_entities:
             for acc in entity.uniprot_accessions:
-                xrefs.append(PdbCrossReference(
-                    database="UniProt",
-                    identifier=acc,
-                ))
+                xrefs.append(
+                    PdbCrossReference(
+                        database="UniProt",
+                        identifier=acc,
+                    )
+                )
             for pfam in entity.pfam_accessions:
-                xrefs.append(PdbCrossReference(
-                    database="Pfam",
-                    identifier=pfam,
-                ))
+                xrefs.append(
+                    PdbCrossReference(
+                        database="Pfam",
+                        identifier=pfam,
+                    )
+                )
 
         annotations: list[dict[str, Any]] = []
         for ent in data.get("polymer_entities", []):
@@ -583,25 +585,31 @@ class PdbClient:
                 key = (atype, aname)
                 if key not in seen_annotation:
                     seen_annotation.add(key)
-                    xrefs.append(PdbCrossReference(
-                        database=atype,
-                        identifier=aname,
-                        properties={"provenance": ann.get("provenance_source", "")},
-                    ))
+                    xrefs.append(
+                        PdbCrossReference(
+                            database=atype,
+                            identifier=aname,
+                            properties={"provenance": ann.get("provenance_source", "")},
+                        )
+                    )
 
         citation = self._parse_citation(data.get("rcsb_primary_citation"))
         if citation and citation.pubmed_id:
-            xrefs.append(PdbCrossReference(
-                database="PubMed",
-                identifier=str(citation.pubmed_id),
-            ))
+            xrefs.append(
+                PdbCrossReference(
+                    database="PubMed",
+                    identifier=str(citation.pubmed_id),
+                )
+            )
 
         identifiers = data.get("rcsb_entry_container_identifiers", {}) or {}
         for emdb in identifiers.get("emdb_ids") or []:
-            xrefs.append(PdbCrossReference(
-                database="EMDB",
-                identifier=emdb,
-            ))
+            xrefs.append(
+                PdbCrossReference(
+                    database="EMDB",
+                    identifier=emdb,
+                )
+            )
 
         return xrefs
 

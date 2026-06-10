@@ -267,14 +267,17 @@ class TestEntryBySource:
     @respx.mock
     async def test_get_entry_by_source(self, client: InterProClient) -> None:
         respx.get(f"{API_URL}/entry/pfam/PF00051").mock(
-            return_value=Response(200, json={
-                "metadata": {
-                    "accession": "PF00051",
-                    "name": {"name": "Kringle"},
-                    "source_database": "pfam",
-                    "type": "domain",
+            return_value=Response(
+                200,
+                json={
+                    "metadata": {
+                        "accession": "PF00051",
+                        "name": {"name": "Kringle"},
+                        "source_database": "pfam",
+                        "type": "domain",
+                    },
                 },
-            }),
+            ),
         )
         entry = await client.get_entry_by_source("pfam", "PF00051")
         assert entry.accession == "PF00051"
@@ -500,12 +503,14 @@ class TestScanAPI:
 class TestParsing:
     def test_go_term_parse(self) -> None:
         from openscire.bridges.interpro import GoTerm
+
         term = GoTerm(identifier="GO:0004522", name="activity", category="F")
         assert term.identifier == "GO:0004522"
         assert term.category == "F"
 
     def test_member_database_describe(self) -> None:
         from openscire.bridges.interpro import MemberDatabaseEntry
+
         mdb = MemberDatabaseEntry(
             database="pfam",
             accession="PF00051",
@@ -520,6 +525,7 @@ class TestParsing:
 
     def test_literature_ref(self) -> None:
         from openscire.bridges.interpro import LiteratureRef
+
         ref = LiteratureRef(pmid="3940901", title="Test", year=1986)
         assert ref.doi == ""
 
@@ -541,9 +547,12 @@ class TestEdgeCases:
     @respx.mock
     async def test_partial_metadata(self, client: InterProClient) -> None:
         respx.get(f"{API_URL}/entry/interpro/IPR000X").mock(
-            return_value=Response(200, json={
-                "metadata": {"accession": "IPR000X", "type": "family"},
-            }),
+            return_value=Response(
+                200,
+                json={
+                    "metadata": {"accession": "IPR000X", "type": "family"},
+                },
+            ),
         )
         entry = await client.get_entry("IPR000X")
         assert entry.accession == "IPR000X"

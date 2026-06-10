@@ -406,25 +406,33 @@ class InterProClient:
             entry_type = entry_meta.get("type", "")
             db = entry_meta.get("source_database", "")
 
-            locations_raw = entry.get("locations") or entry.get(
-                "entry_protein_locations",
-            ) or []
+            locations_raw = (
+                entry.get("locations")
+                or entry.get(
+                    "entry_protein_locations",
+                )
+                or []
+            )
             locations: list[MatchLocation] = []
             for loc in locations_raw:
                 fragments = loc.get("fragments") or [loc]
                 for frag in fragments:
-                    locations.append(MatchLocation(
-                        start=frag.get("start", 0),
-                        end=frag.get("end", 0),
-                    ))
+                    locations.append(
+                        MatchLocation(
+                            start=frag.get("start", 0),
+                            end=frag.get("end", 0),
+                        )
+                    )
 
-            matches.append(InterProMatch(
-                accession=acc,
-                name=name,
-                type=entry_type,
-                source_db=db,
-                locations=locations,
-            ))
+            matches.append(
+                InterProMatch(
+                    accession=acc,
+                    name=name,
+                    type=entry_type,
+                    source_db=db,
+                    locations=locations,
+                )
+            )
         return matches
 
     @staticmethod
@@ -450,11 +458,13 @@ class InterProClient:
                 cat_code = cat_data.get("code", "")
             elif isinstance(cat_data, str):
                 cat_code = cat_data
-            terms.append(GoTerm(
-                identifier=g.get("identifier", ""),
-                name=g.get("name", ""),
-                category=cat_code,
-            ))
+            terms.append(
+                GoTerm(
+                    identifier=g.get("identifier", ""),
+                    name=g.get("name", ""),
+                    category=cat_code,
+                )
+            )
         return terms
 
     @staticmethod
@@ -465,19 +475,23 @@ class InterProClient:
         for db_name, signatures in md.items():
             if isinstance(signatures, dict):
                 for sig_acc, sig_name in signatures.items():
-                    entries.append(MemberDatabaseEntry(
-                        database=db_name,
-                        accession=sig_acc,
-                        name=str(sig_name),
-                    ))
+                    entries.append(
+                        MemberDatabaseEntry(
+                            database=db_name,
+                            accession=sig_acc,
+                            name=str(sig_name),
+                        )
+                    )
             elif isinstance(signatures, list):
                 for sig in signatures:
                     if isinstance(sig, dict):
-                        entries.append(MemberDatabaseEntry(
-                            database=db_name,
-                            accession=sig.get("accession", ""),
-                            name=sig.get("name", ""),
-                        ))
+                        entries.append(
+                            MemberDatabaseEntry(
+                                database=db_name,
+                                accession=sig.get("accession", ""),
+                                name=sig.get("name", ""),
+                            )
+                        )
         return entries
 
     @staticmethod
@@ -495,13 +509,15 @@ class InterProClient:
                     authors.append(a)
                 elif isinstance(a, dict):
                     authors.append(a.get("name", ""))
-            refs.append(LiteratureRef(
-                pmid=str(details.get("PMID", "")),
-                title=details.get("title", ""),
-                authors=authors,
-                year=details.get("year", 0) or 0,
-                doi=details.get("DOI_URL", "").replace("http://dx.doi.org/", ""),
-            ))
+            refs.append(
+                LiteratureRef(
+                    pmid=str(details.get("PMID", "")),
+                    title=details.get("title", ""),
+                    authors=authors,
+                    year=details.get("year", 0) or 0,
+                    doi=details.get("DOI_URL", "").replace("http://dx.doi.org/", ""),
+                )
+            )
         return refs
 
     async def close(self) -> None:
@@ -625,7 +641,10 @@ class InterProScanClient:
         import asyncio
 
         job_id = await self.submit_sequence(
-            sequence, stype=stype, email=email, appl=appl,
+            sequence,
+            stype=stype,
+            email=email,
+            appl=appl,
         )
         elapsed = 0.0
         while elapsed < self.poll_timeout:
@@ -681,23 +700,25 @@ class InterProScanClient:
 
             evidence_label = EvidenceTypeLabel.PREDICTED
 
-            matches.append(InterProMatch(
-                accession=entry_acc,
-                name=name,
-                type=entry_type,
-                source_db=source_db,
-                signature_accession=acc,
-                description=description,
-                e_value=sig_data.get("e_value"),
-                score=sig_data.get("score"),
-                locations=locations,
-                evidence_label=evidence_label,
-                extra={
-                    "full_db_name": db_data.get("name", ""),
-                    "db_version": db_data.get("version", ""),
-                    "model_length": sig_data.get("signature_model", {}).get("length"),
-                },
-            ))
+            matches.append(
+                InterProMatch(
+                    accession=entry_acc,
+                    name=name,
+                    type=entry_type,
+                    source_db=source_db,
+                    signature_accession=acc,
+                    description=description,
+                    e_value=sig_data.get("e_value"),
+                    score=sig_data.get("score"),
+                    locations=locations,
+                    evidence_label=evidence_label,
+                    extra={
+                        "full_db_name": db_data.get("name", ""),
+                        "db_version": db_data.get("version", ""),
+                        "model_length": sig_data.get("signature_model", {}).get("length"),
+                    },
+                )
+            )
         return matches
 
     async def close(self) -> None:

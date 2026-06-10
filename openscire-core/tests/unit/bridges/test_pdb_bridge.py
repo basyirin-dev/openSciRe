@@ -72,12 +72,17 @@ STRUCTURE_RESPONSE = {
                         },
                     ],
                     "rcsb_polymer_entity_annotation": [
-                        {"type": "GO", "name": "hemoglobin complex",
-                         "provenance_source": "UNIPROT"},
-                        {"type": "InterPro", "name": "Hemoglobin, alpha-type",
-                         "provenance_source": "UNIPROT"},
-                        {"type": "SCOP", "name": "Globin-like",
-                         "provenance_source": "SCOP"},
+                        {
+                            "type": "GO",
+                            "name": "hemoglobin complex",
+                            "provenance_source": "UNIPROT",
+                        },
+                        {
+                            "type": "InterPro",
+                            "name": "Hemoglobin, alpha-type",
+                            "provenance_source": "UNIPROT",
+                        },
+                        {"type": "SCOP", "name": "Globin-like", "provenance_source": "SCOP"},
                     ],
                 },
                 {
@@ -100,10 +105,12 @@ STRUCTURE_RESPONSE = {
                         },
                     ],
                     "rcsb_polymer_entity_annotation": [
-                        {"type": "GO", "name": "oxygen binding",
-                         "provenance_source": "UNIPROT"},
-                        {"type": "InterPro", "name": "Hemoglobin, beta-type",
-                         "provenance_source": "UNIPROT"},
+                        {"type": "GO", "name": "oxygen binding", "provenance_source": "UNIPROT"},
+                        {
+                            "type": "InterPro",
+                            "name": "Hemoglobin, beta-type",
+                            "provenance_source": "UNIPROT",
+                        },
                     ],
                 },
             ],
@@ -176,8 +183,7 @@ class TestPdbQueryBuilder:
     def test_resolution_max_only(self) -> None:
         qb = PdbQueryBuilder().resolution(2.0)
         built = qb.build()
-        assert built["query"]["parameters"]["attribute"] == \
-            "rcsb_entry_info.resolution_combined"
+        assert built["query"]["parameters"]["attribute"] == "rcsb_entry_info.resolution_combined"
         assert built["query"]["parameters"]["operator"] == "less_or_equal"
         assert built["query"]["parameters"]["value"] == 2.0
 
@@ -333,19 +339,31 @@ class TestPdbClient:
 
 class TestPdbEvidence:
     def test_experimental_method(self) -> None:
-        assert PdbClient._extract_evidence_label(
-            "experimental", "X-RAY DIFFRACTION",
-        ) == EvidenceTypeLabel.EXPERIMENTAL
+        assert (
+            PdbClient._extract_evidence_label(
+                "experimental",
+                "X-RAY DIFFRACTION",
+            )
+            == EvidenceTypeLabel.EXPERIMENTAL
+        )
 
     def test_computational_method(self) -> None:
-        assert PdbClient._extract_evidence_label(
-            "computational", "COMPUTATIONAL MODEL",
-        ) == EvidenceTypeLabel.PREDICTED
+        assert (
+            PdbClient._extract_evidence_label(
+                "computational",
+                "COMPUTATIONAL MODEL",
+            )
+            == EvidenceTypeLabel.PREDICTED
+        )
 
     def test_integrative_method(self) -> None:
-        assert PdbClient._extract_evidence_label(
-            "integrative", "ELECTRON MICROSCOPY",
-        ) == EvidenceTypeLabel.REVIEWED
+        assert (
+            PdbClient._extract_evidence_label(
+                "integrative",
+                "ELECTRON MICROSCOPY",
+            )
+            == EvidenceTypeLabel.REVIEWED
+        )
 
 
 class TestPdbQuality:
@@ -456,36 +474,18 @@ class TestPdbCrossReferences:
             return_value=Response(200, json=STRUCTURE_RESPONSE),
         )
         result = await client.get("4HHB")
-        uniprot_ids = {
-            x.identifier for x in result.cross_references
-            if x.database == "UniProt"
-        }
+        uniprot_ids = {x.identifier for x in result.cross_references if x.database == "UniProt"}
         assert "P69905" in uniprot_ids
         assert "P68871" in uniprot_ids
-        pfam_ids = {
-            x.identifier for x in result.cross_references
-            if x.database == "Pfam"
-        }
+        pfam_ids = {x.identifier for x in result.cross_references if x.database == "Pfam"}
         assert "PF00042" in pfam_ids
-        emdb_ids = {
-            x.identifier for x in result.cross_references
-            if x.database == "EMDB"
-        }
+        emdb_ids = {x.identifier for x in result.cross_references if x.database == "EMDB"}
         assert "EMD-1234" in emdb_ids
-        pubmed_ids = {
-            x.identifier for x in result.cross_references
-            if x.database == "PubMed"
-        }
+        pubmed_ids = {x.identifier for x in result.cross_references if x.database == "PubMed"}
         assert "6726807" in pubmed_ids
-        go_names = {
-            x.identifier for x in result.cross_references
-            if x.database == "GO"
-        }
+        go_names = {x.identifier for x in result.cross_references if x.database == "GO"}
         assert "hemoglobin complex" in go_names
-        interpro_names = {
-            x.identifier for x in result.cross_references
-            if x.database == "InterPro"
-        }
+        interpro_names = {x.identifier for x in result.cross_references if x.database == "InterPro"}
         assert "Hemoglobin, alpha-type" in interpro_names
         await client.close()
 
@@ -496,9 +496,7 @@ class TestPdbCrossReferences:
             return_value=Response(200, json=STRUCTURE_RESPONSE),
         )
         result = await client.get("4HHB")
-        pubmed_xrefs = [
-            x for x in result.cross_references if x.database == "PubMed"
-        ]
+        pubmed_xrefs = [x for x in result.cross_references if x.database == "PubMed"]
         assert len(pubmed_xrefs) == 1
         assert pubmed_xrefs[0].identifier == "6726807"
         await client.close()

@@ -108,9 +108,12 @@ class TestPubPeerClient:
     @respx.mock
     async def test_is_concern_keyword_matching(self) -> None:
         assert PubPeerClient._is_concern({"category": "concern"}) is True
-        assert PubPeerClient._is_concern(  # noqa: E501
-            {"category": "comment", "title": "possible retraction"}
-        ) is True
+        assert (
+            PubPeerClient._is_concern(  # noqa: E501
+                {"category": "comment", "title": "possible retraction"}
+            )
+            is True
+        )
         assert PubPeerClient._is_concern({"category": "comment", "text": "minor typo"}) is False
 
     @pytest.mark.asyncio

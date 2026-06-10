@@ -73,11 +73,20 @@ class AgentTemperatureConfig(BaseModel):
     sandbox: float = Field(default=0.1, ge=0.0, le=2.0)
 
 
+class AgentObjective(StrEnum):
+    balanced = "balanced"
+    skeptical = "skeptical"
+    supportive = "supportive"
+    novelty_seeking = "novelty_seeking"
+    consensus_seeking = "consensus_seeking"
+
+
 class AgentModelProvider(BaseModel):
     role: str
     provider: str = "ollama"
     model_name: str = "llama3.1"
     temperature: float | None = None
+    objective_function: str = AgentObjective.balanced.value
     tool_access: list[str] = Field(default_factory=list)
 
 

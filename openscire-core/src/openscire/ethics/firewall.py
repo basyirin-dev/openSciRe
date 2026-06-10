@@ -304,19 +304,17 @@ class EthicalFirewall:
         Raises:
             EthicsError: If the downgrade lacks justification.
         """
-        audit_entries = self._audit_log.query(limit=50, offset=0)
-        original_tier = RiskTier.LOW
+        audit_entries = self._audit_log.query(decision_id=decision_id, limit=1)
+        if not audit_entries:
+            return None
+        entry = audit_entries[0]
+        md = entry.metadata
+        raw_tier = md.get("tier", RiskTier.LOW.value)
+        try:
+            original_tier = RiskTier(raw_tier)
+        except ValueError:
+            original_tier = RiskTier.LOW
         assignment_id = str(uuid.uuid4())
-
-        for entry in audit_entries:
-            if entry.decision_id == decision_id:
-                md = entry.metadata
-                raw_tier = md.get("tier", RiskTier.LOW.value)
-                try:
-                    original_tier = RiskTier(raw_tier)
-                except ValueError:
-                    original_tier = RiskTier.LOW
-                break
 
         if _is_downgrade(original_tier, new_tier) and not justification.strip():
             raise EthicsError(
@@ -843,16 +841,17 @@ class FirewalledProvider(ModelProvider):
                         full_response,
                         user_id=self._user_id,
                     )
-                    if grounding.claims_flagged:
-                        yield Chunk(
-                            delta_content=(
-                                "\n\n[CITATION WARNING: "
-                                f"{len(grounding.claims_flagged)} unsupported claim(s) detected. "
-                                "Verify citations before final output.]"
-                            )
-                        )
                 except Exception:
                     logger.warning("Grounding check failed", exc_info=True)
+                    grounding = None
+                if grounding is not None and grounding.claims_flagged:
+                    yield Chunk(
+                        delta_content=(
+                            "\n\n[CITATION WARNING: "
+                            f"{len(grounding.claims_flagged)} unsupported claim(s) detected. "
+                            "Verify citations before final output.]"
+                        )
+                    )
 
         # --- Carbon tracking ---
         carbon_record = None

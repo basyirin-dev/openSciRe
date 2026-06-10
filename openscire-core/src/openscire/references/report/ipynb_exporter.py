@@ -32,9 +32,7 @@ def to_ipynb(report: PedagogicalReport) -> str:
     if report.description:
         title_parts.append("")
         title_parts.append(report.description)
-    cells.append(
-        _md_cell("\n".join(title_parts))
-    )
+    cells.append(_md_cell("\n".join(title_parts)))
 
     # Metadata code cell
     metadata_lines = [
@@ -46,9 +44,7 @@ def to_ipynb(report: PedagogicalReport) -> str:
     if report.model_id:
         metadata_lines.append(f"Model: {report.model_id}")
     if report.retrieval_config:
-        metadata_lines.append(
-            f"Retrieval config: {json.dumps(report.retrieval_config, indent=2)}"
-        )
+        metadata_lines.append(f"Retrieval config: {json.dumps(report.retrieval_config, indent=2)}")
     if report.generation_params:
         metadata_lines.append(
             f"Generation params: {json.dumps(report.generation_params, indent=2)}"
@@ -81,19 +77,10 @@ def to_ipynb(report: PedagogicalReport) -> str:
 
         if content.data:
             data_json = json.dumps(content.data, indent=2, default=str)
-            cells.append(
-                _code_cell(
-                    f"# {content.title} — structured data\n"
-                    f"data = {data_json}"
-                )
-            )
+            cells.append(_code_cell(f"# {content.title} — structured data\ndata = {data_json}"))
 
     # Footer markdown
-    cells.append(
-        _md_cell(
-            f"---\n*Report generated at: {report.generated_at.isoformat()}*"
-        )
-    )
+    cells.append(_md_cell(f"---\n*Report generated at: {report.generated_at.isoformat()}*"))
 
     notebook: dict = {
         "nbformat": 4,

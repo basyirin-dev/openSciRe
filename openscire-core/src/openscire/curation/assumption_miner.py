@@ -30,29 +30,37 @@ class AssumptionMiner:
                 start = max(0, match.start() - 40)
                 end = min(len(research_question), match.end() + 60)
                 excerpt = research_question[start:end].strip()
-                assumptions.append(Assumption(
-                    assumption_text=excerpt,
-                    extracted_from=research_question,
-                ))
+                assumptions.append(
+                    Assumption(
+                        assumption_text=excerpt,
+                        extracted_from=research_question,
+                    )
+                )
         if not assumptions:
             sentences = re.split(r"[.!?]", research_question)
             for sent in sentences:
                 sent = sent.strip()
                 if not sent:
                     continue
-                if any(kw in sent.lower() for kw in
-                       ["assume", "presuppose", "imply", "given", "taking for granted"]):
-                    assumptions.append(Assumption(
-                        assumption_text=sent,
-                        extracted_from=research_question,
-                    ))
+                if any(
+                    kw in sent.lower()
+                    for kw in ["assume", "presuppose", "imply", "given", "taking for granted"]
+                ):
+                    assumptions.append(
+                        Assumption(
+                            assumption_text=sent,
+                            extracted_from=research_question,
+                        )
+                    )
         if not assumptions:
             words = research_question.split()
             if len(words) > 5:
-                assumptions.append(Assumption(
-                    assumption_text=" ".join(words[:5]) + "...",
-                    extracted_from=research_question,
-                ))
+                assumptions.append(
+                    Assumption(
+                        assumption_text=" ".join(words[:5]) + "...",
+                        extracted_from=research_question,
+                    )
+                )
         return assumptions
 
 

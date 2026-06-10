@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+import logging
+from datetime import UTC, datetime
 from typing import Any
 
 from openscire.references.report.models import (
@@ -10,6 +11,8 @@ from openscire.references.report.models import (
     ReportSection,
     SectionContent,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class PedagogicalReportBuilder:
@@ -19,7 +22,7 @@ class PedagogicalReportBuilder:
     def __init__(
         self,
         config: dict[str, Any] | None = None,
-        provenance_tracker: Any = None,
+        provenance_tracker: Any = None,  # noqa: ANN401
     ) -> None:
         self._config = config or {}
         self._provenance_tracker = provenance_tracker
@@ -38,25 +41,23 @@ class PedagogicalReportBuilder:
     # Ingestion
     # ------------------------------------------------------------------
 
-    def add_gap_report(self, report: Any) -> PedagogicalReportBuilder:
+    def add_gap_report(self, report: Any) -> PedagogicalReportBuilder:  # noqa: ANN401
         self._gap_report = report
         return self
 
-    def add_enforcement_report(self, report: Any) -> PedagogicalReportBuilder:
+    def add_enforcement_report(self, report: Any) -> PedagogicalReportBuilder:  # noqa: ANN401
         self._enforcement_report = report
         return self
 
-    def add_cross_check_results(
-        self, results: list[Any]
-    ) -> PedagogicalReportBuilder:
+    def add_cross_check_results(self, results: list[Any]) -> PedagogicalReportBuilder:
         self._cross_check_results = list(results)
         return self
 
-    def add_context_package(self, pkg: Any) -> PedagogicalReportBuilder:
+    def add_context_package(self, pkg: Any) -> PedagogicalReportBuilder:  # noqa: ANN401
         self._context_package = pkg
         return self
 
-    def add_uncertainty_report(self, report: Any) -> PedagogicalReportBuilder:
+    def add_uncertainty_report(self, report: Any) -> PedagogicalReportBuilder:  # noqa: ANN401
         self._uncertainty_report = report
         return self
 
@@ -68,15 +69,11 @@ class PedagogicalReportBuilder:
         self._model_id = model_id
         return self
 
-    def set_retrieval_config(
-        self, config: dict[str, Any]
-    ) -> PedagogicalReportBuilder:
+    def set_retrieval_config(self, config: dict[str, Any]) -> PedagogicalReportBuilder:
         self._retrieval_config = dict(config)
         return self
 
-    def set_generation_params(
-        self, params: dict[str, Any]
-    ) -> PedagogicalReportBuilder:
+    def set_generation_params(self, params: dict[str, Any]) -> PedagogicalReportBuilder:
         self._generation_params = dict(params)
         return self
 
@@ -100,7 +97,7 @@ class PedagogicalReportBuilder:
         return PedagogicalReport(
             title=self._config.get("title", "Research Analysis Report"),
             description=self._config.get("description", ""),
-            generated_at=datetime.now(timezone.utc),
+            generated_at=datetime.now(UTC),
             sections=sections,
             model_id=self._model_id,
             retrieval_config=self._retrieval_config,
@@ -112,26 +109,21 @@ class PedagogicalReportBuilder:
     # Section builders
     # ------------------------------------------------------------------
 
-    def _build_executive_summary(
-        self, sections: list[SectionContent]
-    ) -> None:
+    def _build_executive_summary(self, sections: list[SectionContent]) -> None:
         lines: list[str] = []
         er = self._enforcement_report
         gr = self._gap_report
 
         total_claims = getattr(er, "total_sentences", 0) if er else 0
         cited = getattr(er, "cited_sentences", 0) if er else 0
-        unsupported = (
-            len(getattr(er, "unsupported_claims", [])) if er else 0
-        )
+        unsupported = len(getattr(er, "unsupported_claims", [])) if er else 0
         gaps = len(getattr(gr, "gaps", [])) if gr else 0
         xc = len(self._cross_check_results)
         xc_failed = sum(
             1
             for r in self._cross_check_results
             if getattr(r, "verdict", None) is not None
-            and r.verdict.value
-            in ("contradicts", "insufficient_evidence", "unverifiable")
+            and r.verdict.value in ("contradicts", "insufficient_evidence", "unverifiable")
         )
 
         lines.append(
@@ -139,22 +131,12 @@ class PedagogicalReportBuilder:
             f"claims across the research topic."
         )
         lines.append("")
-        lines.append(
-            f"**Cited claims**: {cited}/{total_claims} "
-            f"({_pct(cited, total_claims)}%)"
-        )
-        lines.append(
-            f"**Unsupported claims**: {unsupported}"
-        )
+        lines.append(f"**Cited claims**: {cited}/{total_claims} ({_pct(cited, total_claims)}%)")
+        lines.append(f"**Unsupported claims**: {unsupported}")
         lines.append(f"**Literature gaps identified**: {gaps}")
-        lines.append(
-            f"**Semantic cross-checks performed**: {xc} "
-            f"({xc_failed} flagged)"
-        )
+        lines.append(f"**Semantic cross-checks performed**: {xc} ({xc_failed} flagged)")
         if self._model_id:
-            lines.append(
-                f"**Analysis model**: {self._model_id}"
-            )
+            lines.append(f"**Analysis model**: {self._model_id}")
 
         sections.append(
             SectionContent(
@@ -172,9 +154,7 @@ class PedagogicalReportBuilder:
             )
         )
 
-    def _build_selection_rationale(
-        self, sections: list[SectionContent]
-    ) -> None:
+    def _build_selection_rationale(self, sections: list[SectionContent]) -> None:
         gr = self._gap_report
         gaps = getattr(gr, "gaps", []) if gr else []
 
@@ -189,9 +169,7 @@ class PedagogicalReportBuilder:
             )
             return
 
-        lines = [
-            "Sources were evaluated against the following gap criteria:"
-        ]
+        lines = ["Sources were evaluated against the following gap criteria:"]
         for g in gaps:
             gap_type = getattr(g, "gap_type", "unknown")
             severity = getattr(g, "severity", "unknown")
@@ -222,9 +200,7 @@ class PedagogicalReportBuilder:
             )
         )
 
-    def _build_parameter_documentation(
-        self, sections: list[SectionContent]
-    ) -> None:
+    def _build_parameter_documentation(self, sections: list[SectionContent]) -> None:
         lines: list[str] = []
 
         if self._model_id:
@@ -243,13 +219,9 @@ class PedagogicalReportBuilder:
         er = self._enforcement_report
         if er is not None:
             mode = getattr(er, "mode", "unknown")
-            lines.append(
-                f"- **Enforcement mode**: {mode}"
-            )
+            lines.append(f"- **Enforcement mode**: {mode}")
             xc_enabled = getattr(er, "cross_check_enabled", False)
-            lines.append(
-                f"- **Semantic cross-check**: {'enabled' if xc_enabled else 'disabled'}"
-            )
+            lines.append(f"- **Semantic cross-check**: {'enabled' if xc_enabled else 'disabled'}")
 
         if not lines:
             lines.append("No parameter documentation was provided.")
@@ -267,9 +239,7 @@ class PedagogicalReportBuilder:
             )
         )
 
-    def _build_alternative_interpretations(
-        self, sections: list[SectionContent]
-    ) -> None:
+    def _build_alternative_interpretations(self, sections: list[SectionContent]) -> None:
         lines: list[str] = []
         data_items: list[dict[str, Any]] = []
 
@@ -284,9 +254,7 @@ class PedagogicalReportBuilder:
                 confidence = getattr(r, "confidence", 0.0)
                 source_title = getattr(r, "source_title", "")
                 lines.append("")
-                lines.append(
-                    f'- Claim: "{claim}"'
-                )
+                lines.append(f'- Claim: "{claim}"')
                 if explanation:
                     lines.append(f"  - {explanation}")
                 lines.append(f"  - Confidence: {confidence:.2f}")
@@ -316,9 +284,7 @@ class PedagogicalReportBuilder:
             )
         )
 
-    def _build_self_identified_limitations(
-        self, sections: list[SectionContent]
-    ) -> None:
+    def _build_self_identified_limitations(self, sections: list[SectionContent]) -> None:
         lines: list[str] = []
         data_items: list[dict[str, Any]] = []
 
@@ -341,16 +307,11 @@ class PedagogicalReportBuilder:
         er = self._enforcement_report
         if er is not None:
             unsupported = getattr(er, "unsupported_claims", [])
-            no_citation = [
-                u
-                for u in unsupported
-                if getattr(u, "reason", "") == "no_citation"
-            ]
+            no_citation = [u for u in unsupported if getattr(u, "reason", "") == "no_citation"]
             if no_citation:
                 lines.append("")
                 lines.append(
-                    f"- {len(no_citation)} claim(s) were made without "
-                    f"supporting citations."
+                    f"- {len(no_citation)} claim(s) were made without supporting citations."
                 )
                 data_items.append(
                     {
@@ -360,9 +321,7 @@ class PedagogicalReportBuilder:
                 )
 
         if not lines:
-            lines.append(
-                "No self-identified limitations were recorded for this analysis."
-            )
+            lines.append("No self-identified limitations were recorded for this analysis.")
 
         sections.append(
             SectionContent(
@@ -373,9 +332,7 @@ class PedagogicalReportBuilder:
             )
         )
 
-    def _build_uncertainty_indicators(
-        self, sections: list[SectionContent]
-    ) -> None:
+    def _build_uncertainty_indicators(self, sections: list[SectionContent]) -> None:
         lines: list[str] = []
         data_items: list[dict[str, Any]] = []
 
@@ -387,9 +344,7 @@ class PedagogicalReportBuilder:
 
             label = _confidence_label(confidence)
             lines.append("")
-            lines.append(
-                f'- Claim: "{claim}" → {label} ({confidence:.2f})'
-            )
+            lines.append(f'- Claim: "{claim}" → {label} ({confidence:.2f})')
             if verdict is not None:
                 lines.append(f"  - Verdict: {verdict.value}")
             if source_title:
@@ -404,10 +359,7 @@ class PedagogicalReportBuilder:
             )
 
         if not lines:
-            lines.append(
-                "No uncertainty indicators were recorded "
-                "(no cross-checks performed)."
-            )
+            lines.append("No uncertainty indicators were recorded (no cross-checks performed).")
 
         sections.append(
             SectionContent(
@@ -419,15 +371,10 @@ class PedagogicalReportBuilder:
         )
 
     def _build_provenance(self, sections: list[SectionContent]) -> None:
-        lines: list[str] = [
-            f"- **Generated at**: {datetime.now(timezone.utc).isoformat()}"
-        ]
+        lines: list[str] = [f"- **Generated at**: {datetime.now(UTC).isoformat()}"]
         if self._model_id:
             lines.append(f"- **Analysis model**: {self._model_id}")
-        lines.append(
-            "- **Components**: gap analysis, citation enforcement, "
-            "semantic cross-check"
-        )
+        lines.append("- **Components**: gap analysis, citation enforcement, semantic cross-check")
 
         if self._provenance_tracker is not None:
             lines.append("- **Provenance tracking**: enabled")
@@ -438,14 +385,17 @@ class PedagogicalReportBuilder:
                     model_id=self._model_id,
                 )
             except Exception:
-                pass
+                logger.warning(
+                    "Failed to record provenance for build_pedagogical_report",
+                    exc_info=True,
+                )
 
         sections.append(
             SectionContent(
                 section=ReportSection.PROVENANCE,
                 title="Provenance",
                 body="\n".join(lines),
-                data={"generated_at": datetime.now(timezone.utc).isoformat()},
+                data={"generated_at": datetime.now(UTC).isoformat()},
             )
         )
 
@@ -458,16 +408,13 @@ class PedagogicalReportBuilder:
         gr = self._gap_report
 
         total_gaps = len(getattr(gr, "gaps", [])) if gr else 0
-        total_unsupported = (
-            len(getattr(er, "unsupported_claims", [])) if er else 0
-        )
+        total_unsupported = len(getattr(er, "unsupported_claims", [])) if er else 0
         xc = len(self._cross_check_results)
         xc_failed = sum(
             1
             for r in self._cross_check_results
             if getattr(r, "verdict", None) is not None
-            and r.verdict.value
-            in ("contradicts", "insufficient_evidence", "unverifiable")
+            and r.verdict.value in ("contradicts", "insufficient_evidence", "unverifiable")
         )
 
         return {

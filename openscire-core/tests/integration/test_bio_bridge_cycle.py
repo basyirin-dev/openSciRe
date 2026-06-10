@@ -82,7 +82,11 @@ PLDDT_JSON = {
     "residueNumber": [1, 2, 3, 4, 5],
     "confidenceScore": [95.0, 88.0, 45.0, 72.0, 30.0],
     "confidenceCategory": [
-        "VERY HIGH", "HIGH", "LOW", "CONFIDENT", "VERY LOW",
+        "VERY HIGH",
+        "HIGH",
+        "LOW",
+        "CONFIDENT",
+        "VERY LOW",
     ],
 }
 
@@ -228,9 +232,11 @@ class TestBioBridgeCycle:
         assert "P05067" in results
 
     async def test_evidence_label_chain(self) -> None:
-        combined = EvidencePropagator.combine([
-            EvidenceTypeLabel.EXPERIMENTAL,
-            EvidenceTypeLabel.PREDICTED,
-            EvidenceTypeLabel.EXPERIMENTAL,
-        ])
+        combined = EvidencePropagator.combine(
+            [
+                EvidenceTypeLabel.EXPERIMENTAL,
+                EvidenceTypeLabel.PREDICTED,
+                EvidenceTypeLabel.EXPERIMENTAL,
+            ]
+        )
         assert combined == EvidenceTypeLabel.EXPERIMENTAL

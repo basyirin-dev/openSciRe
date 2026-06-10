@@ -17,7 +17,11 @@ SEARCH_RESPONSE = {
             "display_name": "  A Test Paper on Machine Learning  ",
             "publication_year": 2024,
             "cited_by_count": 42,
-            "open_access": {"is_oa": True, "oa_status": "gold", "oa_url": "https://example.com/paper.pdf"},
+            "open_access": {
+                "is_oa": True,
+                "oa_status": "gold",
+                "oa_url": "https://example.com/paper.pdf",
+            },
         }
     ],
 }

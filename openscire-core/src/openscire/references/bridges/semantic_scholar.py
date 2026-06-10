@@ -285,11 +285,13 @@ class SemanticScholarClient:
         entries: list[CitationGraphEntry] = []
         for item in data.get("data") or []:
             citing = item.get("citingPaper")
-            entries.append(CitationGraphEntry(
-                citing_paper=self._parse_paper(citing) if citing else None,
-                contexts=item.get("contexts") or [],
-                is_influential=item.get("isInfluential", False),
-            ))
+            entries.append(
+                CitationGraphEntry(
+                    citing_paper=self._parse_paper(citing) if citing else None,
+                    contexts=item.get("contexts") or [],
+                    is_influential=item.get("isInfluential", False),
+                )
+            )
         return entries
 
     async def get_references(
@@ -307,11 +309,13 @@ class SemanticScholarClient:
         entries: list[CitationGraphEntry] = []
         for item in data.get("data") or []:
             cited = item.get("citedPaper")
-            entries.append(CitationGraphEntry(
-                cited_paper=self._parse_paper(cited) if cited else None,
-                contexts=item.get("contexts") or [],
-                is_influential=item.get("isInfluential", False),
-            ))
+            entries.append(
+                CitationGraphEntry(
+                    cited_paper=self._parse_paper(cited) if cited else None,
+                    contexts=item.get("contexts") or [],
+                    is_influential=item.get("isInfluential", False),
+                )
+            )
         return entries
 
     async def get_recommendations(
@@ -358,11 +362,7 @@ class SemanticScholarClient:
             f"{self.REC_API}/papers/forpaper/{paper_id}",
             params={"limit": limit},
         )
-        raw = (
-            data
-            if isinstance(data, list)
-            else data.get("recommendedPapers", [])
-        )
+        raw = data if isinstance(data, list) else data.get("recommendedPapers", [])
         return [
             PaperRecommendation(paper_id=r.get("paperId", ""), score=r.get("score", 0.0))
             for r in raw

@@ -105,7 +105,7 @@ BUILT_IN_STYLES: dict[CitationStyle, StyleConfig] = {
         include_issue=True,
         max_authors=10,
         reference_prefix_format="",
-        format_template="{authors}. {year}. \"{title}.\" *{journal}* {volume}, no. {issue} ({year}): {pages}. https://doi.org/{doi}",
+        format_template='{authors}. {year}. "{title}." *{journal}* {volume}, no. {issue} ({year}): {pages}. https://doi.org/{doi}',
     ),
     CitationStyle.ACS: StyleConfig(
         name="acs",

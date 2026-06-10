@@ -41,8 +41,7 @@ class MultilingualEmbedder:
     def __init__(self, model_name: str = "labse") -> None:
         if model_name not in self.SUPPORTED_MODELS:
             raise ValueError(
-                f"Unsupported model '{model_name}'. "
-                f"Choose from: {', '.join(self.SUPPORTED_MODELS)}"
+                f"Unsupported model '{model_name}'. Choose from: {', '.join(self.SUPPORTED_MODELS)}"
             )
         self._model_name = model_name
         self._model_key = model_name
@@ -53,6 +52,7 @@ class MultilingualEmbedder:
             return
         try:
             from sentence_transformers import SentenceTransformer
+
             hf_name = self.SUPPORTED_MODELS[self._model_key]
             self._model = SentenceTransformer(hf_name)
             logger.info(
@@ -66,9 +66,7 @@ class MultilingualEmbedder:
                 "Install with: pip install sentence-transformers"
             ) from None
         except Exception as e:
-            raise RuntimeError(
-                f"Failed to load model {self._model_key}: {e}"
-            ) from e
+            raise RuntimeError(f"Failed to load model {self._model_key}: {e}") from e
 
     def encode(
         self,
@@ -88,6 +86,7 @@ class MultilingualEmbedder:
         if not texts:
             return []
         import torch
+
         with torch.no_grad():
             if self._model_key == "mE5-large":
                 prefixed = [f"query: {t}" if len(texts) == 1 else f"passage: {t}" for t in texts]
@@ -152,8 +151,7 @@ class MultilingualEmbedder:
 
         candidate_vecs = self.encode(texts, normalize=True)
         scored: list[tuple[int, float]] = [
-            (i, self.similarity(query_vec, cv))
-            for i, cv in enumerate(candidate_vecs)
+            (i, self.similarity(query_vec, cv)) for i, cv in enumerate(candidate_vecs)
         ]
         scored.sort(key=lambda x: x[1], reverse=True)
         return [(mapping[i], score) for i, score in scored[:top_k]]

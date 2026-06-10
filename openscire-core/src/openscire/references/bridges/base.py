@@ -72,9 +72,7 @@ class ReferenceBridge(ABC):
         ...
 
     @abstractmethod
-    async def list_items(
-        self, collection_id: str, limit: int = 100
-    ) -> list[ReferenceItem]:
+    async def list_items(self, collection_id: str, limit: int = 100) -> list[ReferenceItem]:
         """List reference items in a collection.
 
         Args:
@@ -99,9 +97,7 @@ class ReferenceBridge(ABC):
         ...
 
     @abstractmethod
-    async def download_attachment(
-        self, item_id: str, attachment_id: str
-    ) -> bytes:
+    async def download_attachment(self, item_id: str, attachment_id: str) -> bytes:
         """Download an attachment file (usually a PDF).
 
         Args:
@@ -114,9 +110,7 @@ class ReferenceBridge(ABC):
         ...
 
     @abstractmethod
-    async def sync(
-        self, last_sync: datetime | None = None
-    ) -> list[ReferenceItem]:
+    async def sync(self, last_sync: datetime | None = None) -> list[ReferenceItem]:
         """Fetch items changed since last sync.
 
         Args:

@@ -149,9 +149,7 @@ class QueryExpander:
         for token, exps in expansions_by_token.items():
             if exps:
                 for exp in exps[:1]:
-                    variant_tokens = [
-                        exp if t == token else t for t in original_tokens
-                    ]
+                    variant_tokens = [exp if t == token else t for t in original_tokens]
                     variant = " ".join(variant_tokens)
                     if variant != query.lower():
                         extra_variants.append(variant)

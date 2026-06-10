@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field
 
 class MeaningLossFlag(StrEnum):
     """Flags indicating potential meaning loss in a translation."""
+
     IDIOM = "idiom"
     TECHNICAL_TERM = "technical_term"
     AMBIGUOUS_GRAMMAR = "ambiguous_grammar"
@@ -29,6 +30,7 @@ class TranslationEntry(BaseModel):
     come from an LLM, a dedicated translation model (NLLB-200, M2M-100),
     or an external API — the method is recorded but not enforced here.
     """
+
     source_text: str = ""
     translated_text: str = ""
     source_language: str = ""
@@ -45,6 +47,7 @@ class ParallelText(BaseModel):
     Used to store non-English title and abstract content while preserving
     the original for reference and verification.
     """
+
     original: str = ""
     translated: str = ""
     source_language: str = ""

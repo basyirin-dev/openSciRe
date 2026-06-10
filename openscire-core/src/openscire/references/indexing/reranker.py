@@ -19,13 +19,12 @@ class CrossEncoderReranker:
             return self._available
         try:
             from sentence_transformers import CrossEncoder
+
             self._model = CrossEncoder(self._model_name)
             self._available = True
             logger.info("Loaded cross-encoder model %s", self._model_name)
         except ImportError:
-            logger.warning(
-                "sentence-transformers not available — cross-encoder reranking disabled"
-            )
+            logger.warning("sentence-transformers not available — cross-encoder reranking disabled")
             self._available = False
         except Exception as e:
             logger.warning("Failed to load cross-encoder model %s: %s", self._model_name, e)

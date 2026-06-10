@@ -1,6 +1,5 @@
 """Tests for SourceEnforcer, CitationMode, and related models."""
 
-import pytest
 from openscire.ethics.models import Source
 from openscire.references.enforcer import (
     CitationMode,
@@ -9,13 +8,6 @@ from openscire.references.enforcer import (
     SourceEnforcer,
     UnsupportedClaim,
 )
-from openscire.references.enforcer.models import (
-    CitationMode as CM,
-    CitationSuggestion as CS,
-    SourceEnforcementReport as SER,
-    UnsupportedClaim as UC,
-)
-
 
 _SOURCES = [
     Source(

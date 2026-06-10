@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import re
 from enum import StrEnum
 from typing import Any
 
@@ -42,19 +41,19 @@ class FieldFilter(FilterExpression):
         op = self.operator
         if op == FilterOperator.eq:
             return actual == self.value
-        elif op == FilterOperator.neq:
+        if op == FilterOperator.neq:
             return actual != self.value
-        elif op == FilterOperator.gt:
+        if op == FilterOperator.gt:
             return actual is not None and actual > self.value
-        elif op == FilterOperator.gte:
+        if op == FilterOperator.gte:
             return actual is not None and actual >= self.value
-        elif op == FilterOperator.lt:
+        if op == FilterOperator.lt:
             return actual is not None and actual < self.value
-        elif op == FilterOperator.lte:
+        if op == FilterOperator.lte:
             return actual is not None and actual <= self.value
-        elif op == FilterOperator.in_:
+        if op == FilterOperator.in_:
             return actual in self.value
-        elif op == FilterOperator.contains:
+        if op == FilterOperator.contains:
             return isinstance(actual, str) and self.value in actual
         return False
 

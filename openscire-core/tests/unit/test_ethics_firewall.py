@@ -855,6 +855,19 @@ class TestTierOverride:
     def test_escalation_without_justification_succeeds(self) -> None:
         firewall = EthicalFirewall()
         decision_id = "test_escalation"
+        firewall._audit_log.append(
+            FirewallAuditEntry(
+                entry_id="audit_esc_1",
+                decision_id=decision_id,
+                category="test",
+                action_taken="flag",
+                match_type="keyword",
+                matched_content="test",
+                input_hash="abc",
+                user_id="user1",
+                metadata={"tier": RiskTier.LOW.value},
+            ),
+        )
         record = firewall.override_tier(decision_id, RiskTier.HIGH)
         assert record is not None
         assert record.direction == "escalation"
@@ -867,6 +880,19 @@ class TestTierOverride:
         firewall = EthicalFirewall()
         firewall._provenance_tracker = _MockTracker()
         decision_id = "test_escalation_prov"
+        firewall._audit_log.append(
+            FirewallAuditEntry(
+                entry_id="audit_esc_prov",
+                decision_id=decision_id,
+                category="test",
+                action_taken="flag",
+                match_type="keyword",
+                matched_content="test",
+                input_hash="abc",
+                user_id="user1",
+                metadata={"tier": RiskTier.LOW.value},
+            ),
+        )
         record = firewall.override_tier(decision_id, RiskTier.HIGH)
         assert record.original_tier == RiskTier.LOW
         assert record.new_tier == RiskTier.HIGH
@@ -937,8 +963,22 @@ class TestTierOverride:
 
         firewall = EthicalFirewall()
         firewall._provenance_tracker = _MockTracker()
+        decision_id = "test_record"
+        firewall._audit_log.append(
+            FirewallAuditEntry(
+                entry_id="audit_record",
+                decision_id=decision_id,
+                category="test",
+                action_taken="flag",
+                match_type="keyword",
+                matched_content="test",
+                input_hash="abc",
+                user_id="user2",
+                metadata={"tier": RiskTier.LOW.value},
+            ),
+        )
         record = firewall.override_tier(
-            "test_record",
+            decision_id,
             RiskTier.HIGH,
             user_id="user2",
             justification="Manual escalation",
@@ -1073,7 +1113,21 @@ class TestTierIntegrationExtended:
         db = tmp_path / "audit.db"
         audit = FirewallAuditLog(str(db))
         fw = EthicalFirewall(audit_log=audit)
-        record = fw.override_tier("test_override_audit", RiskTier.HIGH)
+        decision_id = "test_override_audit"
+        audit.append(
+            FirewallAuditEntry(
+                entry_id="audit_base",
+                decision_id=decision_id,
+                category="test",
+                action_taken="flag",
+                match_type="keyword",
+                matched_content="test",
+                input_hash="abc",
+                user_id="user1",
+                metadata={"tier": RiskTier.LOW.value},
+            ),
+        )
+        record = fw.override_tier(decision_id, RiskTier.HIGH)
         assert record is not None
         assert record.direction == "escalation"
         # Override does not create audit entry directly — it records an OverrideRecord

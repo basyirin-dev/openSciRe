@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +24,7 @@ class FaissBackend(VectorBackend):
             return self._index
         try:
             import faiss
+
             self._index = faiss.IndexIDMap(faiss.IndexFlatIP(self._dimension))
             return self._index
         except ImportError:
@@ -40,10 +40,12 @@ class FaissBackend(VectorBackend):
         metadatas: list[dict[str, Any]] | None = None,
     ) -> None:
         import numpy as np
+
         index = self._ensure_index()
         if not ids:
             return
         import faiss
+
         vec_array = np.array(vectors, dtype=np.float32)
         faiss.normalize_L2(vec_array)
         int_ids = []
@@ -69,6 +71,7 @@ class FaissBackend(VectorBackend):
         top_k: int = 10,
     ) -> list[tuple[str, float, dict[str, Any]]]:
         import numpy as np
+
         index = self._ensure_index()
         n_total = index.ntotal
         if n_total == 0:
@@ -76,6 +79,7 @@ class FaissBackend(VectorBackend):
         k = min(top_k, n_total)
         vec = np.array([query_vector], dtype=np.float32)
         import faiss
+
         faiss.normalize_L2(vec)
         scores, ids = index.search(vec, k)
         results: list[tuple[str, float, dict[str, Any]]] = []
@@ -90,12 +94,12 @@ class FaissBackend(VectorBackend):
         return results
 
     def delete(self, ids: list[str]) -> None:
-        import faiss
         index = self._ensure_index()
         int_ids = [self._id_map[doc_id] for doc_id in ids if doc_id in self._id_map]
         if not int_ids:
             return
         import numpy as np
+
         id_array = np.array(int_ids, dtype=np.int64)
         index.remove_ids(id_array)
         for doc_id in ids:
@@ -111,6 +115,7 @@ class FaissBackend(VectorBackend):
 
     def save(self, path: str) -> None:
         import faiss
+
         index = self._ensure_index()
         p = Path(path)
         p.mkdir(parents=True, exist_ok=True)
@@ -127,6 +132,7 @@ class FaissBackend(VectorBackend):
 
     def load(self, path: str) -> None:
         import faiss
+
         p = Path(path)
         index_path = p / "index.faiss"
         meta_path = p / "metadata.json"

@@ -150,6 +150,7 @@ class DedupEngine:
         """
         try:
             from rapidfuzz import fuzz
+
             return float(fuzz.token_sort_ratio(a, b)) / 100.0
         except ImportError:
             tokens_a = set(a.split())

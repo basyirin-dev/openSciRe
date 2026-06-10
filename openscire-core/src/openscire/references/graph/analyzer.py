@@ -178,34 +178,22 @@ class CitationGraphAnalyzer:
     def export(self, graph: nx.DiGraph, fmt: str = "d3") -> GraphExport:  # noqa: ANN401
         return self.exporter.export(graph, fmt)
 
-    def influence(
-        self, graph: nx.DiGraph, **kwargs: object
-    ) -> InfluenceReport:
+    def influence(self, graph: nx.DiGraph, **kwargs: object) -> InfluenceReport:
         return self.scorer.score(graph, **kwargs)
 
-    def influence_ego(
-        self, graph: nx.DiGraph, node_id: str, **kwargs: object
-    ) -> InfluenceReport:
+    def influence_ego(self, graph: nx.DiGraph, node_id: str, **kwargs: object) -> InfluenceReport:
         return self.scorer.score_ego(graph, node_id, **kwargs)
 
-    def timeline(
-        self, graph: nx.DiGraph
-    ) -> list:
+    def timeline(self, graph: nx.DiGraph) -> list:
         return self.temporal.timeline(graph)
 
-    def detect_decay(
-        self, graph: nx.DiGraph
-    ) -> object:
+    def detect_decay(self, graph: nx.DiGraph) -> object:
         return self.temporal.detect_decay(graph)
 
-    def co_citation_clustering(
-        self, graph: nx.DiGraph, **kwargs: object
-    ) -> object:
+    def co_citation_clustering(self, graph: nx.DiGraph, **kwargs: object) -> object:
         return self.clustering.co_citation_clustering(graph, **kwargs)
 
-    def bibliographic_coupling(
-        self, graph: nx.DiGraph, **kwargs: object
-    ) -> object:
+    def bibliographic_coupling(self, graph: nx.DiGraph, **kwargs: object) -> object:
         return self.clustering.bibliographic_coupling(graph, **kwargs)
 
 

@@ -6,7 +6,7 @@ from openscire.logging import get_logger
 from openscire.references.gap.coverage import CoverageGapDetector
 from openscire.references.gap.geography import GeographicGapDetector
 from openscire.references.gap.methodology import MethodologicalMonocultureDetector
-from openscire.references.gap.models import GapReport, GapType, LiteratureGap
+from openscire.references.gap.models import GapReport, LiteratureGap
 from openscire.references.gap.temporal import TemporalGapDetector
 from openscire.references.models import ReferenceItem
 

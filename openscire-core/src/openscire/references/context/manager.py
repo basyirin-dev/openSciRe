@@ -156,9 +156,7 @@ class ContextWindowManager:
                 parts.append(item.text)
             else:
                 parts.append(
-                    f"[Document: {item.document_id}]\n"
-                    f"[Section: {item.section}]\n"
-                    f"{item.text}"
+                    f"[Document: {item.document_id}]\n[Section: {item.section}]\n{item.text}"
                 )
         return "\n---\n".join(parts)
 

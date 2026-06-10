@@ -175,6 +175,7 @@ class OpenAlexSearchResult(BaseModel):
 
 class OALocation(BaseModel):
     """A single OA location from Unpaywall."""
+
     url_for_pdf: str | None = None
     url_for_landing_page: str = ""
     url: str = ""
@@ -190,6 +191,7 @@ class OALocation(BaseModel):
 
 class UnpaywallResult(BaseModel):
     """Result of an Unpaywall DOI resolution for OA status and locations."""
+
     doi: str = ""
     doi_url: str = ""
     title: str = ""

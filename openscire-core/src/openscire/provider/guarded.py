@@ -20,21 +20,15 @@ Usage:
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from openscire.config.byok import BYOKProfile
+    from openscire.ethics.firewall import FirewalledProvider
+    from openscire.provider.base import ModelProvider
 
-from openscire.ethics.carbon import CarbonBudgetTracker
-from openscire.ethics.durc import build_default_rules
-from openscire.ethics.firewall import EthicalFirewall, FirewalledProvider
-from openscire.ethics.source_grounding import SourceGroundingEngine
-from openscire.ethics.tier import CoolOffRegistry, TierClassifier
-from openscire.logging import get_logger
-from openscire.provider.base import ModelProvider
-from openscire.provider.factory import select_provider
-
-logger = get_logger("openscire.provider.guarded")
+logger = logging.getLogger(__name__)
 
 
 async def create_guarded_provider(
@@ -75,6 +69,14 @@ async def create_guarded_provider(
     Raises:
         ValueError: If *force* is set to an unknown adapter type.
     """
+    from openscire.ethics.carbon import CarbonBudgetTracker
+    from openscire.ethics.durc import build_default_rules
+    from openscire.ethics.firewall import EthicalFirewall
+    from openscire.ethics.source_grounding import SourceGroundingEngine
+    from openscire.ethics.tier import CoolOffRegistry, TierClassifier
+    from openscire.provider.base import ModelProvider  # noqa: F401
+    from openscire.provider.factory import select_provider
+
     tier_classifier = TierClassifier()
     cool_off = CoolOffRegistry()
     source_grounding = SourceGroundingEngine(

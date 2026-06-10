@@ -190,6 +190,7 @@ class TestScieloClient:
     @respx.mock
     async def test_http_error(self, client: ScieloClient) -> None:
         from openscire.exceptions import ReferenceError
+
         respx.get("https://articlemeta.scielo.org/api/v1/article/").mock(
             return_value=Response(429, json={"error": "too many requests"})
         )

@@ -110,3 +110,27 @@ class KeyManagementError(openSciReError):
         error_code: ErrorCode = ErrorCode.CONFIG_KEY_MANAGEMENT,
     ) -> None:
         super().__init__(error_code=error_code, message=message, source=source)
+
+
+class AgentBusError(openSciReError):
+    """Raised on agent bus routing and delivery failures."""
+
+    def __init__(
+        self,
+        message: str = "",
+        source: str = "",
+        error_code: ErrorCode = ErrorCode.AGENT_BUS_ROUTING,
+    ) -> None:
+        super().__init__(error_code=error_code, message=message, source=source)
+
+
+class AgentMessageError(openSciReError):
+    """Raised when an invalid agent message is encountered."""
+
+    def __init__(
+        self,
+        message: str = "",
+        source: str = "",
+        error_code: ErrorCode = ErrorCode.AGENT_INVALID_MESSAGE,
+    ) -> None:
+        super().__init__(error_code=error_code, message=message, source=source)

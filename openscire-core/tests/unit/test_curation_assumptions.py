@@ -47,6 +47,7 @@ class TestAssumptionMiner:
 @pytest.mark.asyncio
 async def test_assumption_tester() -> None:
     from openscire.curation.models import Assumption
+
     bridge = MockBridge()
     tester = AssumptionTester(bridges={"pubmed": bridge})
     assumptions = [Assumption(assumption_text="gene X is essential")]

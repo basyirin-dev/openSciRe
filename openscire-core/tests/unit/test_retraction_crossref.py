@@ -117,8 +117,9 @@ class TestCrossrefRetractionClient:
     async def test_get_correction_detail(self) -> None:
         client = CrossrefRetractionClient()
         respx.get("https://api.crossref.org/works/10.1234/test").mock(
-            return_value=Response(200, json={"status": "ok", "message": {"DOI": "10.1234/test", "title": ["Test"]}})  # noqa: E501
-
+            return_value=Response(
+                200, json={"status": "ok", "message": {"DOI": "10.1234/test", "title": ["Test"]}}
+            )  # noqa: E501
         )
 
         detail = await client.get_correction_detail("10.1234/test")

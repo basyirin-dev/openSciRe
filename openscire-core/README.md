@@ -4,9 +4,8 @@ Local-first, epistemically honest research AI toolkit for scientists.
 
 ## Status
 
-**Phase 2 complete.** Provider abstraction layer, BYOK encryption, MCP
-integration, and provenance tracking are implemented. See
-[CHANGELOG.md](../CHANGELOG.md) for details.
+**Phase 2 complete.** Provider abstraction layer, BYOK encryption, MCP integration, and provenance
+tracking are implemented. See [CHANGELOG.md](../CHANGELOG.md) for details.
 
 ## Installation
 

@@ -14,6 +14,7 @@ class MockBackend:
 
     def search(self, query_vector, top_k=10):
         import numpy as np
+
         query = np.array(query_vector)
         query = query / (np.linalg.norm(query) + 1e-10)
         scored = []
@@ -45,6 +46,7 @@ class MockBackend:
 class MockEmbedder:
     def encode(self, texts):
         import hashlib
+
         result = []
         for t in texts:
             h = hashlib.md5(t.encode()).digest()
@@ -131,7 +133,9 @@ class TestEmbeddingIndex:
     def test_add_without_embedder_raises(self):
         backend = MockBackend()
         index = EmbeddingIndex(backend=backend)
-        with pytest.raises(ValueError, match="Documents without pre-computed embeddings require an embedder"):
+        with pytest.raises(
+            ValueError, match="Documents without pre-computed embeddings require an embedder"
+        ):
             index.add_documents([IndexedDocument(id="d1", text="Paper")])
 
     def test_search_with_filters_empty_results(self):

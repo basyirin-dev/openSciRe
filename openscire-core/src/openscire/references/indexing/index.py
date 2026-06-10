@@ -4,8 +4,8 @@ import logging
 from typing import Any
 
 from openscire.references.indexing.backends import VectorBackend
-from openscire.references.indexing.filters import evaluate as eval_filters
 from openscire.references.indexing.filters import FilterExpression
+from openscire.references.indexing.filters import evaluate as eval_filters
 from openscire.references.indexing.models import IndexedDocument, SearchResult
 
 logger = logging.getLogger(__name__)
@@ -44,11 +44,11 @@ class EmbeddingIndex:
                 batch_metas = metadatas[i : i + batch_size]
                 vectors = self._embedder.encode(batch_texts)
                 self._backend.add(batch_ids, vectors, batch_metas)
-                logger.debug("Indexed batch %d/%d", i // batch_size + 1, (len(texts) - 1) // batch_size + 1)
+                logger.debug(
+                    "Indexed batch %d/%d", i // batch_size + 1, (len(texts) - 1) // batch_size + 1
+                )
         elif texts and self._embedder is None:
-            raise ValueError(
-                "Documents without pre-computed embeddings require an embedder"
-            )
+            raise ValueError("Documents without pre-computed embeddings require an embedder")
 
     async def add_documents_async(
         self,
@@ -79,9 +79,7 @@ class EmbeddingIndex:
                 vectors = self._embedder.encode(batch_texts)
                 self._backend.add(batch_ids, vectors, batch_metas)
         elif texts and self._embedder is None:
-            raise ValueError(
-                "Documents without pre-computed embeddings require an embedder"
-            )
+            raise ValueError("Documents without pre-computed embeddings require an embedder")
 
     def search(
         self,
@@ -98,9 +96,7 @@ class EmbeddingIndex:
             query_vector = query
         results = self._backend.search(query_vector, top_k=top_k * 4)
         filtered: list[tuple[str, float, dict[str, Any]]] = [
-            (doc_id, score, meta)
-            for doc_id, score, meta in results
-            if eval_filters(filters, meta)
+            (doc_id, score, meta) for doc_id, score, meta in results if eval_filters(filters, meta)
         ]
         filtered.sort(key=lambda x: x[1], reverse=True)
         filtered = filtered[:top_k]

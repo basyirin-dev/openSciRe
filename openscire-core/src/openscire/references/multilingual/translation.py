@@ -116,14 +116,9 @@ class TranslationService:
         method = result.get("method", "external")
         model_name = result.get("model_name", "")
 
-        flags = [
-            MeaningLossFlag(f) if isinstance(f, str) else f
-            for f in flags_raw
-        ]
+        flags = [MeaningLossFlag(f) if isinstance(f, str) else f for f in flags_raw]
 
-        heuristic = self.estimate_meaning_loss(
-            text, translated, source_lang, target_lang
-        )
+        heuristic = self.estimate_meaning_loss(text, translated, source_lang, target_lang)
         for hf in heuristic:
             if hf not in flags:
                 flags.append(hf)

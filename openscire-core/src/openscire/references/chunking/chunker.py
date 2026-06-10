@@ -83,9 +83,7 @@ class DocumentChunker:
                     paragraph_offset=paragraph_offset,
                 )
                 if section_chunks:
-                    para_count = len(
-                        [p for p in re.split(r"\n\s*\n", section_body) if p.strip()]
-                    )
+                    para_count = len([p for p in re.split(r"\n\s*\n", section_body) if p.strip()])
                     paragraph_offset += max(para_count, 1)
                     flat_chunks.extend(section_chunks)
         else:
@@ -332,5 +330,3 @@ class DocumentChunker:
             result.append(curr)
 
         return result
-
-

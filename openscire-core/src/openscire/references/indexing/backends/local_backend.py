@@ -48,6 +48,7 @@ class LocalBackend(VectorBackend):
         if not ids:
             return
         import struct
+
         conn = self._get_conn()
         for i, doc_id in enumerate(ids):
             vec_bytes = struct.pack(f"{len(vectors[i])}f", *vectors[i])
@@ -74,6 +75,7 @@ class LocalBackend(VectorBackend):
         if not self._vectors:
             return []
         import numpy as np
+
         query = np.array(query_vector, dtype=np.float32)
         query = query / (np.linalg.norm(query) + 1e-10)
         matrix = np.array(self._vectors, dtype=np.float32)
@@ -94,8 +96,7 @@ class LocalBackend(VectorBackend):
         id_set = set(ids)
         self._ids = [i for i in self._ids if i not in id_set]
         self._vectors = [
-            v for i, v in zip(self._ids, self._vectors, strict=False)
-            if i not in id_set
+            v for i, v in zip(self._ids, self._vectors, strict=False) if i not in id_set
         ]
         for doc_id in ids:
             self._metadata.pop(doc_id, None)
@@ -106,7 +107,6 @@ class LocalBackend(VectorBackend):
         return len(self._ids)
 
     def save(self, path: str) -> None:
-        import struct
         p = Path(path)
         p.mkdir(parents=True, exist_ok=True)
         conn = self._get_conn()
@@ -114,13 +114,18 @@ class LocalBackend(VectorBackend):
         conn.backup(backup)
         backup.close()
         with open(p / "metadata.json", "w") as f:
-            json.dump({
-                "dimension": self._dimension,
-                "ids": self._ids,
-            }, f, indent=2)
+            json.dump(
+                {
+                    "dimension": self._dimension,
+                    "ids": self._ids,
+                },
+                f,
+                indent=2,
+            )
 
     def load(self, path: str) -> None:
         import struct
+
         p = Path(path)
         db_path = p / "index.db"
         meta_path = p / "metadata.json"
@@ -134,7 +139,6 @@ class LocalBackend(VectorBackend):
         backup.backup(conn)
         backup.close()
         rows = conn.execute("SELECT id, vector, metadata FROM vectors").fetchall()
-        import struct
         self._ids = []
         self._vectors = []
         self._metadata = {}

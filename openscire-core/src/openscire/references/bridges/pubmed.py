@@ -147,9 +147,7 @@ class PubMedBridge:
             retstart=retstart,
         )
 
-    async def fetch_summary(
-        self, pmids: str | list[str]
-    ) -> list[ReferenceItem]:
+    async def fetch_summary(self, pmids: str | list[str]) -> list[ReferenceItem]:
         """Fetch document summaries via esummary.fcgi (fast, lightweight).
 
         Uses JSON format. Returns ReferenceItems with core metadata.
@@ -181,9 +179,7 @@ class PubMedBridge:
                 items.append(item)
         return items
 
-    async def fetch_detail(
-        self, pmids: str | list[str]
-    ) -> list[ReferenceItem]:
+    async def fetch_detail(self, pmids: str | list[str]) -> list[ReferenceItem]:
         """Fetch full article metadata via efetch.fcgi with XML.
 
         Returns ReferenceItems with MeSH terms, publication types,
@@ -268,9 +264,7 @@ class PubMedBridge:
 
         # Strategy 3: elink
         try:
-            params = self._params(
-                {"dbfrom": "pubmed", "db": "doi", "id": pmid, "retmode": "xml"}
-            )
+            params = self._params({"dbfrom": "pubmed", "db": "doi", "id": pmid, "retmode": "xml"})
             response = await self._get(ELINK_URL, params)
             root = ET.fromstring(response.content)
             for link in root.iter("Link"):
@@ -336,6 +330,7 @@ class PubMedBridge:
         year_num = None
         if year:
             import re as _re
+
             m = _re.match(r"(\d{4})", str(year))
             if m:
                 year_num = int(m.group(1))
@@ -393,7 +388,7 @@ def _parse_one_article(article: ET.Element) -> ReferenceItem | None:  # noqa: C9
     abstract_el = article_el.find("Abstract")
     abstract = ""
     if abstract_el is not None:
-        parts = [ "".join(at.itertext()) for at in abstract_el.findall("AbstractText") ]
+        parts = ["".join(at.itertext()) for at in abstract_el.findall("AbstractText")]
         abstract = " ".join(parts)
 
     authors: list[ReferenceAuthor] = []

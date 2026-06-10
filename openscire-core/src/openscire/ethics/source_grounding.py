@@ -594,7 +594,7 @@ class SourceGroundingEngine:
             ValidationError: If the verdict has unsupported claims.
         """
         if not verdict.approved:
-            reasons = set(f.reason for f in verdict.claims_flagged)
+            reasons = {f.reason for f in verdict.claims_flagged}
             codes = {
                 "retracted_source": ErrorCode.VALIDATION_RETRACTED_SOURCE,
                 "citation_not_found": ErrorCode.VALIDATION_SOURCE_NOT_FOUND,
